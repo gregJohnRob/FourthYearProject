@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{csquotes}
+ 
+\usepackage{comment}
+
+\usepackage[dvipsnames]{xcolor}
+ 
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+ 
+\title{Report 1}
+\author{Gregor Robertson}
+\date{13 Oct 2016}
+ 
+\begin{document}
+ 
+\maketitle
+ 
+\section*{Progress This Week}
+As discussed last week at our meeting, I looked into different ways that we could bring the annotations from high level C code, down to LLVM. I found that Clang already supports \_\_attribute\_\_((annotate("some string"))); however, it would be possible to create another one if we wished to. \cite{AddAnAttribute} gives basic instructions on how to do this, but it should be possible to find a more comprehensive one.
+
+I also looked into pragmas. It appears that pragmas do not go to the LLVM level, and that a custom handler would need to be written in order to handle the new pragma type. \cite{ImplementingACustomDirectiveHandlerInClang}, \cite{WritingAnLLVMPass} and \cite{BoosClangTutorial} were different tutorials that I read, which gave different ideas on how to work with LLVM and Clang.
+
+\section*{Aims For Next Week}
+For next time I am hoping to do a few things:
+\begin{itemize}
+	\item Continue to look over tutorials and decide on what would be the best way to do things. \colorbox{BurntOrange}{\color{Black}Medium}
+\end{itemize} 
+
+As it stands, I that that it would be worth while to either create a preprocessor which converts some standard format to annotations, or look more in depth at how to create a custom attribute would be a good way to go.
+
+\section*{Questions}
+\begin{itemize}
+	\item Would it be possible to get a written explanation of what I am doing in this project? The initial project description seemed almost totally different to what I am currently doing and the project description which is on the Project Portal site, according to Dr Nabi, is not correct.
+\end{itemize}
+
+\medskip
+ 
+\printbibliography
+
+\end{document}
