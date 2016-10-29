@@ -1,26 +1,25 @@
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
+#include "llvm/IR/Module.h"
 #include "llvm/IR/Instruction.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
 using namespace llvm;
 
-namespace {
-    struct OptimiPass : public FunctionPass {
-        static char ID;
-        OptimiPass() : FunctionPass(ID) {}
+// Basic structure was taken from: https://github.com/sampsyo/llvm-pass-skeleton
+// Extra information about how to make a module pass run taken from: http://stackoverflow.com/questions/36308903/llvm-pass-error-when-iterating-over-module-functions-list
 
-        virtual bool runOnFunction(Function &F) {
-            for (Function::iterator bb = F.begin(), Fe = F.end(); bb != Fe; ++bb) {
-                int j = 0;
-                char* data[] = {"hello", "world"};
-                for (BasicBlock::iterator i = bb->begin(), bbe = bb->end(); i != bbe; ++i) {
-                    LLVMContext& C = i->getContext();
-                    MDNode* N = MDNode::get(C, MDString::get(C, data[j%2]));
-                    i->setMetadata("optimi", N);
-                    j++;
-                }
+namespace {
+    struct OptimiPass : public ModulePass {
+        static char ID;
+        OptimiPass() : ModulePass(ID) {}
+
+        virtual bool runOnModule(Module &M) {
+            for (auto curFref = M.begin(), 
+                      endFref = M.end(); 
+                      curFref != endFref; ++curFref) {
+                errs() << "found function: " << curFref->getName() << "\n";
             }
             return false;
         }
@@ -28,13 +27,8 @@ namespace {
 }
 
 char OptimiPass::ID = 0;
-
-// Automatically enable the pass.
-// http://adriansampson.net/blog/clangpass.html
-static void registerOptimiPass(const PassManagerBuilder &,
-                         legacy::PassManagerBase &PM) {
-  PM.add(new OptimiPass());
+static RegisterPass<OptimiPass> X("passname", "Pass Name Analysis");
+static void registerPass(const PassManagerBuilder &, legacy::PassManagerBase &PM) {
+	PM.add(new OptimiPass());
 }
-static RegisterStandardPasses
-  RegisterMyPass(PassManagerBuilder::EP_EarlyAsPossible,
-registerOptimiPass);
+static RegisterStandardPasses RegisterMyPass(PassManagerBuilder::EP_EarlyAsPossible, registerPass);
