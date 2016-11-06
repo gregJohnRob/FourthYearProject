@@ -1,0 +1,2 @@
+When you annoatate a variable inside a function, a new function is created which grabs a non-global 
+annotation and a function call is inserted.
