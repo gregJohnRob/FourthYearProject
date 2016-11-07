@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <unordered_map>
+#include <sstream>
 
 #include "llvm/Pass.h"
 #include "llvm/IR/BasicBlock.h"
@@ -19,10 +21,36 @@ using namespace llvm;
 // http://homes.cs.washington.edu/~bholt/posts/llvm-quick-tricks.html
 namespace 
 {
+	struct Annotation
+	{
+		int max;
+		int min;
+		int precision;
+		
+		Annotation(int max, int min, int precision) 
+		{
+			this->max = max;
+			this->min = min;
+			this->precision = precision;
+		}
+	};
+	
     struct OptimiPass : public ModulePass 
 	{
         static char ID;
+        std::unordered_map<std::string, Annotation> annotations;
         OptimiPass() : ModulePass(ID) {}
+        
+        void addAnnotation(StringRef anno) 
+        {
+			std::string annoString = anno.str();
+			std::stringstream stream(annoString);
+			int max, min, prec;
+			std::string varName;
+			stream >> varName >> max >> min >> prec;
+			Annotation a = Annotation(max, min, prec);
+			annotations.emplace(varName, a);
+		}
 
         virtual bool runOnModule(Module &M) 
 		{
@@ -36,7 +64,8 @@ namespace
 			  {
                 ConstantStruct *e = cast<ConstantStruct>(a->getOperand(i));
                 StringRef anno = cast<ConstantDataArray>(cast<GlobalVariable>(e->getOperand(1)->getOperand(0))->getOperand(0))->getAsCString();
-                errs() << anno;
+                this->addAnnotation(anno);
+                errs() << anno << "\n";
               }
             }
 
