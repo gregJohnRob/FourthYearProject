@@ -1,18 +1,22 @@
 #include <stdlib.h>
 #include <unordered_map>
 #include <sstream>
+#include <cmath> 
+#include <ctgmath>
 
 #include "llvm/Pass.h"
 #include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/Function.h"
+#include "llvm/IR/InstIterator.h"
 #include "llvm/IR/Instruction.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/User.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
+
 
 using namespace llvm;
 
@@ -21,17 +25,28 @@ using namespace llvm;
 // http://homes.cs.washington.edu/~bholt/posts/llvm-quick-tricks.html
 namespace 
 {
+	
+	/**
+	 * Struct used to store the annotation information as it is stored 
+	 * in the unordered_maps. 
+	 */
 	struct Annotation
 	{
 		int max;
 		int min;
 		int precision;
+		int totalNumberOfBitsRequired;
 		
 		Annotation(int max, int min, int precision) 
 		{
 			this->max = max;
 			this->min = min;
 			this->precision = precision;
+			if (abs(max) > abs(min)) {
+				this->totalNumberOfBitsRequired = (int)log2(max)+1;
+			} else {
+				this->totalNumberOfBitsRequired = (int)log2(min)+1;
+			}
 		}
 	};
 	
@@ -41,73 +56,116 @@ namespace
         std::unordered_map<std::string, Annotation> annotations;
         OptimiPass() : ModulePass(ID) {}
         
-        void addAnnotation(StringRef anno) 
+        /**
+         * Adds an annotation to the GLOBAL annotations map
+         * 
+         * @param The StringRef for the annotation. An annotation is 
+         *        expected to contain:
+         * 			  	The name of the variable
+         * 				The max value that the variable can take
+         * 				The min value that the variable can take
+         * 				The precision required of the variable
+         * 
+         */
+        void addAnnotation(std::unordered_map<std::string, Annotation> annotationGroup, StringRef anno) 
         {
 			std::string annoString = anno.str();
 			std::stringstream stream(annoString);
 			int max, min, prec;
 			std::string varName;
-			stream >> varName >> max >> min >> prec;
+			stream >> varName;
+			if (stream.fail()) {
+				stream.clear();
+				errs() << "Invalid annotation: " << anno.str() << "\n";
+				return;
+			}
+			stream >> max;
+			if (stream.fail()) {
+				stream.clear();
+				errs() << "Invalid annotation: " << anno.str() << "\n";
+				return;
+			}
+			stream >> min;
+			if (stream.fail()) {
+				stream.clear();
+				errs() << "Invalid annotation: " << anno.str() << "\n";
+				return;
+			}
+			stream >> prec;
+			if (stream.fail()) {
+				stream.clear();
+				errs() << "Invalid annotation: " << anno.str() << "\n";
+				return;
+			}
 			Annotation a = Annotation(max, min, prec);
-			annotations.emplace(varName, a);
+			annotationGroup.emplace(varName, a);
 		}
-
+		
+		/**
+		 * @param F the Function that will be passed over
+		 * 
+		 * 		  Currently only goes through all of the instructions, 
+		 * 		  checking if it is a call to llvm.var.annotation and 
+		 *        then getting the annotation information from it.
+		 * 
+		 */
+		 void functionPass(Function &F) 
+		 {
+			 // if this is an llvm function then just return 
+			 if (F.getName().find("llvm") != std::string::npos) {
+				 return;
+			 }
+			 std::unordered_map<std::string, Annotation> localAnnotations;
+			 errs() << "found function: " << F.getName() << "\n";
+			 for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
+				 if (isa<CallInst>(*I)) {
+					StringRef name = cast<CallInst>(*I).getCalledFunction()->getName();
+					if (name == "llvm.var.annotation") { // if this is an annotation, then get the annotation string
+						Value *val = cast<CallInst>(*I).getArgOperand(1); // cast to a function call and get the second operand
+						Value *us = cast<User>(*val).getOperand(0); // Get the pointer to the global where the annotation is stored
+						StringRef anno = cast<ConstantDataArray>(cast<User>(*us).getOperand(0))->getAsCString(); // get the annotation as a string
+						this->addAnnotation(localAnnotations, anno);
+					}
+				} else if (isa<BinaryOperator>(*I)) {
+					errs() << "\t";
+					for (int i = 0; i < cast<User>(*I).getNumOperands(); i++) {
+						errs() << cast<User>(*I).getOperand(i)->getName().str() << " ";
+					}
+					errs() << "\n";
+				}
+			 }
+			 
+		 }
+		
+		/**
+		 * 
+		 * @param M the Module that will be passed over
+		 * 
+		 * Loop over all global annotations and extract them
+		 * For each function in the code
+		 * 		If the function was created by LLVM 
+		 * 			skip it
+		 * 		Create a new local annotation group for the Function
+		 * 			For each Instruction in the Function				
+		 * 				If the Instruction is a call to llvm
+		 * 					(This signals that it is the start or end of an annotation, or it is getting the annotation)
+		 * 				If the instruction is some form of asignment 
+		 * 					work out the new values size based on the values used and type of asignment that it is 
+		 */
         virtual bool runOnModule(Module &M) 
 		{
-			// get all of the global annotations then
-			//     loop over them and print them to errs()
             GlobalVariable *global_annos = M.getNamedGlobal("llvm.global.annotations");
-            if (global_annos) 
-			{ 
+            if (global_annos) { 
               ConstantArray *a = cast<ConstantArray>(global_annos->getOperand(0));
-              for (int i=0; i<a->getNumOperands(); i++) 
-			  {
+              for (int i=0; i < a->getNumOperands(); i++) {
                 ConstantStruct *e = cast<ConstantStruct>(a->getOperand(i));
                 StringRef anno = cast<ConstantDataArray>(cast<GlobalVariable>(e->getOperand(1)->getOperand(0))->getOperand(0))->getAsCString();
-                this->addAnnotation(anno);
-                errs() << anno << "\n";
+                this->addAnnotation(this->annotations, anno);
               }
             }
 
-			// loop over all functions and apply any changes which are needed
-            for (Module::iterator curFunc = M.begin(), endFunc = M.end(); 
-					curFunc != endFunc; 
-					++curFunc) 
-			{
-				// if the function was generated by llvm then ignore it
-				if (curFunc->getName().find("llvm") != std::string::npos) 
-				{ 
-					continue; 
-				}
-				// print the name of the function
-				errs() << "found function: " << curFunc->getName() << "\n";
-				// loop over all of the basic blocks in the function
-				for (Function::iterator curBasBloc = curFunc->begin(), endBasBloc = curFunc->end(); 
-						curBasBloc != endBasBloc; 
-						++curBasBloc) 
-				{
-					// print out the name of the block and how many instructions it has
-					errs() << "\t Basic block (name=" << curBasBloc->getName() << ") has "
-						<< curBasBloc->size() << " instructions \n";
-					// loop over all of the instructions in the basic block
-					for (BasicBlock::iterator curInstruct = curBasBloc->begin(), endInstruct = curBasBloc->end(); 
-							curInstruct != endInstruct; 
-							++curInstruct) 
-					{
-						// if the instruction is a function call
-						if (isa<CallInst>(*curInstruct)) 
-						{
-							StringRef name = cast<CallInst>(*curInstruct).getCalledFunction()->getName();
-							if (name == "llvm.var.annotation") // if this is an annotation, then get the annotation string
-							{
-								Value *val = cast<CallInst>(*curInstruct).getArgOperand(1); // cast to a function call and get the second operand
-								Value *us = cast<User>(*val).getOperand(0); // Get the pointer to the global where the annotation is stored
-								StringRef anno = cast<ConstantDataArray>(cast<User>(*us).getOperand(0))->getAsCString(); // get the annotation as a string
-								errs() << "\t\t"  << anno << "\n";
-							}
-						}
-					}
-				}
+            for (Module::iterator curFunc = M.begin(), endFunc = M.end(); curFunc != endFunc; ++curFunc) {
+				this->functionPass(*curFunc);
             }
             return false;
         }
