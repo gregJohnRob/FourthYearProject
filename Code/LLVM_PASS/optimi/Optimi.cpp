@@ -76,25 +76,25 @@ namespace
 			stream >> varName;
 			if (stream.fail()) {
 				stream.clear();
-				errs() << "Invalid annotation: " << anno.str() << "\n";
+				//errs() << "Invalid annotation: " << anno.str() << "\n";
 				return;
 			}
 			stream >> max;
 			if (stream.fail()) {
 				stream.clear();
-				errs() << "Invalid annotation: " << anno.str() << "\n";
+				//errs() << "Invalid annotation: " << anno.str() << "\n";
 				return;
 			}
 			stream >> min;
 			if (stream.fail()) {
 				stream.clear();
-				errs() << "Invalid annotation: " << anno.str() << "\n";
+				//errs() << "Invalid annotation: " << anno.str() << "\n";
 				return;
 			}
 			stream >> prec;
 			if (stream.fail()) {
 				stream.clear();
-				errs() << "Invalid annotation: " << anno.str() << "\n";
+				//errs() << "Invalid annotation: " << anno.str() << "\n";
 				return;
 			}
 			Annotation a = Annotation(max, min, prec);
@@ -118,7 +118,7 @@ namespace
 			 std::unordered_map<std::string, Annotation> localAnnotations;
 			 errs() << "found function: " << F.getName() << "\n";
 			 for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
-				 if (isa<CallInst>(*I)) {
+				 if (isa<CallInst>(*I)) { // If it is a function call
 					StringRef name = cast<CallInst>(*I).getCalledFunction()->getName();
 					if (name == "llvm.var.annotation") { // if this is an annotation, then get the annotation string
 						Value *val = cast<CallInst>(*I).getArgOperand(1); // cast to a function call and get the second operand
@@ -126,12 +126,33 @@ namespace
 						StringRef anno = cast<ConstantDataArray>(cast<User>(*us).getOperand(0))->getAsCString(); // get the annotation as a string
 						this->addAnnotation(localAnnotations, anno);
 					}
-				} else if (isa<BinaryOperator>(*I)) {
 					errs() << "\t";
+					if (I->hasName()) {
+						errs() << I->getName() << " = ";
+					}
+					errs() << name << "\n";
+				} else if (isa<BinaryOperator>(*I)) { // if it is a binary operator (mul, add, div, etc.)
+					errs() << "\t";
+					errs() << I->getName() << " = ";
 					for (int i = 0; i < cast<User>(*I).getNumOperands(); i++) {
-						errs() << cast<User>(*I).getOperand(i)->getName().str() << " ";
+						if (I->getOperand(i)->hasName()) {
+							errs() << I->getOperand(i)->getName().str();
+						}						
+						errs()  << " ";
 					}
 					errs() << "\n";
+				} else if (isa<StoreInst>(*I)) {
+					errs() << "\t";
+					if (I->hasName()) {
+						errs() << I->getName() << " = ";
+					}
+					errs() << "hello\n";
+				} else if (isa<LoadInst>(*I)) {
+					errs() << "\t";
+					if (I->hasName()) {
+						errs() << I->getName() << " = ";
+					}
+					errs() << "hello2\n";
 				}
 			 }
 			 
