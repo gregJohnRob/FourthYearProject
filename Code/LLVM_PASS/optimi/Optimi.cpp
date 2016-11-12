@@ -76,25 +76,25 @@ namespace
 			stream >> varName;
 			if (stream.fail()) {
 				stream.clear();
-				//errs() << "Invalid annotation: " << anno.str() << "\n";
+				errs() << "Invalid annotation: " << anno.str() << "\n";
 				return;
 			}
 			stream >> max;
 			if (stream.fail()) {
 				stream.clear();
-				//errs() << "Invalid annotation: " << anno.str() << "\n";
+				errs() << "Invalid annotation: " << anno.str() << "\n";
 				return;
 			}
 			stream >> min;
 			if (stream.fail()) {
 				stream.clear();
-				//errs() << "Invalid annotation: " << anno.str() << "\n";
+				errs() << "Invalid annotation: " << anno.str() << "\n";
 				return;
 			}
 			stream >> prec;
 			if (stream.fail()) {
 				stream.clear();
-				//errs() << "Invalid annotation: " << anno.str() << "\n";
+				errs() << "Invalid annotation: " << anno.str() << "\n";
 				return;
 			}
 			Annotation a = Annotation(max, min, prec);

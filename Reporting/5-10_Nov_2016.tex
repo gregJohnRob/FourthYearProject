@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{csquotes}
+ 
+\usepackage{comment}
+
+\usepackage[dvipsnames]{xcolor}
+ 
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+ 
+\title{Report 5}
+\author{Gregor Robertson}
+\date{10 Nov 2016}
+ 
+\begin{document}
+ 
+\maketitle
+ 
+\section*{Progress This Week}
+This week I made progress on getting the LLVM pass ready for analyzing the code. The pass can now look over an entire program, getting the global annotations and storing them in an unordered\_map which relates variable names to an annotation object which stores the maximum and minimum values which a variable can take as well as the precision that is required for the dependencies to be calculated. I also updated the pass so that when it runs over functions it is able to get annotations that are relevant to the individual functions and print out variable names which are used in the instruction. Finally, I reformatted the code for the pass so that it should be more readable.
+
+\section*{Aims For Next Week}
+\begin{itemize}
+	\item Set up a ShareLaTex project for my dissertation and invite both of you to it \colorbox{Green}{\color{Black}Easy}
+	\item Re-read the papers which I was given \colorbox{BurntOrange}{\color{Black}Medium}
+	\item Start work on the literature review for the dissertation \colorbox{BurntOrange}{\color{Black}Medium}
+\end{itemize}
+
+\section*{Questions}
+What would be the typical optimization level that someone would compile their programs with as that changes how the instructions are done? This should make little or no difference for me, but it is worth knowing as I will then be testing on the right level.
+
+\medskip
+ 
+\printbibliography
+
+\end{document}
