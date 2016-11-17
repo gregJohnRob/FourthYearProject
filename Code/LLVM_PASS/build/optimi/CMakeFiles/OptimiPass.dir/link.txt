@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC   -shared  -o libOptimiPass.so CMakeFiles/OptimiPass.dir/Optimi.cpp.o  -L/usr/local/lib 

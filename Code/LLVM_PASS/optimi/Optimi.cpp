@@ -121,6 +121,9 @@ namespace
 				 if (isa<CallInst>(*I)) { // If it is a function call
 					StringRef name = cast<CallInst>(*I).getCalledFunction()->getName();
 					if (name == "llvm.var.annotation") { // if this is an annotation, then get the annotation string
+                        /* Use this to get the variable that the annotation is attached to
+                        I->getOperand(0);
+                        */
 						Value *val = cast<CallInst>(*I).getArgOperand(1); // cast to a function call and get the second operand
 						Value *us = cast<User>(*val).getOperand(0); // Get the pointer to the global where the annotation is stored
 						StringRef anno = cast<ConstantDataArray>(cast<User>(*us).getOperand(0))->getAsCString(); // get the annotation as a string
@@ -180,6 +183,9 @@ namespace
               ConstantArray *a = cast<ConstantArray>(global_annos->getOperand(0));
               for (int i=0; i < a->getNumOperands(); i++) {
                 ConstantStruct *e = cast<ConstantStruct>(a->getOperand(i));
+                /* Use this to get the value that the annotation is linked to
+                e->getOperand(0)->getOperand(0)
+                */
                 StringRef anno = cast<ConstantDataArray>(cast<GlobalVariable>(e->getOperand(1)->getOperand(0))->getOperand(0))->getAsCString();
                 this->addAnnotation(this->annotations, anno);
               }
