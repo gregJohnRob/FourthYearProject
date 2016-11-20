@@ -1,16 +1,26 @@
-int __attribute__((annotate("function_f 10 10 10"))) f(int x, int y) {
-	int __attribute__((annotate("Hey sexy"))) z;
+/*
+ * If we assume that this is the kernel and run on the FPGA
+ */
+int __attribute__((annotate("1000 1 0"))) kernel(
+    int __attribute__((annotate("200 100 0"))) x,
+    int __attribute__((annotate("900 500 0"))) y)
+{
+	int z;
 	z = (x*y) - (x+30);
 	return z;
 }
 
 
-int main() {
-	int __attribute__((annotate("hey"))) x;
-	int __attribute__((annotate("hello"))) y;
+/*
+ * This is the main function which will run on the computer
+ */
+int main()
+{
+	int x;
+	int y;
 	int z;
 	x = 124;
 	y = 523;
-	z = f(x, y);
+	z = kernel(x, y);
 	return z;
 }
