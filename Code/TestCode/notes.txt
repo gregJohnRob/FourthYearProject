@@ -1,2 +1,11 @@
-When you annoatate a variable inside a function, a new function is created which grabs a non-global 
-annotation and a function call is inserted.
+Local annotations:
+    - When you annotate a variable inside a function, a new function is created
+      which grabs a non-global annotation and a call to this function is placed
+      in place of a local annotation.
+    - When you have a local annotation, the function call can be placed AFTER
+      the variable is first initialised. Should it then be the case that the
+      Pass will go back and add metadata to the initialisation or simply ignore
+      them?
+
+unordered_maps:
+    - 

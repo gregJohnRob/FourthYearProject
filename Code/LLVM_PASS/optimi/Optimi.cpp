@@ -14,6 +14,7 @@
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/User.h"
+#include "llvm/IR/ValueMap.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
 
@@ -51,7 +52,7 @@ struct Annotation {
 
 struct OptimiPass : public ModulePass {
     static char ID;
-    std::unordered_map<Value*, Annotation> annotations;
+    ValueMap<Value*, Annotation> annotations;
     OptimiPass() : ModulePass(ID) {}
 
     /**
@@ -65,7 +66,7 @@ struct OptimiPass : public ModulePass {
      *                 The precision required of the variable
      *
      */
-    void addAnnotation(std::unordered_map<Value*, Annotation> annotationGroup, StringRef anno, Value* value)
+    void addAnnotation(ValueMap<Value*, Annotation> *annotationGroup, StringRef anno, Value* value)
     {
         std::string annoString = anno.str();
         std::stringstream stream(annoString);
@@ -89,7 +90,7 @@ struct OptimiPass : public ModulePass {
             return;
         }
         Annotation a = Annotation(max, min, prec);
-        annotationGroup.emplace(value, a);
+        annotationGroup->insert(std::make_pair(value, a));
     }
 
     /**
@@ -106,20 +107,26 @@ struct OptimiPass : public ModulePass {
         if (F.getName().find("llvm") != std::string::npos) {
             return;
         }
-        std::unordered_map<Value *, Annotation> localAnnotations;
+
+        ValueMap<Value *, Annotation> localAnnotations;
+
         errs() << "found function: " << F.getName() << "\n";
         for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
             if (isa<CallInst>(*I)) { // If it is a function call
+
                 StringRef name = cast<CallInst>(*I).getCalledFunction()->getName();
                 if (name == "llvm.var.annotation") { // if this is an annotation, then get the annotation string
                     Value *variable = I->getOperand(0);
                     Value *val = cast<CallInst>(*I).getArgOperand(1); // cast to a function call and get the second operand
                     Value *us = cast<User>(*val).getOperand(0); // Get the pointer to the global where the annotation is stored
                     StringRef anno = cast<ConstantDataArray>(cast<User>(*us).getOperand(0))->getAsCString(); // get the annotation as a string
-                    this->addAnnotation(localAnnotations, anno, variable);
+                    this->addAnnotation(&localAnnotations, anno, variable);
+                    Annotation anna = localAnnotations.find(variable)->second;
+                    errs() << "(" << anna.max << ", " << anna.min << ", " << anna.precision << ")";
                 }
                 errs() << " ";
                 I->dump();
+
             } else if (isa<BinaryOperator>(*I)) { // if it is a binary operator (mul, add, div, etc.)
                 // Get the opcode so that we know if it is an add, mul, div, etc.
                 unsigned opcode = I->getOpcode();
@@ -127,6 +134,28 @@ struct OptimiPass : public ModulePass {
                 Value * op0 = I->getOperand(0);
                 Value * op1 = I->getOperand(1);
                 // Print the instruction, will be removed later
+                switch (opcode) {
+                    case Instruction::Add :
+                    {
+                        errs() << "This is an add";
+                        break;
+                    }
+                    case Instruction::Sub :
+                    {
+                        errs() << "This is a sub";
+                        break;
+                    }
+                    case Instruction::Mul :
+                    {
+                        errs() << "This is a sub";
+                        break;
+                    }
+                    default :
+                    {
+                        errs() << "???";
+                        break;
+                    }
+                }
                 errs() << " ";
                 I->dump();
             } else if (isa<StoreInst>(*I)) {
@@ -167,7 +196,7 @@ struct OptimiPass : public ModulePass {
                 ConstantStruct *e = cast<ConstantStruct>(a->getOperand(i));
                 Value* annoValue = e->getOperand(0)->getOperand(0);
                 StringRef anno = cast<ConstantDataArray>(cast<GlobalVariable>(e->getOperand(1)->getOperand(0))->getOperand(0))->getAsCString();
-                this->addAnnotation(this->annotations, anno, annoValue);
+                this->addAnnotation(&this->annotations, anno, annoValue);
             }
         }
 
