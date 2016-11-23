@@ -1,0 +1,3 @@
+Code/LLVM_PASS/build/
+Code/TestCode/*.bc
+Code/TestCode/*.ll
