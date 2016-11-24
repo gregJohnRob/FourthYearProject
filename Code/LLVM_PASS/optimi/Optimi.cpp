@@ -1,5 +1,6 @@
 #include <cmath>
 #include <ctgmath>
+#include <cstdint>
 #include <sstream>
 #include <stdlib.h>
 #include <unordered_map>
@@ -33,17 +34,20 @@ namespace
  * NOTE: A possible extension would be to create default annotations for Integers, Floats, Doubles, etc.
  */
 struct Annotation {
-    int max;
-    int min;
-    int precision;
+    long max;
+    long min;
+    long precision;
 
+    /*
+     * Default annotation uses normal integer values
+     */
     Annotation() {
-        this->max = 0;
-        this->min = 0;
+        this->max = INT_MAX;
+        this->min = INT_MIN;
         this->precision = 0;
     }
 
-    Annotation(int max, int min, int precision) {
+    Annotation(long max, long min, long precision) {
         this->max = max;
         this->min = min;
         this->precision = precision;
@@ -90,8 +94,7 @@ struct OptimiPass : public ModulePass {
     /*
      * Mark value one as equivalent to value two in the equivalents map
      */
-    static void markEquivalent (std::vector<std::pair<Value *, Value *>> *equivalents, Value * v1, Value * v2)
-    {
+    static void markEquivalent (std::vector<std::pair<Value *, Value *>> *equivalents, Value * v1, Value * v2) {
         std::vector<std::pair<Value *, Value *>> tempEquivalents;
         for (auto curr = equivalents->begin(), end = equivalents->end(); curr != end; curr++) {
             if (curr->first == v1 && curr->second == v2) {
@@ -153,7 +156,6 @@ struct OptimiPass : public ModulePass {
         Value *op0 = instruction->getOperand(0);
         Value *op1 = instruction;
         markEquivalent(equivalents, op1, op0);
-        errs() << op1 << "\n";
     }
 
     static void handleBinaryOperator(ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, BinaryOperator *instruction) {
@@ -172,7 +174,77 @@ struct OptimiPass : public ModulePass {
         } else {
             errs() << "Failed to get annotation for " << op1 << ". ";
         }
-        annotationMap->insert(std::make_pair(instruction, Annotation()));
+        Annotation anno0 = pair0.first;
+        Annotation anno1 = pair1.first;
+        switch (instruction->getOpcode()) {
+            case Instruction::Add :
+            {
+                long max = INT_MIN;
+                long min = INT_MAX;
+                long range[4] = {anno0.max + anno1.max, anno0.max + anno1.min, anno0.min + anno1.max, anno0.min + anno1.min};
+                for (int i = 0; i < 4; i++) {
+                    if (range[i] > max) {
+                        max = range[i];
+                    }
+                    if (range[i] < min) {
+                        min = range[i];
+                    }
+                }
+                errs() << "Saving annotation: (" << max << ", " << min << ",0)" << "\n";
+                annotationMap->insert(std::make_pair(instruction, Annotation(max, min, 0)));
+                break;
+            }
+            case Instruction::Mul :
+            {
+                long max = INT_MIN;
+                long min = INT_MAX;
+                long range[4] = {anno0.max * anno1.max, anno0.max * anno1.min, anno0.min * anno1.max, anno0.min * anno1.min};
+                for (int i = 0; i < 4; i++) {
+                    if (range[i] > max) {
+                        max = range[i];
+                    }
+                    if (range[i] < min) {
+                        min = range[i];
+                    }
+                }
+                errs() << "Saving annotation: (" << max << ", " << min << ",0)" << "\n";
+                annotationMap->insert(std::make_pair(instruction, Annotation(max, min, 0)));
+                break;
+            }
+            case Instruction::Sub :
+            {
+                long max = INT_MIN;
+                long min = INT_MAX;
+                long range[8] = {anno0.max - anno1.max,
+                                anno0.max - anno1.min,
+                                anno0.min - anno1.max,
+                                anno0.min - anno1.min,
+                                anno1.max - anno0.max,
+                                anno1.max - anno0.min,
+                                anno1.min - anno0.max,
+                                anno1.min - anno0.min};
+                for (int i = 0; i < 4; i++) {
+                    if (range[i] > max) {
+                        max = range[i];
+                    }
+                    if (range[i] < min) {
+                        min = range[i];
+                    }
+                }
+                errs() << "Saving annotation: (" << max << ", " << min << ",0)" << "\n";
+                annotationMap->insert(std::make_pair(instruction, Annotation(max, min, 0)));
+                break;
+            }
+            default:
+            {
+                errs() << "Unable to work out the annotation for the given opcode\n";
+                annotationMap->insert(std::make_pair(instruction, Annotation()));
+            }
+        }
+        Annotation annotation = annotationMap->find(instruction)->second;
+        LLVMContext& C = instruction->getContext();
+        MDNode* N = MDNode::get(C, MDString::get(C, annotation.tostr()));
+        instruction->setMetadata("optimi", N);
         errs() << "\n";
     }
 
@@ -211,7 +283,7 @@ struct OptimiPass : public ModulePass {
     {
         // if this is an llvm function then just return
         if (F.getName().find("llvm") != std::string::npos) {
-            errs() << "Ignoring function: " << F.getName() << "\n";
+            errs() << "Ignoring function: " << F.getName() << "\n\n";
             return;
         }
 
@@ -236,6 +308,7 @@ struct OptimiPass : public ModulePass {
                 handleFunctionCall(&localAnnotations, &equivalents, call);
             }
         }
+        errs() << "\n";
     }
 
     /**
