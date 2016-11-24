@@ -1,0 +1,55 @@
+let M be the current module
+let GA be a global map relating values V to parsed annotations A
+for every global annotation in M:
+    let V be the value that the annotation links to
+    let A be the parsed information from the annotation
+    insert (V, A) into GA
+for every function F in M:
+    let LA be the local map relating values V to parsed annotations A
+    let E be the local map relating a value V to a list of values it is equivalent to
+    for every instruction I in F:
+        if the instruction is a store:
+            handle store
+        else if the instruction is a load:
+            handle load
+        else if the instruction is a binary operator:
+            handle binary operator
+        else if the instruction is a bit cast:
+            handle handle bit cast
+        else if the instruction is a function call:
+            handle function call
+
+handle store:
+    let op0 be the value being stored
+    let op1 be the location the value is being stored into
+    store in E that op1 is equivalent to op0
+    store in E that op0 is equivalent to op1
+
+handle load:
+    let op0 be the value being stored
+    let op1 be the location the value is being stored into
+    store in E that op0 is equivalent to op1
+    store in E that op1 is equivalent to op0
+
+handle binary operator:
+    let op0 be the first operator
+    let op1 be the second operator
+    let opcode be the type of operation
+    let anno0 be the annotation for the first operator
+    let anno1 be the annotation for the second operator
+    using opcode, decide how to generate a new annotation for this instruction
+    let op3 be the location the result will be stored
+    store in LA (op3, annotation for this instruction)
+
+handle bit cast:
+    let op0 be the value being stored
+    let op1 be the location the value is being stored into
+    store in E that op0 is equivalent to op1
+    store in E that op1 is equivalent to op0
+
+handle function call:
+    get the name of the function call
+    if the function call is to make an annotation:
+        let A be the parsed data from the annotation
+        let V be the value linked to the annotation
+        insert into LA (V, A)

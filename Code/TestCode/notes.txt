@@ -7,5 +7,7 @@ Local annotations:
       Pass will go back and add metadata to the initialisation or simply ignore
       them?
 
-unordered_maps:
-    - 
+variables:
+    - Need some sort of thing which shows the x is equivalent to y. This is
+      because the annotations might link to one instance of a variable but that
+      is not the instance linked in the instruction

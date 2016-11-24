@@ -29,30 +29,34 @@ namespace
 
 /**
  * Struct used to store the annotation information as it is stored
- * in the unordered_maps.
+ * in the maps.
+ * NOTE: A possible extension would be to create default annotations for Integers, Floats, Doubles, etc.
  */
 struct Annotation {
     int max;
     int min;
     int precision;
-    int totalNumberOfBitsRequired;
 
-    Annotation(int max, int min, int precision)
-    {
+    Annotation() {
+        this->max = 0;
+        this->min = 0;
+        this->precision = 0;
+    }
+
+    Annotation(int max, int min, int precision) {
         this->max = max;
         this->min = min;
         this->precision = precision;
-        if (abs(max) > abs(min)) {
-            this->totalNumberOfBitsRequired = (int)log2(max)+1;
-        } else {
-            this->totalNumberOfBitsRequired = (int)log2(min)+1;
-        }
+    }
+
+    std::string tostr() {
+        return "("+ std::to_string(this->max) + ", " + std::to_string(this->min) + ", " + std::to_string(this->precision) + ")";
     }
 };
 
 struct OptimiPass : public ModulePass {
     static char ID;
-    ValueMap<Value*, Annotation> annotations;
+    ValueMap<Value*, Annotation> globalAnnotations;
     OptimiPass() : ModulePass(ID) {}
 
     /**
@@ -66,33 +70,135 @@ struct OptimiPass : public ModulePass {
      *                 The precision required of the variable
      *
      */
-    void addAnnotation(ValueMap<Value*, Annotation> *annotationGroup, StringRef anno, Value* value)
+    static bool addAnnotation (ValueMap<Value*, Annotation> *annotationGroup, StringRef anno, Value* value)
     {
         std::string annoString = anno.str();
         std::stringstream stream(annoString);
-        int max, min, prec;
-        stream >> max;
-        if (stream.fail()) {
-            stream.clear();
-            errs() << "Invalid annotation: " << anno.str() << "\n";
-            return;
+        int data[3];
+        for (int i = 0; i < 3; i++) {
+            stream >> data[i];
+            if (stream.fail()) {
+                stream.clear();
+                errs() << "Invalid annotation: " << anno.str() << "\n";
+                return false;
+            }
         }
-        stream >> min;
-        if (stream.fail()) {
-            stream.clear();
-            errs() << "Invalid annotation: " << anno.str() << "\n";
-            return;
-        }
-        stream >> prec;
-        if (stream.fail()) {
-            stream.clear();
-            errs() << "Invalid annotation: " << anno.str() << "\n";
-            return;
-        }
-        Annotation a = Annotation(max, min, prec);
+        Annotation a = Annotation(data[0], data[1], data[2]);
         annotationGroup->insert(std::make_pair(value, a));
     }
 
+    /*
+     * Mark value one as equivalent to value two in the equivalents map
+     */
+    static void markEquivalent (std::vector<std::pair<Value *, Value *>> *equivalents, Value * v1, Value * v2)
+    {
+        std::vector<std::pair<Value *, Value *>> tempEquivalents;
+        for (auto curr = equivalents->begin(), end = equivalents->end(); curr != end; curr++) {
+            if (curr->first == v1 && curr->second == v2) {
+                return;
+            } else if (curr->second == v1 && curr->first == v2) {
+                return;
+            }
+            if (curr->first == v1) {
+                tempEquivalents.push_back(std::make_pair(v2, curr->second));
+            }
+            if (curr->first == v2) {
+                tempEquivalents.push_back(std::make_pair(v1, curr->second));
+            }
+            if (curr->second == v1) {
+                tempEquivalents.push_back(std::make_pair(v2, curr->first));
+            }
+            if (curr->second == v2) {
+                tempEquivalents.push_back(std::make_pair(v1, curr->first));
+            }
+        }
+        for (auto curr = tempEquivalents.begin(), end = tempEquivalents.end(); curr != end; curr++) {
+            equivalents->push_back(std::make_pair(curr->first, curr->second));
+        }
+        equivalents->push_back(std::make_pair(v1, v2));
+    }
+
+    /*
+     * Get the annotation for a given value. If the value does not have an annotation, check each of its equivalent values for a type.
+     * This does have the potential for an infinite loop, something to program against later on.
+     */
+    static std::pair<Annotation, bool> getAnnotation (ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, Value *value) {
+        auto pair = annotationMap->find(value);
+        if (pair != annotationMap->end()) {
+            return std::make_pair(pair->second, true);
+        }
+        for (auto curr = equivalents->begin(), end = equivalents->end(); curr != end; curr++) {
+            if (curr->first == value) {
+                pair = annotationMap->find(curr->second);
+                if (pair != annotationMap->end()) {
+                    return std::make_pair(pair->second, true);
+                }
+            } else if (curr->second == value) {
+                pair = annotationMap->find(curr->first);
+                if (pair != annotationMap->end()) {
+                    return std::make_pair(pair->second, true);
+                }
+            }
+        }
+        return std::make_pair(Annotation(), false);
+    }
+
+    static void handleStore(ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, StoreInst *instruction) {
+        Value *op0 = instruction->getOperand(0);
+        Value *op1 = instruction->getOperand(1);
+        markEquivalent(equivalents, op0, op1);
+    }
+
+    static void handleLoad(ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, LoadInst *instruction) {
+        Value *op0 = instruction->getOperand(0);
+        Value *op1 = instruction;
+        markEquivalent(equivalents, op1, op0);
+        errs() << op1 << "\n";
+    }
+
+    static void handleBinaryOperator(ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, BinaryOperator *instruction) {
+        Value *op0 = instruction->getOperand(0);
+        Value *op1 = instruction->getOperand(1);
+        std::pair<Annotation, bool> pair0 = getAnnotation(annotationMap, equivalents, op0);
+        std::pair<Annotation, bool> pair1 = getAnnotation(annotationMap, equivalents, op1);
+        errs() << "\t";
+        if (pair0.second) {
+            errs() << "Got annotation for op0: " << pair0.first.tostr() << ". ";
+        } else {
+            errs() << "Failed to get annotation for " << op0 << ". ";
+        }
+        if (pair1.second) {
+            errs() << "Got annotation for op1: " << pair1.first.tostr() << ". ";
+        } else {
+            errs() << "Failed to get annotation for " << op1 << ". ";
+        }
+        annotationMap->insert(std::make_pair(instruction, Annotation()));
+        errs() << "\n";
+    }
+
+    static void handleBitCast(ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, BitCastInst *instruction) {
+        Value *op0 = instruction->getOperand(0);
+        Value *op1 = instruction;
+        markEquivalent(equivalents, op1, op0);
+    }
+
+    /*
+     * Basic implementation.
+     * Currently checks for an annotation and will then adds the annotation to the annotationMap
+     */
+    static void handleFunctionCall(ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, CallInst *instruction) {
+        StringRef name = instruction->getCalledFunction()->getName();
+        if (name == "llvm.var.annotation") { // if this is an annotation, then get the annotation string
+            Value *variable = instruction->getOperand(0);
+            Value *val = instruction->getArgOperand(1); // cast to a function call and get the second operand
+            Value *us = cast<User>(*val).getOperand(0); // Get the pointer to the global where the annotation is stored
+            StringRef anno = cast<ConstantDataArray>(cast<User>(*us).getOperand(0))->getAsCString(); // get the annotation as a string
+            addAnnotation(annotationMap, anno, variable);
+            Annotation anna = annotationMap->find(variable)->second;
+            variable = annotationMap->find(variable)->first;
+            errs() << "\tAdded annotation: " << anna.tostr() <<  " and relating it to " << variable->getName() << "\n";
+        }
+    }
     /**
      * @param F the Function that will be passed over
      *
@@ -105,71 +211,31 @@ struct OptimiPass : public ModulePass {
     {
         // if this is an llvm function then just return
         if (F.getName().find("llvm") != std::string::npos) {
+            errs() << "Ignoring function: " << F.getName() << "\n";
             return;
         }
 
         ValueMap<Value *, Annotation> localAnnotations;
+        std::vector<std::pair<Value *, Value *>> equivalents; // use this to sort what variables are equivalent to one another
 
-        errs() << "found function: " << F.getName() << "\n";
+        errs() << "Analysing function: " << F.getName() << "\n";
         for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
-            if (isa<CallInst>(*I)) { // If it is a function call
-
-                StringRef name = cast<CallInst>(*I).getCalledFunction()->getName();
-                if (name == "llvm.var.annotation") { // if this is an annotation, then get the annotation string
-                    Value *variable = I->getOperand(0);
-                    Value *val = cast<CallInst>(*I).getArgOperand(1); // cast to a function call and get the second operand
-                    Value *us = cast<User>(*val).getOperand(0); // Get the pointer to the global where the annotation is stored
-                    StringRef anno = cast<ConstantDataArray>(cast<User>(*us).getOperand(0))->getAsCString(); // get the annotation as a string
-                    this->addAnnotation(&localAnnotations, anno, variable);
-                    Annotation anna = localAnnotations.find(variable)->second;
-                    errs() << "(" << anna.max << ", " << anna.min << ", " << anna.precision << ")";
-                }
-                errs() << " ";
-                I->dump();
-
-            } else if (isa<BinaryOperator>(*I)) { // if it is a binary operator (mul, add, div, etc.)
-                // Get the opcode so that we know if it is an add, mul, div, etc.
-                unsigned opcode = I->getOpcode();
-                // Get the two operands so that we know what the dependencies are
-                Value * op0 = I->getOperand(0);
-                Value * op1 = I->getOperand(1);
-                // Print the instruction, will be removed later
-                switch (opcode) {
-                    case Instruction::Add :
-                    {
-                        errs() << "This is an add";
-                        break;
-                    }
-                    case Instruction::Sub :
-                    {
-                        errs() << "This is a sub";
-                        break;
-                    }
-                    case Instruction::Mul :
-                    {
-                        errs() << "This is a sub";
-                        break;
-                    }
-                    default :
-                    {
-                        errs() << "???";
-                        break;
-                    }
-                }
-                errs() << " ";
-                I->dump();
-            } else if (isa<StoreInst>(*I)) {
-                Value * op0 = I->getOperand(0); // the value to be stored
-                Value * op1 = I->getOperand(1); // where the value will be stored
-                errs() << " ";
-                I->dump();
-            } else if (isa<LoadInst>(*I)) { // Handle by attaching the metadata (if any) for the value that is being stored here
-                Value * op0 = I->getOperand(0); // the value to be loaded
-                errs() << " ";
-                I->dump();
+            if (StoreInst *store = dyn_cast<StoreInst>(&*I)) {
+                handleStore(&localAnnotations, &equivalents, store);
+            }
+            else if (LoadInst *load = dyn_cast<LoadInst>(&*I)) {
+                handleLoad(&localAnnotations, &equivalents, load);
+            }
+            else if (BinaryOperator *binaryOperator = dyn_cast<BinaryOperator>(&*I)) {
+                handleBinaryOperator(&localAnnotations, &equivalents, binaryOperator);
+            }
+            else if (BitCastInst *bitCast = dyn_cast<BitCastInst>(&*I)) {
+                handleBitCast(&localAnnotations, &equivalents, bitCast);
+            }
+            else if (CallInst *call = dyn_cast<CallInst>(&*I)) {
+                handleFunctionCall(&localAnnotations, &equivalents, call);
             }
         }
-        errs() << "\n";
     }
 
     /**
@@ -196,7 +262,7 @@ struct OptimiPass : public ModulePass {
                 ConstantStruct *e = cast<ConstantStruct>(a->getOperand(i));
                 Value* annoValue = e->getOperand(0)->getOperand(0);
                 StringRef anno = cast<ConstantDataArray>(cast<GlobalVariable>(e->getOperand(1)->getOperand(0))->getOperand(0))->getAsCString();
-                this->addAnnotation(&this->annotations, anno, annoValue);
+                addAnnotation(&this->globalAnnotations, anno, annoValue);
             }
         }
 
