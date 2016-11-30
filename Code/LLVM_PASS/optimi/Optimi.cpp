@@ -1,23 +1,4 @@
-#include <cmath>
-#include <ctgmath>
-#include <cstdint>
-#include <sstream>
-#include <stdlib.h>
-#include <unordered_map>
-
-#include "llvm/Pass.h"
-#include "llvm/IR/BasicBlock.h"
-#include "llvm/IR/Instructions.h"
-#include "llvm/IR/Constants.h"
-#include "llvm/IR/Function.h"
-#include "llvm/IR/InstIterator.h"
-#include "llvm/IR/Instruction.h"
-#include "llvm/IR/LegacyPassManager.h"
-#include "llvm/IR/Module.h"
-#include "llvm/IR/User.h"
-#include "llvm/IR/ValueMap.h"
-#include "llvm/Support/raw_ostream.h"
-#include "llvm/Transforms/IPO/PassManagerBuilder.h"
+#include "Optimi.hpp"
 
 
 using namespace llvm;
@@ -25,9 +6,8 @@ using namespace llvm;
 // Basic structure was taken from: https://github.com/sampsyo/llvm-pass-skeleton
 // Extra information about how to make a module pass run taken from: http://stackoverflow.com/questions/36308903/llvm-pass-error-when-iterating-over-module-functions-list
 // http://homes.cs.washington.edu/~bholt/posts/llvm-quick-tricks.html
-namespace
+namespace meta
 {
-
 /**
  * Struct used to store the annotation information as it is stored
  * in the maps.
@@ -254,6 +234,12 @@ struct OptimiPass : public ModulePass {
         markEquivalent(equivalents, op1, op0);
     }
 
+    static void handleGetElementPtr(ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, GetElementPtrInst *instruction) {
+        Value *op0 = instruction->getOperand(0);
+        Value *op1 = instruction;
+        markEquivalent(equivalents, op1, op0);
+    }
+
     /*
      * Basic implementation.
      * Currently checks for an annotation and will then adds the annotation to the annotationMap
@@ -271,6 +257,7 @@ struct OptimiPass : public ModulePass {
             errs() << "\tAdded annotation: " << anna.tostr() <<  " and relating it to " << variable->getName() << "\n";
         }
     }
+
     /**
      * @param F the Function that will be passed over
      *
@@ -297,6 +284,9 @@ struct OptimiPass : public ModulePass {
             }
             else if (LoadInst *load = dyn_cast<LoadInst>(&*I)) {
                 handleLoad(&localAnnotations, &equivalents, load);
+            }
+            else if (GetElementPtrInst *elemAddr = dyn_cast<GetElementPtrInst>(&*I)) {
+                handleGetElementPtr(&localAnnotations, &equivalents, elemAddr);
             }
             else if (BinaryOperator *binaryOperator = dyn_cast<BinaryOperator>(&*I)) {
                 handleBinaryOperator(&localAnnotations, &equivalents, binaryOperator);
@@ -351,10 +341,10 @@ struct OptimiPass : public ModulePass {
 /*
  * This is how the pass gets registered and will run
  */
-char OptimiPass::ID = 0;
-static RegisterPass<OptimiPass> X("passname", "Pass Name Analysis");
+char meta::OptimiPass::ID = 0;
+static RegisterPass<meta::OptimiPass> X("passname", "Pass Name Analysis");
 static void registerPass(const PassManagerBuilder &, legacy::PassManagerBase &PM)
 {
-    PM.add(new OptimiPass());
+    PM.add(new meta::OptimiPass());
 }
 static RegisterStandardPasses RegisterMyPass(PassManagerBuilder::EP_EarlyAsPossible, registerPass);

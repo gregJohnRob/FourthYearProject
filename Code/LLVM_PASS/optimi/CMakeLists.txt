@@ -1,6 +1,7 @@
 add_library(OptimiPass MODULE
     # List your source files here.
     Optimi.cpp
+    Optimi.hpp
 )
 
 # Use C++11 to compile our pass (i.e., supply -std=c++11).
