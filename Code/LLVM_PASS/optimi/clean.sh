@@ -1,1 +1,1 @@
-astyle --style=kr --verbose Optimi.cpp
+astyle --style=kr --verbose *.cpp

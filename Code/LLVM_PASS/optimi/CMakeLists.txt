@@ -1,7 +1,9 @@
 add_library(OptimiPass MODULE
     # List your source files here.
+    Annotation.h
+    Annotation.cpp
     Optimi.cpp
-    Optimi.hpp
+    Optimi.h
 )
 
 # Use C++11 to compile our pass (i.e., supply -std=c++11).
