@@ -8,11 +8,20 @@ using namespace optimi;
  * in the maps.
  * NOTE: A possible extension would be to create default annotations for Integers, Floats, Doubles, etc.
  */
-Annotation::Annotation(std::string)
+
+const std::string Annotation::INT = "INT";
+
+Annotation::Annotation(std::string type)
 {
-    this->max = INT_MAX;
-    this->min = INT_MIN;
-    this->precision = 0;
+    if (type == Annotation::INT) {
+        this->max = INT_MAX;
+        this->min = INT_MIN;
+        this->precision = 0;
+    } else {
+        this->max = 0;
+        this->min = 0;
+        this->precision = 0;
+    }
 }
 
 Annotation::Annotation(long max, long min, long precision)

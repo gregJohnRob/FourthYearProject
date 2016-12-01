@@ -71,7 +71,7 @@ std::pair<Annotation, bool> Optimi::getAnnotation(ValueMap<Value *, Annotation> 
             }
         }
     }
-    return std::make_pair(Annotation("INT"), false);
+    return std::make_pair(Annotation(Annotation::INT), false);
 }
 
 void Optimi::handleStore(ValueMap<Value *, Annotation> *annotationMap, std::vector<std::pair<Value *, Value *>> *equivalents, StoreInst *instruction)
@@ -166,7 +166,7 @@ void Optimi::handleBinaryOperator(ValueMap<Value *, Annotation> *annotationMap, 
     }
     default: {
         errs() << "Unable to work out the annotation for the given opcode\n";
-        annotationMap->insert(std::make_pair(instruction, Annotation("INT")));
+        annotationMap->insert(std::make_pair(instruction, Annotation(Annotation::INT)));
     }
     }
     Annotation annotation = annotationMap->find(instruction)->second;

@@ -34,7 +34,6 @@
 #include <stdlib.h>
 #include <unordered_map>
 
-
 using namespace llvm;
 
 namespace optimi
@@ -44,12 +43,16 @@ namespace optimi
  * in the maps.
  * NOTE: A possible extension would be to create default annotations for Integers, Floats, Doubles, etc.
  */
+
 struct Annotation {
+    /// Strings used to construct default Annotation objects
+    static const std::string INT;
+
     long max;
     long min;
     long precision;
 
-    Annotation(std::string);
+    Annotation(std::string type);
 
     Annotation(long max, long min, long precision);
 
