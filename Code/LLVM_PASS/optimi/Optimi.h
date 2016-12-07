@@ -90,6 +90,30 @@ struct Optimi : public ModulePass
         std::vector<std::pair<Value *, Value *>> *equivalents,
         LoadInst *instruction);
 
+    static void handleAdd(
+        ValueMap<Value *, Annotation> *annotationMap,
+        BinaryOperator *instruction,
+        Annotation anno0,
+        Annotation anno1);
+
+    static void handleMul(
+        ValueMap<Value *, Annotation> *annotationMap,
+        BinaryOperator *instruction,
+        Annotation anno0,
+        Annotation anno1);
+
+    static void handleSub(
+        ValueMap<Value *, Annotation> *annotationMap,
+        BinaryOperator *instruction,
+        Annotation anno0,
+        Annotation anno1);
+
+    static void handleShl(
+        ValueMap<Value *, Annotation> *annotationMap,
+        BinaryOperator *instruction,
+        Annotation anno0,
+        Annotation anno1);
+
     static void handleBinaryOperator(
         ValueMap<Value *, Annotation> *annotationMap,
         std::vector<std::pair<Value *, Value *>> *equivalents,
