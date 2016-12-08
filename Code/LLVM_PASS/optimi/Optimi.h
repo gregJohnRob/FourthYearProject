@@ -14,6 +14,7 @@
 #define OPTIMI_H
 
 #include "Annotation.h"
+#include "AnnotationStore.h"
 
 #include "llvm/Pass.h"
 #include "llvm/IR/BasicBlock.h"
@@ -52,86 +53,67 @@ namespace optimi
 struct Optimi : public ModulePass
 {
     static char ID;
-    ValueMap<Value*, Annotation> globalAnnotations;
+    //ValueMap<Value*, Annotation> globalAnnotations;
     Optimi() : ModulePass(ID) {}
-
-    /// Constructs and adds an annotation to a given annotation group, linked to
-    /// the given value
-    static bool addAnnotation (
-        ValueMap<Value*, Annotation> *annotationGroup,
-        StringRef anno,
-        Value* value);
-
-    /// Marks two values as equivalent in terms of annotations
-    static void markEquivalent (
-        std::vector<std::pair<Value *, Value *>> *equivalents,
-        Value * v1,
-        Value * v2);
-
-    /// Retrieves an annotation for a given value if it can.
-    /// Output always contains an annotation, the boolean states whither or not
-    /// an annotation could be found (true) or an annotation was made (false).
-    static std::pair<Annotation, bool> getAnnotation (
-        ValueMap<Value *, Annotation> *annotationMap,
-        std::vector<std::pair<Value *, Value *>> *equivalents,
-        Value *value);
 
     ////////////////////////////////////////////////////////////////////////////
     /// Handle different Instruction types
     ////////////////////////////////////////////////////////////////////////////
 
     static void handleStore(
-        ValueMap<Value *, Annotation> *annotationMap,
-        std::vector<std::pair<Value *, Value *>> *equivalents,
+        AnnotationStore *annotationStore,
         StoreInst *instruction);
 
     static void handleLoad(
-        ValueMap<Value *, Annotation> *annotationMap,
-        std::vector<std::pair<Value *, Value *>> *equivalents,
+        AnnotationStore *annotationStore,
         LoadInst *instruction);
 
+    static void handleSelect(
+        AnnotationStore *annotationStore,
+        SelectInst *instruction);
+
+    static void handlePhi(
+        AnnotationStore *annotationStore,
+        PHINode *instruction);
+
     static void handleAdd(
-        ValueMap<Value *, Annotation> *annotationMap,
+        AnnotationStore *annotationStore,
         BinaryOperator *instruction,
         Annotation anno0,
         Annotation anno1);
 
     static void handleMul(
-        ValueMap<Value *, Annotation> *annotationMap,
+        AnnotationStore *annotationStore,
         BinaryOperator *instruction,
         Annotation anno0,
         Annotation anno1);
 
     static void handleSub(
-        ValueMap<Value *, Annotation> *annotationMap,
+        AnnotationStore *annotationStore,
         BinaryOperator *instruction,
         Annotation anno0,
         Annotation anno1);
 
     static void handleShl(
-        ValueMap<Value *, Annotation> *annotationMap,
+        AnnotationStore *annotationStore,
         BinaryOperator *instruction,
         Annotation anno0,
         Annotation anno1);
 
     static void handleBinaryOperator(
-        ValueMap<Value *, Annotation> *annotationMap,
-        std::vector<std::pair<Value *, Value *>> *equivalents,
+        AnnotationStore *annotationStore,
         BinaryOperator *instruction);
 
     static void handleBitCast(
-        ValueMap<Value *, Annotation> *annotationMap,
-        std::vector<std::pair<Value *, Value *>> *equivalents,
+        AnnotationStore *annotationStore,
         BitCastInst *instruction);
 
     static void handleGetElementPtr(
-        ValueMap<Value *, Annotation> *annotationMap,
-        std::vector<std::pair<Value *, Value *>> *equivalents,
+        AnnotationStore *annotationStore,
         GetElementPtrInst *instruction);
 
     static void handleFunctionCall(
-        ValueMap<Value *, Annotation> *annotationMap,
-        std::vector<std::pair<Value *, Value *>> *equivalents,
+        AnnotationStore *annotationStore,
         CallInst *instruction);
 
     /// Generates the meta data for a given function

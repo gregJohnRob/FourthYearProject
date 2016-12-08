@@ -45,8 +45,6 @@ namespace optimi
  */
 
 struct Annotation {
-    /// Strings used to construct default Annotation objects
-    static const std::string INT;
 
     long max;
     long min;
