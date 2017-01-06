@@ -2,7 +2,7 @@ An LLVM Pass for applying metadata to each instruction.
 
 Initial code taken from https://github.com/sampsyo/llvm-pass-skeleton.
 
-Build: 
+Build:
     $ mkdir build
     $ cd build
     $ cmake ..

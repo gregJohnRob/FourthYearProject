@@ -10,8 +10,8 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#ifndef ANNOTATION_H
-#define ANNOTATION_H
+#ifndef DEPENDENCY_COUNTER_H
+#define DEPENDENCY_COUNTER_H
 
 #include "globalIncludes.h"
 
@@ -19,23 +19,15 @@ using namespace llvm;
 
 namespace optimi
 {
-/**
- * Struct used to store the annotation information as it is stored
- * in the maps.
- * NOTE: A possible extension would be to create default annotations for Integers, Floats, Doubles, etc.
- */
 
-struct Annotation {
+struct DependencyCounter {
 
-    double max;
-    double min;
-    int precision;
+    Value *instruction;
+    unsigned numOfDependencies;
 
-    Annotation(double max, double min, int precision);
-    Annotation();
-    Annotation(std::string ref);
+    DependencyCounter(Value *instruction, unsigned numOfDependencies);
+    DependencyCounter();
 
-    std::string str();
 };
 }
 

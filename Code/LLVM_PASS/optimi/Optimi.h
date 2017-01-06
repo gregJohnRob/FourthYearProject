@@ -14,30 +14,10 @@
 #define OPTIMI_H
 
 #include "Annotation.h"
-#include "AnnotationStore.h"
+#include "DependencyCounter.h"
+#include "Marker.h"
 
-#include "llvm/Pass.h"
-#include "llvm/IR/BasicBlock.h"
-#include "llvm/IR/Instructions.h"
-#include "llvm/IR/Constants.h"
-#include "llvm/IR/Function.h"
-#include "llvm/IR/InstIterator.h"
-#include "llvm/IR/Instruction.h"
-#include "llvm/IR/LegacyPassManager.h"
-#include "llvm/IR/Module.h"
-#include "llvm/IR/User.h"
-#include "llvm/IR/ValueMap.h"
-#include "llvm/Support/raw_ostream.h"
-#include "llvm/Transforms/IPO/PassManagerBuilder.h"
-
-#include <cmath>
-#include <ctgmath>
-#include <cstdint>
-#include <sstream>
-#include <stdlib.h>
-#include <unordered_map>
-
-
+#include "globalIncludes.h"
 
 using namespace llvm;
 
@@ -56,68 +36,7 @@ struct Optimi : public ModulePass
     //ValueMap<Value*, Annotation> globalAnnotations;
     Optimi() : ModulePass(ID) {}
 
-    ////////////////////////////////////////////////////////////////////////////
-    /// Handle different Instruction types
-    ////////////////////////////////////////////////////////////////////////////
-
-    static void handleStore(
-        AnnotationStore *annotationStore,
-        StoreInst *instruction);
-
-    static void handleLoad(
-        AnnotationStore *annotationStore,
-        LoadInst *instruction);
-
-    static void handleSelect(
-        AnnotationStore *annotationStore,
-        SelectInst *instruction);
-
-    static void handlePhi(
-        AnnotationStore *annotationStore,
-        PHINode *instruction);
-
-    static void handleAdd(
-        AnnotationStore *annotationStore,
-        BinaryOperator *instruction,
-        Annotation anno0,
-        Annotation anno1);
-
-    static void handleMul(
-        AnnotationStore *annotationStore,
-        BinaryOperator *instruction,
-        Annotation anno0,
-        Annotation anno1);
-
-    static void handleSub(
-        AnnotationStore *annotationStore,
-        BinaryOperator *instruction,
-        Annotation anno0,
-        Annotation anno1);
-
-    static void handleShl(
-        AnnotationStore *annotationStore,
-        BinaryOperator *instruction,
-        Annotation anno0,
-        Annotation anno1);
-
-    static void handleBinaryOperator(
-        AnnotationStore *annotationStore,
-        BinaryOperator *instruction);
-
-    static void handleBitCast(
-        AnnotationStore *annotationStore,
-        BitCastInst *instruction);
-
-    static void handleGetElementPtr(
-        AnnotationStore *annotationStore,
-        GetElementPtrInst *instruction);
-
-    static void handleFunctionCall(
-        AnnotationStore *annotationStore,
-        CallInst *instruction);
-
-    /// Generates the meta data for a given function
-    void functionPass(Function &F);
+    int analyseFunction(Function &F);
 
     /// Generates the meta data for a given module
     virtual bool runOnModule(Module &M);

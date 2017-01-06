@@ -7,6 +7,10 @@ int kernal (int __attribute__((annotate("1000 0 0"))) arr[], int __attribute__((
         // int __attribute__((annotate("1000 0 0"))) hello = otherarr[i];
         // total += hello;
     }
+    int   __attribute__((annotate("1000 0 0"))) j;
+    for (j = 0; j < size-5; j++) {
+        total += arr[j];
+    }
     return total;
 }
 

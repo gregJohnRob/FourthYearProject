@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{csquotes}
+ 
+\usepackage{comment}
+
+\usepackage[dvipsnames]{xcolor}
+ 
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+ 
+\title{Report 9}
+\author{Gregor Robertson}
+\date{08 Dec 2016}
+ 
+\begin{document}
+ 
+\maketitle
+ 
+\section*{Progress This Week}
+This week I have:
+\begin{itemize}
+	\item Implemented a handler for phi instructions
+	\item Implemented a handler for select instructions
+	\item Implemented a handler for shl instructions
+	\item Moved functionality for handling how Annotations are stored into a new class
+	\item Wrote minor test programs with ``if'', ``if else'' and ``switch'' statements in them
+\end{itemize}
+This means that I can now handle ``switch'', ``if'', ``if else'' and, to some extent, ``for'' and ``while'' instructions. To improve how the program handles for and while loop instructions, I will have to change a lot so that it is possible for the pass to go back and mark values once it is able to.  
+
+\section*{Aims For Next Week}
+Next week I will write the end of semester report. 
+
+\section*{Questions}
+At the time of writing this, I have no questions. 
+
+\medskip
+ 
+\printbibliography
+
+\end{document}

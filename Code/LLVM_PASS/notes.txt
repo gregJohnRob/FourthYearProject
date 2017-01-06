@@ -1,0 +1,145 @@
+NOTE: ALL handle instructions use their respective types
+
+analyseInstruction (instruction *I) {
+    if (type(I) == store) {
+        handleStore(I)
+    }
+}
+
+
+handleStore(instruction *I) {
+    let x be the target
+    let y be the value
+    if (x in this->annotationMap) {
+        add y into annotationMap with the same annotation as x
+        cleanUpDependencies(y)
+    } else if (y in this->annotationMap) {
+        add x into annotationMap with the same annotation as y
+        cleanUpDependencies(x)
+    } else {
+        dependency = new dependencyCounter();
+        dependency.count = 1
+        dependency.instruction = I
+        dependencyPointers = {x, y}
+        this->dependencyCounterList.add(dependency)
+        this->addToDMap(x, dependency)
+        this->addToDMap(y, dependency)
+    }
+}
+
+handleload(instruction *I) {
+    let y be op0
+    if (I in this->annotationMap) {
+        add y into annotationMap with the same annotation as x
+        cleanUpDependencies(y)
+    } else if (y in this->annotationMap) {
+        add I into annotationMap with the same annotation as y
+        cleanUpDependencies(I)
+    } else {
+        dependency = new dependencyCounter();
+        dependency.count = 1
+        dependency.instruction = I
+        dependencyPointers = {I, y}
+        this->dependencyCounterList.add(dependency)
+        this->addToDMap(I, dependency)
+        this->addToDMap(y, dependency)
+    }
+}
+
+handleSelect(instruction *I) {
+    let t = true value
+    let tanno = null
+    let f = false value
+    let fanno = null
+    let d = new dependencyCounter()
+    d.dependencyPointers = [t, f]
+    if (not t in this->annotationMap) {
+        d.counter++;
+    } else {
+        tanno = this->annotationMap[t]
+    }
+    if (not f in this->annotationMap) {
+        d.counter++;
+    } else {
+        fanno = this->annotationMap[f];
+    }
+    if (d.counter == 0) {
+        delete d;
+        let ianno = annotation for I given tanno and fanno
+        this->addAnno(I, ianno);
+        cleanUpDependencies(I)
+    } else {
+        this->adddependency(I, d)
+
+    }
+}
+
+handlePhi(instruction *I) {
+    let d = new dependencyCounter()
+    let annotation be an annotation for I
+    for each incomingvalue {
+        d.dependencyPointers.add(incomingvalue)
+        if incomingvalue not in this->annotationMap {
+            d.counter++;
+        } else {
+            adjust annotation accordingly
+        }
+    }
+    if d.counter > 0 {
+        this->adddependency(I, d)
+    } else {
+        delete d
+        this->addAnno(I, annotation)
+        cleanUpDependencies(I)
+    }
+}
+
+handleBinaryOp(instruction *I) {
+
+}
+
+handleBitCast(instruction *I) {
+    let y be op0
+    if (I in this->annotationMap) {
+        add y into annotationMap with the same annotation as x
+        cleanUpDependencies(y)
+    } else if (y in this->annotationMap) {
+        add I into annotationMap with the same annotation as y
+        cleanUpDependencies(I)
+    } else {
+        dependency = new dependencyCounter();
+        dependency.count = 1
+        dependency.instruction = I
+        dependencyPointers = {I, y}
+        this->dependencyCounterList.add(dependency)
+        this->addToDMap(I, dependency)
+        this->addToDMap(y, dependency)
+    }
+}
+
+handleGetElementPtr(I) {
+    handleStore(I) // for all intents and purposes
+}
+
+handleFunctioncall(instruction *I) {
+    if the function is an annotation assignment {
+        add the annotation to this->annotationMap
+        cleanUpDependencies(I)
+    }
+}
+
+
+
+cleanUpDependencies(instruction *I) {
+    let i = 0
+    while (i < dependencies.size) {
+        let dc = dependencies[i]
+        if (--dc.count == 0) {
+            erase dc
+            analyseInstruction(dc.instruction)
+        } else {
+            i++
+        }
+    }
+
+}

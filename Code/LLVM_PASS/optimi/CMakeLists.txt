@@ -1,10 +1,13 @@
 add_library(OptimiPass MODULE
     # List your source files here.
     Annotation.h
-    AnnotationStore.h
-    Optimi.h
     Annotation.cpp
-    AnnotationStore.cpp
+    DependencyCounter.h
+    DependencyCounter.cpp
+    globalIncludes.h
+    Marker.h
+    Marker.cpp
+    Optimi.h
     Optimi.cpp
 )
 
