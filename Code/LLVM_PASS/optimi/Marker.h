@@ -39,20 +39,26 @@ class Marker
     void cleanDependencies(Value *v);
 
     /// Functions for handling instructions
-    void handleLoad(LoadInst *instruction);
-    void handleStore(StoreInst *instruction);
-    void handleSelect(SelectInst *instruction);
-    void handlePhi(PHINode *instruction);
-    void handleBinaryOperator(BinaryOperator *instruction);
-    void handleBitCast(BitCastInst *instruction);
-    void handleTrunc(TruncInst *instruction);
-    void handleGetElementPtr(GetElementPtrInst *instruction);
-    void handleFunctionCall(CallInst *instruction);
+    void handle_load(LoadInst *instruction);
+    void handle_store(StoreInst *instruction);
+    void handle_select(SelectInst *instruction);
+    void handle_phi(PHINode *instruction);
+    void handle_binary_operator(BinaryOperator *instruction);
+    void handle_bitcast(BitCastInst *instruction);
+    void handle_trunc(TruncInst *instruction);
+    void handle_getelementptr(GetElementPtrInst *instruction);
+    void handle_call(CallInst *instruction);
 
     /// Extra handler methods
-    void handleAdd(Value *target, Annotation a0, Annotation a1);
-    void handleMul(Value *target, Annotation a0, Annotation a1);
-    void handleSub(Value *target, Annotation a0, Annotation a1);
+    void handle_add(Value *target, Annotation a0, Annotation a1);
+    void handle_mul(Value *target, Annotation a0, Annotation a1);
+    void handle_sub(Value *target, Annotation a0, Annotation a1);
+    void handle_udiv(Value *target, Annotation a0, Annotation a1);
+    void handle_sdiv(Value *target, Annotation a0, Annotation a1);
+    void handle_fdiv(Value *target, Annotation a0, Annotation a1);
+    void handle_urem(Value *target, Annotation a0, Annotation a1);
+    void handle_srem(Value *target, Annotation a0, Annotation a1);
+    void handle_frem(Value *target, Annotation a0, Annotation a1);
     void saveNewAnnotation(Value *target, double range[4], int precision);
 
 public:
