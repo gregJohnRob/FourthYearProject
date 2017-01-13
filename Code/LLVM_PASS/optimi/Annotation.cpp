@@ -10,17 +10,20 @@ using namespace optimi;
  */
 
 
-Annotation::Annotation() {
+Annotation::Annotation()
+{
     this->max = this->min = this->precision = 0;
 }
 
-Annotation::Annotation(double max, double min, int precision) {
+Annotation::Annotation(double max, double min, int precision)
+{
     this->max = max;
     this->min = min;
     this->precision = precision;
 }
 
-Annotation::Annotation(std::string ref) {
+Annotation::Annotation(std::string ref)
+{
     std::string st = ref;
     std::stringstream stream(st);
     double max, min;
@@ -57,7 +60,8 @@ Annotation::Annotation(std::string ref) {
     this->precision = prec;
 }
 
-std::string Annotation::str() {
+std::string Annotation::str()
+{
     std::stringstream ss;
     ss << "(" << this->max << ", ";
     ss << this->min << ", ";

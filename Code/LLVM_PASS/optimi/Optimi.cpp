@@ -3,7 +3,8 @@
 using namespace llvm;
 using namespace optimi;
 
-int Optimi::analyseFunction(Function &F) {
+int Optimi::analyseFunction(Function &F)
+{
     if (F.getName().find("llvm") != std::string::npos) {
         return 0;
     }
@@ -17,7 +18,8 @@ int Optimi::analyseFunction(Function &F) {
     return marker.finishMethodAnalysis();
 }
 
-bool Optimi::runOnModule(Module &M) {
+bool Optimi::runOnModule(Module &M)
+{
     GlobalVariable *global_annos = M.getNamedGlobal("llvm.global.annotations");
     if (global_annos) {
         ConstantArray *a = cast<ConstantArray>(global_annos->getOperand(0));

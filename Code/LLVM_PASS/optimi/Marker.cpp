@@ -8,7 +8,8 @@ using namespace optimi;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 Marker::Marker() {}
 
-void Marker::analyseInstruction(Value *v) {
+void Marker::analyseInstruction(Value *v)
+{
     if (StoreInst *store = dyn_cast<StoreInst>(v)) {
         this->handle_store(store);
     } else if (LoadInst *load = dyn_cast<LoadInst>(v)) {
@@ -30,7 +31,8 @@ void Marker::analyseInstruction(Value *v) {
     }
 }
 
-int Marker::finishMethodAnalysis() {
+int Marker::finishMethodAnalysis()
+{
     int output;
     if (this->dependencyMap.empty()) {
         output = 1;
@@ -52,7 +54,8 @@ int Marker::finishMethodAnalysis() {
 // Methods for interacting with dependencyMap, annotationMap
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Marker::hasAnnotation(Value *v) {
+bool Marker::hasAnnotation(Value *v)
+{
     if (ConstantInt *constant = dyn_cast<ConstantInt>(v)) {
         return true;
     } else if (ConstantFP *constantFP = dyn_cast<ConstantFP>(v)) {
@@ -61,7 +64,8 @@ bool Marker::hasAnnotation(Value *v) {
     return this->annotationMap.find(v) != this->annotationMap.end();
 }
 
-Annotation Marker::getAnnotation(Value *v) {
+Annotation Marker::getAnnotation(Value *v)
+{
     if (ConstantInt *constantInt = dyn_cast<ConstantInt>(v)) {
         double x = constantInt->getValue().signedRoundToDouble();
         return Annotation(x, x, 0);
@@ -78,7 +82,8 @@ Annotation Marker::getAnnotation(Value *v) {
     return this->annotationMap.find(v)->second;
 }
 
-void Marker::addAnnotation(Value *v, Annotation a) {
+void Marker::addAnnotation(Value *v, Annotation a)
+{
     if (Instruction *instruction = dyn_cast<Instruction>(v)) {
         LLVMContext& C = instruction->getContext();
         MDNode* N = MDNode::get(C, MDString::get(C, a.str()));
@@ -87,7 +92,8 @@ void Marker::addAnnotation(Value *v, Annotation a) {
     this->annotationMap.insert(std::make_pair(v, a));
 }
 
-void Marker::addDependencyCounter(Value *v, DependencyCounter *dc) {
+void Marker::addDependencyCounter(Value *v, DependencyCounter *dc)
+{
     auto temp = this->dependencyMap.find(v);
     if (temp != this->dependencyMap.end()) {
         temp->second.push_back(dc);
@@ -98,7 +104,8 @@ void Marker::addDependencyCounter(Value *v, DependencyCounter *dc) {
     }
 }
 
-void Marker::cleanDependencies(Value *v) {
+void Marker::cleanDependencies(Value *v)
+{
     auto temp = this->dependencyMap.find(v);
     if (temp == this->dependencyMap.end()) {
         return;
@@ -116,7 +123,8 @@ void Marker::cleanDependencies(Value *v) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Instruction handler methods
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void Marker::handle_store(StoreInst *instruction) {
+void Marker::handle_store(StoreInst *instruction)
+{
     Value *target = instruction->getOperand(0);
     Value *value = instruction->getOperand(1);
     if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
@@ -138,7 +146,8 @@ void Marker::handle_store(StoreInst *instruction) {
     }
 }
 
-void Marker::handle_load(LoadInst *instruction) {
+void Marker::handle_load(LoadInst *instruction)
+{
     Value *value = instruction->getOperand(0);
     Value *target = instruction;
     if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
@@ -160,7 +169,8 @@ void Marker::handle_load(LoadInst *instruction) {
     }
 }
 
-void Marker::handle_select(SelectInst *instruction) {
+void Marker::handle_select(SelectInst *instruction)
+{
     if (this->hasAnnotation(instruction)) {
         return;
     }
@@ -194,7 +204,8 @@ void Marker::handle_select(SelectInst *instruction) {
     }
 }
 
-void Marker::handle_phi(PHINode *instruction) {
+void Marker::handle_phi(PHINode *instruction)
+{
     if (this->hasAnnotation(instruction)) {
         return;
     }
@@ -225,7 +236,8 @@ void Marker::handle_phi(PHINode *instruction) {
     }
 }
 
-void Marker::handle_binary_operator(BinaryOperator *instruction) {
+void Marker::handle_binary_operator(BinaryOperator *instruction)
+{
     if (this->hasAnnotation(instruction)) {
         return;
     }
@@ -321,7 +333,8 @@ void Marker::handle_binary_operator(BinaryOperator *instruction) {
     }
 }
 
-void Marker::handle_bitcast(BitCastInst *instruction) {
+void Marker::handle_bitcast(BitCastInst *instruction)
+{
     Value *value = instruction->getOperand(0);
     Value *target = instruction;
     if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
@@ -343,7 +356,8 @@ void Marker::handle_bitcast(BitCastInst *instruction) {
     }
 }
 
-void Marker::handle_trunc(TruncInst *instruction) {
+void Marker::handle_trunc(TruncInst *instruction)
+{
     Value *value = instruction->getOperand(0);
     Value *target = instruction;
     if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
@@ -365,7 +379,8 @@ void Marker::handle_trunc(TruncInst *instruction) {
     }
 }
 
-void Marker::handle_getelementptr(GetElementPtrInst *instruction) {
+void Marker::handle_getelementptr(GetElementPtrInst *instruction)
+{
     Value *value = instruction->getOperand(0);
     Value *target = instruction;
     if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
@@ -387,7 +402,8 @@ void Marker::handle_getelementptr(GetElementPtrInst *instruction) {
     }
 }
 
-void Marker::handle_call(CallInst *instruction) {
+void Marker::handle_call(CallInst *instruction)
+{
     StringRef name = instruction->getCalledFunction()->getName();
     if (name == "llvm.var.annotation") { // if this is an annotation, then get the annotation string
         Value *variable = instruction->getOperand(0);
@@ -413,7 +429,8 @@ void Marker::handle_call(CallInst *instruction) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Methods for handling Binary Operations
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void Marker::handle_add(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_add(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         a0.max + a1.max,
         a0.max + a1.min,
@@ -424,7 +441,8 @@ void Marker::handle_add(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_mul(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_mul(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         a0.max * a1.max,
         a0.max * a1.min,
@@ -436,7 +454,8 @@ void Marker::handle_mul(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_sub(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_sub(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         a0.max - a1.max,
         a0.max - a1.min,
@@ -447,7 +466,8 @@ void Marker::handle_sub(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         std::abs(a0.max / a1.max),
         std::abs(a0.max / a1.min),
@@ -458,7 +478,8 @@ void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         a0.max / a1.max,
         a0.max / a1.min,
@@ -469,7 +490,8 @@ void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         a0.max / a1.max,
         a0.max / a1.min,
@@ -480,7 +502,8 @@ void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_urem(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_urem(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         std::abs(fmod(a0.max, a1.max)),
         std::abs(fmod(a0.max, a1.min)),
@@ -491,7 +514,8 @@ void Marker::handle_urem(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_srem(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_srem(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         fmod(a0.max, a1.max),
         fmod(a0.max, a1.min),
@@ -502,7 +526,8 @@ void Marker::handle_srem(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_frem(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_frem(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         fmod(a0.max, a1.max),
         fmod(a0.max, a1.min),
@@ -513,7 +538,8 @@ void Marker::handle_frem(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::saveNewAnnotation(Value *target, double range[4], int precision) {
+void Marker::saveNewAnnotation(Value *target, double range[4], int precision)
+{
     double max, min;
     max = min = range[0];
     for (int i = 1; i < 4; i++) {
@@ -530,7 +556,8 @@ void Marker::saveNewAnnotation(Value *target, double range[4], int precision) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Methods for handling Bitwise Operations
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void Marker::handle_shl(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_shl(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         a0.max * pow(2, a1.max),
         a0.max * pow(2, a1.min),
@@ -541,7 +568,8 @@ void Marker::handle_shl(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_ashr(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_ashr(Value *target, Annotation a0, Annotation a1)
+{
     double range[4] = {
         a0.max / pow(2, a1.max),
         a0.max / pow(2, a1.min),
@@ -552,7 +580,8 @@ void Marker::handle_ashr(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_lshr(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_lshr(Value *target, Annotation a0, Annotation a1)
+{
     unsigned int a0max = ceil(a0.max);
     unsigned int a0min = ceil(a0.min);
     int a1max = ceil(a1.max);
@@ -567,7 +596,8 @@ void Marker::handle_lshr(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_and(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_and(Value *target, Annotation a0, Annotation a1)
+{
     int a0max = ceil(a0.max);
     int a0min = ceil(a0.min);
     int a1max = ceil(a1.max);
@@ -582,7 +612,8 @@ void Marker::handle_and(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_or(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_or(Value *target, Annotation a0, Annotation a1)
+{
     int a0max = ceil(a0.max);
     int a0min = ceil(a0.min);
     int a1max = ceil(a1.max);
@@ -597,7 +628,8 @@ void Marker::handle_or(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-void Marker::handle_xor(Value *target, Annotation a0, Annotation a1) {
+void Marker::handle_xor(Value *target, Annotation a0, Annotation a1)
+{
     int a0max = ceil(a0.max);
     int a0min = ceil(a0.min);
     int a1max = ceil(a1.max);

@@ -19,24 +19,24 @@ using namespace llvm;
 
 namespace optimi
 {
-    /**
-     * Struct used to store the annotation information as it is stored
-     * in the maps.
-     * NOTE: A possible extension would be to create default annotations for Integers, Floats, Doubles, etc.
-     */
+/**
+ * Struct used to store the annotation information as it is stored
+ * in the maps.
+ * NOTE: A possible extension would be to create default annotations for Integers, Floats, Doubles, etc.
+ */
 
-    struct Annotation {
+struct Annotation {
 
-        double max;
-        double min;
-        int precision;
+    double max;
+    double min;
+    int precision;
 
-        Annotation(double max, double min, int precision);
-        Annotation();
-        Annotation(std::string ref);
+    Annotation(double max, double min, int precision);
+    Annotation();
+    Annotation(std::string ref);
 
-        std::string str();
-    };
+    std::string str();
+};
 }
 
 #endif
