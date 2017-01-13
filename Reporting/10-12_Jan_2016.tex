@@ -20,12 +20,14 @@
 \maketitle
  
 \section*{Progress Over Break}
-Over the course of the winter break, I rewrote the codebase so that it might be able to handle phi instructions better. In the original implementation of the codebase, the instructions were handled in order and there was no form of backtracking. This meant that any instruction which relied on a later instruction would not be processed properly. In the updated version of the codebase, the instructions which depend on different values are marked. 
+Over the course of the winter break, I rewrote the codebase so that it would be able to better handle phi instructions. Due to how LLVM creates certain constructs, for example `for loops', the original implementation was unable to handle them. This is because it is possible for some instructions (namely `phi' instructions), to rely on values which appear later in the program. 
+
+The rewritten codebase is better able to handle this. In this version, when an instruction has a dependency which is not yet known, it is marked so that when that dependency becomes known, the Pass will go back to that instruction and annotate it. 
 
 \section*{Aims For Next Week And Hackathon}
 Next week and over the hackathon, I plan to:
 \begin{itemize}
-	\item Ensure that all of the current instructions are properly marked with correct ranges and precisions. \colorbox{BurntOrange}{\color{Black}Medium}
+	\item Ensure that all of the current instructions are properly marked with correct ranges and precisions \colorbox{BurntOrange}{\color{Black}Medium}
 	\item Consider other instructions to be added and add functionality to handle them \colorbox{BurntOrange}{\color{Black}Medium}
 \end{itemize}
 

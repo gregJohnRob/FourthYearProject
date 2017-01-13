@@ -6,6 +6,8 @@ using namespace optimi;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Public methods
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+Marker::Marker() {}
+
 void Marker::analyseInstruction(Value *v) {
     if (StoreInst *store = dyn_cast<StoreInst>(v)) {
         this->handle_store(store);
@@ -53,14 +55,25 @@ int Marker::finishMethodAnalysis() {
 bool Marker::hasAnnotation(Value *v) {
     if (ConstantInt *constant = dyn_cast<ConstantInt>(v)) {
         return true;
+    } else if (ConstantFP *constantFP = dyn_cast<ConstantFP>(v)) {
+        return true;
     }
     return this->annotationMap.find(v) != this->annotationMap.end();
 }
 
 Annotation Marker::getAnnotation(Value *v) {
-    if (ConstantInt *constant = dyn_cast<ConstantInt>(v)) {
-        double x = constant->getValue().signedRoundToDouble();
+    if (ConstantInt *constantInt = dyn_cast<ConstantInt>(v)) {
+        double x = constantInt->getValue().signedRoundToDouble();
         return Annotation(x, x, 0);
+    } else if (ConstantFP *constantFP = dyn_cast<ConstantFP>(v)) {
+        double x = constantFP->getValueAPF().convertToFloat();
+        int i = 0;
+        double check = x;
+        while (fmod(check, 1) != 0.0) {
+            i++;
+            check *= 10;
+        }
+        return Annotation(x, x, i);
     }
     return this->annotationMap.find(v)->second;
 }
@@ -275,6 +288,31 @@ void Marker::handle_binary_operator(BinaryOperator *instruction) {
                 this->handle_frem(target, a0, a1);
                 break;
             }
+            // Bit wise operations
+            case Instruction::Shl  : {
+                this->handle_shl(target, a0, a1);
+                break;
+            }
+            case Instruction::LShr : {
+                this->handle_lshr(target, a0, a1);
+                break;
+            }
+            case Instruction::AShr : {
+                this->handle_ashr(target, a0, a1);
+                break;
+            }
+            case Instruction::And  : {
+                this->handle_and(target, a0, a1);
+                break;
+            }
+            case Instruction::Or   : {
+                this->handle_or(target, a0, a1);
+                break;
+            }
+            case Instruction::Xor  : {
+                this->handle_xor(target, a0, a1);
+                break;
+            }
             default: {
                 errs() << "Unable to work out the annotation for the given opcode";
                 this->addAnnotation(target, Annotation(INT_MAX, INT_MIN, 0));
@@ -359,13 +397,22 @@ void Marker::handle_call(CallInst *instruction) {
         Annotation a = Annotation(anno.str());
         this->addAnnotation(variable, a);
         this->cleanDependencies(variable);
+    } else {
+        Value *function = instruction->getCalledValue();
+        if (this->hasAnnotation(function)) {
+            this->addAnnotation(instruction, this->getAnnotation(function));
+        } else {
+            DependencyCounter *dc = new DependencyCounter();
+            dc->instruction = instruction;
+            dc->numOfDependencies++;
+            this->addDependencyCounter(function, dc);
+        }
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// Extra handler methods
+// Methods for handling Binary Operations
 ///////////////////////////////////////////////////////////////////////////////////////////////////
- // Value *op0, Value *op1, Annotation a0, Annotation a1, Value *target
 void Marker::handle_add(Value *target, Annotation a0, Annotation a1) {
     double range[4] = {
         a0.max + a1.max,
@@ -384,7 +431,8 @@ void Marker::handle_mul(Value *target, Annotation a0, Annotation a1) {
         a0.min * a1.max,
         a0.min * a1.min
     };
-    int precision = a0.precision * a1.precision;
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    // int precision = a0.precision * a1.precision;
     this->saveNewAnnotation(target, range, precision);
 }
 
@@ -399,7 +447,6 @@ void Marker::handle_sub(Value *target, Annotation a0, Annotation a1) {
     this->saveNewAnnotation(target, range, precision);
 }
 
-
 void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1) {
     double range[4] = {
         std::abs(a0.max / a1.max),
@@ -410,6 +457,7 @@ void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1) {
     int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
     this->saveNewAnnotation(target, range, precision);
 }
+
 void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1) {
     double range[4] = {
         a0.max / a1.max,
@@ -420,6 +468,7 @@ void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1) {
     int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
     this->saveNewAnnotation(target, range, precision);
 }
+
 void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1) {
     double range[4] = {
         a0.max / a1.max,
@@ -430,6 +479,7 @@ void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1) {
     int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
     this->saveNewAnnotation(target, range, precision);
 }
+
 void Marker::handle_urem(Value *target, Annotation a0, Annotation a1) {
     double range[4] = {
         std::abs(fmod(a0.max, a1.max)),
@@ -440,6 +490,7 @@ void Marker::handle_urem(Value *target, Annotation a0, Annotation a1) {
     int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
     this->saveNewAnnotation(target, range, precision);
 }
+
 void Marker::handle_srem(Value *target, Annotation a0, Annotation a1) {
     double range[4] = {
         fmod(a0.max, a1.max),
@@ -450,6 +501,7 @@ void Marker::handle_srem(Value *target, Annotation a0, Annotation a1) {
     int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
     this->saveNewAnnotation(target, range, precision);
 }
+
 void Marker::handle_frem(Value *target, Annotation a0, Annotation a1) {
     double range[4] = {
         fmod(a0.max, a1.max),
@@ -473,4 +525,89 @@ void Marker::saveNewAnnotation(Value *target, double range[4], int precision) {
         }
     }
     this->addAnnotation(target, Annotation(max, min, precision));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Methods for handling Bitwise Operations
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void Marker::handle_shl(Value *target, Annotation a0, Annotation a1) {
+    double range[4] = {
+        a0.max * pow(2, a1.max),
+        a0.max * pow(2, a1.min),
+        a0.min * pow(2, a1.max),
+        a0.min * pow(2, a1.min)
+    };
+    int precision = a0.precision;
+    this->saveNewAnnotation(target, range, precision);
+}
+
+void Marker::handle_ashr(Value *target, Annotation a0, Annotation a1) {
+    double range[4] = {
+        a0.max / pow(2, a1.max),
+        a0.max / pow(2, a1.min),
+        a0.min / pow(2, a1.max),
+        a0.min / pow(2, a1.min)
+    };
+    int precision = a0.precision;
+    this->saveNewAnnotation(target, range, precision);
+}
+
+void Marker::handle_lshr(Value *target, Annotation a0, Annotation a1) {
+    unsigned int a0max = ceil(a0.max);
+    unsigned int a0min = ceil(a0.min);
+    int a1max = ceil(a1.max);
+    int a1min = ceil(a1.min);
+    double range[4] = {
+        double(a0max >> a1max),
+        double(a0max >> a1min),
+        double(a0min >> a1max),
+        double(a0min >> a1min)
+    };
+    int precision = a0.precision;
+    this->saveNewAnnotation(target, range, precision);
+}
+
+void Marker::handle_and(Value *target, Annotation a0, Annotation a1) {
+    int a0max = ceil(a0.max);
+    int a0min = ceil(a0.min);
+    int a1max = ceil(a1.max);
+    int a1min = ceil(a1.min);
+    double range[4] = {
+        double(a0max & a1max),
+        double(a0max & a1min),
+        double(a0min & a1max),
+        double(a0min & a1min)
+    };
+    int precision = a0.precision;
+    this->saveNewAnnotation(target, range, precision);
+}
+
+void Marker::handle_or(Value *target, Annotation a0, Annotation a1) {
+    int a0max = ceil(a0.max);
+    int a0min = ceil(a0.min);
+    int a1max = ceil(a1.max);
+    int a1min = ceil(a1.min);
+    double range[4] = {
+        double(a0max | a1max),
+        double(a0max | a1min),
+        double(a0min | a1max),
+        double(a0min | a1min)
+    };
+    int precision = a0.precision;
+    this->saveNewAnnotation(target, range, precision);
+}
+
+void Marker::handle_xor(Value *target, Annotation a0, Annotation a1) {
+    int a0max = ceil(a0.max);
+    int a0min = ceil(a0.min);
+    int a1max = ceil(a1.max);
+    int a1min = ceil(a1.min);
+    double range[4] = {
+        double(a0max ^ a1max),
+        double(a0max ^ a1min),
+        double(a0min ^ a1max),
+        double(a0min ^ a1min)
+    };
+    int precision = a0.precision;
+    this->saveNewAnnotation(target, range, precision);
 }

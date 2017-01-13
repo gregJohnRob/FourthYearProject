@@ -16,7 +16,6 @@
 #include "Annotation.h"
 #include "DependencyCounter.h"
 
-
 #include "globalIncludes.h"
 
 using namespace llvm;
@@ -34,7 +33,6 @@ class Marker
     /// Functions for handling the dependencyMap, dependencyVector and annotationMap
     bool hasAnnotation(Value *v);
     Annotation getAnnotation(Value *v);
-    void addAnnotation(Value *v, Annotation a);
     void addDependencyCounter(Value *v, DependencyCounter *dc);
     void cleanDependencies(Value *v);
 
@@ -49,7 +47,7 @@ class Marker
     void handle_getelementptr(GetElementPtrInst *instruction);
     void handle_call(CallInst *instruction);
 
-    /// Extra handler methods
+    /// Methods for handling Binary Operations
     void handle_add(Value *target, Annotation a0, Annotation a1);
     void handle_mul(Value *target, Annotation a0, Annotation a1);
     void handle_sub(Value *target, Annotation a0, Annotation a1);
@@ -61,8 +59,24 @@ class Marker
     void handle_frem(Value *target, Annotation a0, Annotation a1);
     void saveNewAnnotation(Value *target, double range[4], int precision);
 
+    /// Methods for handling Bitwise Operations
+    void handle_shl(Value *target, Annotation a0, Annotation a1);
+    void handle_lshr(Value *target, Annotation a0, Annotation a1);
+    void handle_ashr(Value *target, Annotation a0, Annotation a1);
+    void handle_and(Value *target, Annotation a0, Annotation a1);
+    void handle_or(Value *target, Annotation a0, Annotation a1);
+    void handle_xor(Value *target, Annotation a0, Annotation a1);
+
+    /*
+        There are several functions which llvm implements for us (for example log).
+        These functions are not currently handled but it may be worth implementing
+        handlers for these functions.
+    */
+
 public:
     /// Functions for interacting with the Marker
+    Marker();
+    void addAnnotation(Value *v, Annotation a);
     void analyseInstruction(Value *I);
     int finishMethodAnalysis();
 

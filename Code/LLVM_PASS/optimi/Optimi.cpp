@@ -9,6 +9,9 @@ int Optimi::analyseFunction(Function &F)
     return 0;
   }
   Marker marker;
+  for (auto i = this->globalAnnotationMap.begin(), end = this->globalAnnotationMap.end(); i != end; i++) {
+    marker.addAnnotation(i->first, i->second);
+  }
   for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
     marker.analyseInstruction(&*I);
   }
@@ -17,6 +20,16 @@ int Optimi::analyseFunction(Function &F)
 
 bool Optimi::runOnModule(Module &M)
 {
+    GlobalVariable *global_annos = M.getNamedGlobal("llvm.global.annotations");
+    if (global_annos) {
+        ConstantArray *a = cast<ConstantArray>(global_annos->getOperand(0));
+        for (int i=0; i<a->getNumOperands(); i++) {
+            ConstantStruct *e = cast<ConstantStruct>(a->getOperand(i));
+            Value* annoValue = e->getOperand(0)->getOperand(0);
+            StringRef anno = cast<ConstantDataArray>(cast<GlobalVariable>(e->getOperand(1)->getOperand(0))->getOperand(0))->getAsCString();
+            this->globalAnnotationMap.insert(std::make_pair(annoValue, Annotation(anno.str())));
+        }
+    }
     for (Module::iterator curFunc = M.begin(), endFunc = M.end(); curFunc != endFunc; ++curFunc) {
         int result = this->analyseFunction(*curFunc);
         switch (result) {

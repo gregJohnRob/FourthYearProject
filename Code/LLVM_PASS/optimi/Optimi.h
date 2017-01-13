@@ -33,6 +33,7 @@ namespace optimi
 struct Optimi : public ModulePass
 {
     static char ID;
+    ValueMap<Value *, Annotation> globalAnnotationMap;
     //ValueMap<Value*, Annotation> globalAnnotations;
     Optimi() : ModulePass(ID) {}
 
