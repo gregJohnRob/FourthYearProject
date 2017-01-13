@@ -3,23 +3,21 @@
 using namespace llvm;
 using namespace optimi;
 
-int Optimi::analyseFunction(Function &F)
-{
-  if (F.getName().find("llvm") != std::string::npos) {
-    return 0;
-  }
-  Marker marker;
-  for (auto i = this->globalAnnotationMap.begin(), end = this->globalAnnotationMap.end(); i != end; i++) {
-    marker.addAnnotation(i->first, i->second);
-  }
-  for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
-    marker.analyseInstruction(&*I);
-  }
-  return marker.finishMethodAnalysis();
+int Optimi::analyseFunction(Function &F) {
+    if (F.getName().find("llvm") != std::string::npos) {
+        return 0;
+    }
+    Marker marker;
+    for (auto i = this->globalAnnotationMap.begin(), end = this->globalAnnotationMap.end(); i != end; i++) {
+        marker.addAnnotation(i->first, i->second);
+    }
+    for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
+        marker.analyseInstruction(&*I);
+    }
+    return marker.finishMethodAnalysis();
 }
 
-bool Optimi::runOnModule(Module &M)
-{
+bool Optimi::runOnModule(Module &M) {
     GlobalVariable *global_annos = M.getNamedGlobal("llvm.global.annotations");
     if (global_annos) {
         ConstantArray *a = cast<ConstantArray>(global_annos->getOperand(0));
@@ -33,16 +31,16 @@ bool Optimi::runOnModule(Module &M)
     for (Module::iterator curFunc = M.begin(), endFunc = M.end(); curFunc != endFunc; ++curFunc) {
         int result = this->analyseFunction(*curFunc);
         switch (result) {
-          case -1:
+        case -1:
             errs() << "Unable to fully mark " << curFunc->getName() << "\n";
             break;
-          case 0:
+        case 0:
             errs() << "Ignoring " << curFunc->getName() << "\n";
             break;
-          case 1:
+        case 1:
             errs() << "Fully marked " << curFunc->getName() << "\n";
             break;
-          default:
+        default:
             errs() << "An error occurred while analysing " << curFunc->getName() << "\n";
             break;
         }

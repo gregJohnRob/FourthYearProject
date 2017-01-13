@@ -3,13 +3,11 @@
 using namespace llvm;
 using namespace optimi;
 
-DependencyCounter::DependencyCounter(Value *instruction, unsigned numOfDependencies)
-{
+DependencyCounter::DependencyCounter(Value *instruction, unsigned numOfDependencies) {
     this->instruction = instruction;
     this->numOfDependencies = numOfDependencies;
 }
 
-DependencyCounter::DependencyCounter()
-{
+DependencyCounter::DependencyCounter() {
     this->numOfDependencies = 0;
 }

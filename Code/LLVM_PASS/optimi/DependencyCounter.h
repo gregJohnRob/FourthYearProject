@@ -20,15 +20,15 @@ using namespace llvm;
 namespace optimi
 {
 
-struct DependencyCounter {
+    struct DependencyCounter {
 
-    Value *instruction;
-    unsigned numOfDependencies;
+        Value *instruction;
+        unsigned numOfDependencies;
 
-    DependencyCounter(Value *instruction, unsigned numOfDependencies);
-    DependencyCounter();
+        DependencyCounter(Value *instruction, unsigned numOfDependencies);
+        DependencyCounter();
 
-};
+    };
 }
 
 #endif

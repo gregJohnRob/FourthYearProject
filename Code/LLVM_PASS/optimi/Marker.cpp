@@ -185,10 +185,10 @@ void Marker::handle_select(SelectInst *instruction) {
     if (d->numOfDependencies == 0) {
         delete d;
         Annotation instructionA = Annotation(
-            ((trueA.max > falseA.max) ? trueA.max : falseA.max),
-            ((trueA.min < falseA.min) ? trueA.min : falseA.min),
-            ((trueA.precision > falseA.precision) ? trueA.precision : falseA.precision)
-        );
+                                      ((trueA.max > falseA.max) ? trueA.max : falseA.max),
+                                      ((trueA.min < falseA.min) ? trueA.min : falseA.min),
+                                      ((trueA.precision > falseA.precision) ? trueA.precision : falseA.precision)
+                                  );
         this->addAnnotation(instruction, instructionA);
         this->cleanDependencies(instruction);
     }
@@ -249,74 +249,74 @@ void Marker::handle_binary_operator(BinaryOperator *instruction) {
     }
     if (d->numOfDependencies == 0) {
         switch (instruction->getOpcode()) {
-            case Instruction::FAdd :
-            case Instruction::Add  : {
-                this->handle_add(target, a0, a1);
-                break;
-            }
-            case Instruction::FSub :
-            case Instruction::Sub  : {
-                this->handle_sub(target, a0, a1);
-                break;
-            }
-            case Instruction::FMul :
-            case Instruction::Mul  : {
-                this->handle_mul(target, a0, a1);
-                break;
-            }
-            case Instruction::UDiv  : {
-                this->handle_udiv(target, a0, a1);
-                break;
-            }
-            case Instruction::SDiv  : {
-                this->handle_sdiv(target, a0, a1);
-                break;
-            }
-            case Instruction::FDiv  : {
-                this->handle_fdiv(target, a0, a1);
-                break;
-            }
-            case Instruction::URem  : {
-                this->handle_urem(target, a0, a1);
-                break;
-            }
-            case Instruction::SRem  : {
-                this->handle_srem(target, a0, a1);
-                break;
-            }
-            case Instruction::FRem  : {
-                this->handle_frem(target, a0, a1);
-                break;
-            }
-            // Bit wise operations
-            case Instruction::Shl  : {
-                this->handle_shl(target, a0, a1);
-                break;
-            }
-            case Instruction::LShr : {
-                this->handle_lshr(target, a0, a1);
-                break;
-            }
-            case Instruction::AShr : {
-                this->handle_ashr(target, a0, a1);
-                break;
-            }
-            case Instruction::And  : {
-                this->handle_and(target, a0, a1);
-                break;
-            }
-            case Instruction::Or   : {
-                this->handle_or(target, a0, a1);
-                break;
-            }
-            case Instruction::Xor  : {
-                this->handle_xor(target, a0, a1);
-                break;
-            }
-            default: {
-                errs() << "Unable to work out the annotation for the given opcode";
-                this->addAnnotation(target, Annotation(INT_MAX, INT_MIN, 0));
-            }
+        case Instruction::FAdd :
+        case Instruction::Add  : {
+            this->handle_add(target, a0, a1);
+            break;
+        }
+        case Instruction::FSub :
+        case Instruction::Sub  : {
+            this->handle_sub(target, a0, a1);
+            break;
+        }
+        case Instruction::FMul :
+        case Instruction::Mul  : {
+            this->handle_mul(target, a0, a1);
+            break;
+        }
+        case Instruction::UDiv  : {
+            this->handle_udiv(target, a0, a1);
+            break;
+        }
+        case Instruction::SDiv  : {
+            this->handle_sdiv(target, a0, a1);
+            break;
+        }
+        case Instruction::FDiv  : {
+            this->handle_fdiv(target, a0, a1);
+            break;
+        }
+        case Instruction::URem  : {
+            this->handle_urem(target, a0, a1);
+            break;
+        }
+        case Instruction::SRem  : {
+            this->handle_srem(target, a0, a1);
+            break;
+        }
+        case Instruction::FRem  : {
+            this->handle_frem(target, a0, a1);
+            break;
+        }
+        // Bit wise operations
+        case Instruction::Shl  : {
+            this->handle_shl(target, a0, a1);
+            break;
+        }
+        case Instruction::LShr : {
+            this->handle_lshr(target, a0, a1);
+            break;
+        }
+        case Instruction::AShr : {
+            this->handle_ashr(target, a0, a1);
+            break;
+        }
+        case Instruction::And  : {
+            this->handle_and(target, a0, a1);
+            break;
+        }
+        case Instruction::Or   : {
+            this->handle_or(target, a0, a1);
+            break;
+        }
+        case Instruction::Xor  : {
+            this->handle_xor(target, a0, a1);
+            break;
+        }
+        default: {
+            errs() << "Unable to work out the annotation for the given opcode";
+            this->addAnnotation(target, Annotation(INT_MAX, INT_MIN, 0));
+        }
         }
     }
 }
