@@ -70,7 +70,16 @@ Annotation Marker::getAnnotation(Value *v)
         double x = constantInt->getValue().signedRoundToDouble();
         return Annotation(x, x, 0);
     } else if (ConstantFP *constantFP = dyn_cast<ConstantFP>(v)) {
-        double x = constantFP->getValueAPF().convertToFloat();
+        double x;
+        if (constantFP->getType()->isFloatTy()) {
+            x = constantFP->getValueAPF().convertToFloat();
+        } else if (constantFP->getType()->isDoubleTy()) {
+            x = constantFP->getValueAPF().convertToDouble();
+        } else {
+            x = 0.0;
+            errs() << "constantFP is neither a double nor a float. ";
+            constantFP->dump();
+        }
         int i = 0;
         double check = x;
         while (fmod(check, 1) != 0.0) {
@@ -413,6 +422,11 @@ void Marker::handle_call(CallInst *instruction)
         Annotation a = Annotation(anno.str());
         this->addAnnotation(variable, a);
         this->cleanDependencies(variable);
+    } else if (
+        name == "llvm.lifetime.end" ||
+        name == "llvm.lifetime.start") {
+        // ignore
+        return;
     } else {
         Value *function = instruction->getCalledValue();
         if (this->hasAnnotation(function)) {
