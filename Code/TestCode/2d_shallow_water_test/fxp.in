@@ -1,0 +1,66 @@
+#general (init) variables
+
+h:
+  des : 'depth'
+  unit: 'meters'
+  min : 0
+  max : 15
+  prec: 6
+
+hmax:
+  follow: h
+
+hzero:
+  follow: h
+
+eta:
+  des : 'height differential'
+  unit: 'meters'
+  min : 0
+  max : 15
+  prec: 6
+
+g:
+  des : 'constant'
+  unit: 'meters-per-second^2'
+  min : 9
+  max : 10
+  prec: 2
+
+eps:
+  des : 'constant'
+  unit:
+  min : 0
+  max : 0
+  prec: 2
+
+dx:
+  des : 'constant'
+  unit: 'meters'
+  min : 0
+  max : 100
+  prec: 2
+
+dy:
+  follow: dx
+
+dt:
+  follow: dx
+
+
+u:
+  des : 'velocity'
+  unit: 'meters-per-sec'
+  min : -10
+  max : +10
+  prec: 6
+
+v:
+  follows: u
+
+wet:
+  des : 'boolean'
+  unit:
+  min : 0
+  max : 1
+  prec: 0

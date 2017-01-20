@@ -24,7 +24,7 @@ namespace optimi
 {
 
 class Marker
-{
+{ 
 
     ValueMap<Value *, std::vector<DependencyCounter *>> dependencyMap;
     std::vector<DependencyCounter *> dependencyVector;
@@ -42,10 +42,11 @@ class Marker
     void handle_select(SelectInst *instruction);
     void handle_phi(PHINode *instruction);
     void handle_binary_operator(BinaryOperator *instruction);
-    void handle_bitcast(BitCastInst *instruction);
+    void handle_cast(CastInst *instruction);
     void handle_trunc(TruncInst *instruction);
     void handle_getelementptr(GetElementPtrInst *instruction);
     void handle_call(CallInst *instruction);
+    void handle_cmp(CmpInst *instruction);
 
     /// Methods for handling Binary Operations
     void handle_add(Value *target, Annotation a0, Annotation a1);
@@ -66,6 +67,12 @@ class Marker
     void handle_and(Value *target, Annotation a0, Annotation a1);
     void handle_or(Value *target, Annotation a0, Annotation a1);
     void handle_xor(Value *target, Annotation a0, Annotation a1);
+
+    /*
+        There are several subtypes of the cast instruction. At the moment these
+        are all handled in the same way, however it may be better in future to
+        handle them separately.
+    */
 
     /*
         There are several functions which llvm implements for us (for example log).

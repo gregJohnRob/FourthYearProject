@@ -4,6 +4,14 @@ using namespace llvm;
 using namespace optimi;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+// Constant Annotations
+///////////////////////////////////////////////////////////////////////////////////////////////////
+const Annotation ERRNO = Annotation(3546, 0, 0);
+const Annotation WORST_CASE_INT = Annotation(INT_MAX, INT_MIN, 0);
+const Annotation COMPARISON = Annotation(1, 0, 0);
+const Annotation PUTS = WORST_CASE_INT;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // Public methods
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 Marker::Marker() {}
@@ -20,14 +28,16 @@ void Marker::analyseInstruction(Value *v)
         this->handle_phi(phi);
     } else if (BinaryOperator *binary = dyn_cast<BinaryOperator>(v)) {
         this->handle_binary_operator(binary);
-    } else if (BitCastInst *bitCast = dyn_cast<BitCastInst>(v)) {
-        this->handle_bitcast(bitCast);
+    } else if (CastInst *cast = dyn_cast<CastInst>(v)) {
+        this->handle_cast(cast);
     } else if (GetElementPtrInst *elemAddr = dyn_cast<GetElementPtrInst>(v)) {
         this->handle_getelementptr(elemAddr);
     } else if (CallInst *call = dyn_cast<CallInst>(v)) {
         this->handle_call(call);
     } else if (TruncInst *truncInst = dyn_cast<TruncInst>(v)) {
         this->handle_trunc(truncInst);
+    } else if (CmpInst *cmp = dyn_cast<CmpInst>(v)) {
+        this->handle_cmp(cmp);
     }
 }
 
@@ -40,6 +50,12 @@ int Marker::finishMethodAnalysis()
         for (auto i = this->dependencyMap.begin(), end = this->dependencyMap.end(); i != end; i++) {
             errs() << "\t";
             i->first->dump();
+            for (auto innerI = i->second.begin(), innerEnd = i->second.end(); innerI != innerEnd; innerI++) {
+                errs() << "\t\t";
+                (*innerI)->instruction->dump();
+            }
+            this->addAnnotation(i->first, WORST_CASE_INT);
+            this->cleanDependencies(i->first);
         }
         output = -1;
     }
@@ -231,7 +247,15 @@ void Marker::handle_phi(PHINode *instruction)
         Value *v = instruction->getIncomingValue(i);
         if (this->hasAnnotation(v)) {
             Annotation a = this->getAnnotation(v);
-
+            if (a.max > max) {
+                max = a.max;
+            }
+            if (a.min < min) {
+                min = a.min;
+            }
+            if (a.precision > prec) {
+                prec = a.precision;
+            }
         } else {
             d->numOfDependencies++;
             this->addDependencyCounter(v, d);
@@ -336,13 +360,13 @@ void Marker::handle_binary_operator(BinaryOperator *instruction)
         }
         default: {
             errs() << "Unable to work out the annotation for the given opcode";
-            this->addAnnotation(target, Annotation(INT_MAX, INT_MIN, 0));
+            this->addAnnotation(target, WORST_CASE_INT);
         }
         }
     }
 }
 
-void Marker::handle_bitcast(BitCastInst *instruction)
+void Marker::handle_cast(CastInst *instruction)
 {
     Value *value = instruction->getOperand(0);
     Value *target = instruction;
@@ -427,6 +451,12 @@ void Marker::handle_call(CallInst *instruction)
         name == "llvm.lifetime.start") {
         // ignore
         return;
+    } else if (name == "posix_memalign") {
+        this->addAnnotation(instruction, ERRNO);
+        this->cleanDependencies(instruction);
+    } else if (name == "puts" || name == "printf"){
+        this->addAnnotation(instruction, PUTS);
+        this->cleanDependencies(instruction);
     } else {
         Value *function = instruction->getCalledValue();
         if (this->hasAnnotation(function)) {
@@ -438,6 +468,34 @@ void Marker::handle_call(CallInst *instruction)
             this->addDependencyCounter(function, dc);
         }
     }
+}
+
+void Marker::handle_cmp(CmpInst *instruction) {
+    // left (<|>|<>|=<|>=) right
+    Value *left = instruction->getOperand(0);
+    Value *right = instruction->getOperand(1);
+    bool hasLeft = this->hasAnnotation(left);
+    bool hasRight = this->hasAnnotation(right);
+    if (!this->hasAnnotation(instruction)) {
+        this->addAnnotation(instruction, COMPARISON);
+        this->cleanDependencies(instruction);
+    }
+    if (hasLeft && hasRight) {
+        return;
+    }
+    if (!hasLeft && hasRight) {
+        Annotation rightAnno = this->getAnnotation(right);
+        switch(instruction->getPredicate()) {
+            // This is so that it is possible to handle incrementers in the program.
+            case CmpInst::ICMP_EQ : {
+                this->addAnnotation(left, Annotation(rightAnno.max + 1, 0, 0));
+                this->cleanDependencies(left);
+                break;
+            }
+        }
+    }
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -565,6 +623,7 @@ void Marker::saveNewAnnotation(Value *target, double range[4], int precision)
         }
     }
     this->addAnnotation(target, Annotation(max, min, precision));
+    this->cleanDependencies(target);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

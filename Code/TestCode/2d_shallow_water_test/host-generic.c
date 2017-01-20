@@ -751,11 +751,30 @@ void oclh_log_results  ( stypeHost* a2d
   for (int i = 0; i < STREAM_ARRAY_SIZE_DIM1; ++i)
     for (int j = 0; j < STREAM_ARRAY_SIZE_DIM2; ++j) {
       fprintf(myfile, " %d \t %d \t \t:"
+#if WORD==INT
+                      "  a2d[i][j] = %d"
+#elif WORD==FLOAT
+                      "  a2d[i][j] = %f"
+#elif WORD==DOUBLE
                       "  a2d[i][j] = %lf"
+#endif
 #if (KERNELBENCH==ADD) || (KERNELBENCH==TRIAD)
+#if WORD==INT
+                      "\t b2d[i][j] = %d"
+#elif WORD==FLOAT
+                      "\t b2d[i][j] = %f"
+#elif WORD==DOUBLE
                       "\t b2d[i][j] = %lf"
 #endif
-                       "\t c2d[i][j] =  %lf\n"
+
+#endif
+#if WORD==INT
+                      "\t c2d[i][j] = %d"
+#elif WORD==FLOAT
+                      "\t c2d[i][j] = %f"
+#elif WORD==DOUBLE
+                      "\t c2d[i][j] = %lf"
+#endif
                        ,i
                        ,j
                        ,*(a2d + i*STREAM_ARRAY_SIZE_DIM2 + j)
@@ -802,11 +821,26 @@ int oclh_verify_results ( stypeHost* a2d
       //if ( (*(c2d + i*STREAM_ARRAY_SIZE_DIM2 + j)) != (*(a2d + i*STREAM_ARRAY_SIZE_DIM2 + j)) ) {
       if ( (*(c2d + i*STREAM_ARRAY_SIZE_DIM2 + j)) != goldval) {
       printf("*** TEST FAILED ***. Device results do not match locally computed results!\n");
+      #if WORD==DOUBLE
       printf("At failure, i = %d, j = %d, expected value = %lf, computed value = %lf\n"
               , i
               , j
               , goldval
               , *(c2d + i*STREAM_ARRAY_SIZE_DIM2 + j) );
+    #elif WORD==FLOAT
+    printf("At failure, i = %d, j = %d, expected value = %f, computed value = %f\n"
+            , i
+            , j
+            , goldval
+            , *(c2d + i*STREAM_ARRAY_SIZE_DIM2 + j) );
+    #elif WORD==INT
+    printf("At failure, i = %d, j = %d, expected value = %d, computed value = %d\n"
+            , i
+            , j
+            , goldval
+            , *(c2d + i*STREAM_ARRAY_SIZE_DIM2 + j) );
+
+    #endif
         return EXIT_FAILURE;
       }//if
     }//for

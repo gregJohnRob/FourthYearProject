@@ -11,22 +11,22 @@
 //------------------------------------------
 // initialize 2D shallow-water host arrays
 //------------------------------------------
-void sw2d_init_data_host ( stypeHost *hzero
-                    , stypeHost *eta  
-                    , stypeHost *etan 
-                    , stypeHost *h    
-                    , stypeHost *wet  
-                    , stypeHost *u    
-                    , stypeHost *un   
-                    , stypeHost *v    
-                    , stypeHost *vn
-                    , stypeHost hmin
-                    , int BytesPerWord
+void sw2d_init_data_host (  stypeHost *__attribute__((annotate("15 0 6"))) hzero
+                          , stypeHost *__attribute__((annotate("15 0 6"))) eta
+                          , stypeHost *__attribute__((annotate("15 0 6"))) etan
+                          , stypeHost *__attribute__((annotate("15 0 6"))) h
+                          , stypeHost *__attribute__((annotate("1 0 0"))) wet
+                          , stypeHost *__attribute__((annotate("10 -10 6"))) u
+                          , stypeHost *__attribute__((annotate("10 -10 6"))) un
+                          , stypeHost *__attribute__((annotate("10 -10 6"))) v
+                          , stypeHost *__attribute__((annotate("10 -10 6"))) vn
+                          , stypeHost __attribute__((annotate("15 0 6"))) hmin
+                          , int __attribute__((annotate("10 0 0"))) BytesPerWord
                     ) {
-      
 
 
-  int j, k;
+
+  int __attribute__((annotate("514 0 0"))) j, __attribute__((annotate("514 0 0"))) k;
   //initialize height
   for (j=0; j<=ROWS-1; j++) {
     for (k=0; k<=COLS-1; k++) {
@@ -53,23 +53,23 @@ void sw2d_init_data_host ( stypeHost *hzero
     for (k=0; k<=COLS-1; k++) {
       eta [j*COLS + k] = -MIN(0.0, hzero[j*COLS + k] );
       etan[j*COLS + k] = eta[j*COLS + k];
-    }                                                                           
-  } 
+    }
+  }
 
   //h, wet, u, un, v, vn
   // eta and etan
   for (j=0; j<= ROWS-1; j++) {
     for (k=0; k<= COLS-1; k++) {
       //h
-      h[j*COLS + k] = hzero[j*COLS + k] 
+      h[j*COLS + k] = hzero[j*COLS + k]
                     +   eta[j*COLS + k];
 
-      //wet                   
-      //wet = 1 defines "wet" grid cells 
+      //wet
+      //wet = 1 defines "wet" grid cells
       //wet = 0 defines "dry" grid cells (land)
-      wet[j*COLS + k] = 1; 
+      wet[j*COLS + k] = 1;
       if (h[j*COLS + k] < hmin)
-       wet[j*COLS + k] = 0; 
+       wet[j*COLS + k] = 0;
 
       //u, v, un, vn
       u [j*COLS + k] = 0;
@@ -88,19 +88,19 @@ void sw2d_init_data_host ( stypeHost *hzero
 // dyn() - the dynamics
 //------------------------------------------
 
-void sw2d_dyn_host  ( stypeHost dt
-                    , stypeHost dx
-                    , stypeHost dy
-                    , stypeHost g
-                    , stypeHost *eta
-                    , stypeHost *un
-                    , stypeHost *u
-                    , stypeHost *wet
-                    , stypeHost *v
-                    , stypeHost *vn
-                    , stypeHost *h
-                    , stypeHost *etan
-                    , int BytesPerWord
+void sw2d_dyn_host  ( stypeHost __attribute__((annotate("100 0 2"))) dt
+                    , stypeHost __attribute__((annotate("100 0 2"))) dx
+                    , stypeHost __attribute__((annotate("100 0 2"))) dy
+                    , stypeHost __attribute__((annotate("10 9 2"))) g
+                    , stypeHost *__attribute__((annotate("15 0 6"))) eta
+                    , stypeHost *__attribute__((annotate("10 -10 6"))) un
+                    , stypeHost *__attribute__((annotate("10 -10 6"))) u
+                    , stypeHost *__attribute__((annotate("1 0 0"))) wet
+                    , stypeHost *__attribute__((annotate("10 -10 6"))) v
+                    , stypeHost *__attribute__((annotate("10 -10 6"))) vn
+                    , stypeHost *__attribute__((annotate("15 0 6"))) h
+                    , stypeHost *__attribute__((annotate("15 0 6"))) etan
+                    , int __attribute__((annotate("10 0 0"))) BytesPerWord
                     ) {
 
 //locals
@@ -132,17 +132,17 @@ int j, k;
 //-------------------------------------------
   for (j=1; j<= ROWS-2; j++) {
     for (k=1; k<= COLS-2; k++) {
-      du[j*COLS + k]  = -dt 
+      du[j*COLS + k]  = -dt
                       * g
                       * ( eta[j*COLS + k+1 ]
                         - eta[j*COLS + k   ]
-                        ) 
+                        )
                       / dx;
-      dv[j*COLS + k]  = -dt 
+      dv[j*COLS + k]  = -dt
                       * g
                       * ( eta[(j+1)*COLS + k]
                         - eta[    j*COLS + k]
-                        ) 
+                        )
                       / dy;
     }
   }
@@ -157,7 +157,7 @@ int j, k;
       uu = u[j*COLS + k];
       duu= du[j*COLS + k];
       if (wet[j*COLS + k] == 1){
-        if( (wet[j*COLS + k+1] == 1) || (duu > 0.0) ) 
+        if( (wet[j*COLS + k+1] == 1) || (duu > 0.0) )
           un[j*COLS + k] = uu+duu;
       }//if
       else {
@@ -170,7 +170,7 @@ int j, k;
       vv =  v[j*COLS + k];
       dvv= dv[j*COLS + k];
       if (wet[j*COLS + k] == 1){
-        if( (wet[j*COLS + k+1] == 1) || (dvv > 0.0) ) 
+        if( (wet[j*COLS + k+1] == 1) || (dvv > 0.0) )
           vn[j*COLS + k] = vv+dvv;
       }//if
       else {
@@ -184,7 +184,7 @@ int j, k;
 //sea level predictor
 //--------------------
   for (j=1; j<= ROWS-2; j++) {
-    for (k=1; k<= COLS-2; k++) {   
+    for (k=1; k<= COLS-2; k++) {
       hep = 0.5*( un[j*COLS + k] + abs(un[j*COLS + k]) ) * h[j*COLS + k  ];
       hen = 0.5*( un[j*COLS + k] - abs(un[j*COLS + k]) ) * h[j*COLS + k+1];
       hue = hep+hen;
@@ -205,7 +205,7 @@ int j, k;
                         - dt*(hue-huw)/dx
                         - dt*(hvn-hvs)/dy;
     }//for
-  }//for  
+  }//for
 }//()
 
 
@@ -213,10 +213,10 @@ int j, k;
 //------------------------------------------
 // shapiro() - filter
 //------------------------------------------
-void sw2d_shapiro_host  ( stypeHost *wet 
-                        , stypeHost *etan
-                        , stypeHost eps
-                        , stypeHost *eta
+void sw2d_shapiro_host  ( stypeHost *__attribute__((annotate("1 0 0"))) wet
+                        , stypeHost *__attribute__((annotate("15 0 6"))) etan
+                        , stypeHost __attribute__((annotate("0 0 2"))) eps
+                        , stypeHost *__attribute__((annotate("15 0 6"))) eta
                         ) {
 
   //locals
@@ -225,16 +225,16 @@ void sw2d_shapiro_host  ( stypeHost *wet
 
   //1-order Shapiro filter
   for (j=1; j<= ROWS-2; j++) {
-    for (k=1; k<= COLS-2; k++) {   
+    for (k=1; k<= COLS-2; k++) {
         if (wet[j*COLS + k]==1) {
         term1 = ( 1.0-0.25*eps
-                  * ( wet[    j*COLS + k+1] 
-                    + wet[    j*COLS + k-1] 
-                    + wet[(j+1)*COLS + k  ] 
-                    + wet[(j-1)*COLS + k  ] 
-                    ) 
+                  * ( wet[    j*COLS + k+1]
+                    + wet[    j*COLS + k-1]
+                    + wet[(j+1)*COLS + k  ]
+                    + wet[(j-1)*COLS + k  ]
+                    )
                 )
-                * etan[j*COLS + k]; 
+                * etan[j*COLS + k];
         term2 = 0.25*eps
                 * ( wet [j*COLS + k+1]
                   * etan[j*COLS + k+1]
@@ -257,24 +257,24 @@ void sw2d_shapiro_host  ( stypeHost *wet
 }//()
 
 //------------------------------------------
-// updates() - 
+// updates() -
 // in the original this was part of main
 //------------------------------------------
-void sw2d_updates_host  ( stypeHost *h 
-                        , stypeHost *hzero
-                        , stypeHost *eta
-                        , stypeHost *u
-                        , stypeHost *un
-                        , stypeHost *v
-                        , stypeHost *vn
-                        , stypeHost *wet
-                        , stypeHost hmin
+void sw2d_updates_host  ( stypeHost *__attribute__((annotate("15 0 6"))) h
+                        , stypeHost *__attribute__((annotate("15 0 6"))) hzero
+                        , stypeHost *__attribute__((annotate("15 0 6"))) eta
+                        , stypeHost *__attribute__((annotate("10 -10 6"))) u
+                        , stypeHost *__attribute__((annotate("10 -10 6"))) un
+                        , stypeHost *__attribute__((annotate("10 -10 6"))) v
+                        , stypeHost *__attribute__((annotate("10 -10 6"))) vn
+                        , stypeHost *__attribute__((annotate("1 0 0"))) wet
+                        , stypeHost __attribute__((annotate("15 0 6"))) hmin
                         ) {
 
   for (int j=0; j<= ROWS-1; j++) {
     for (int k=0; k<=COLS-1; k++) {
       //h update
-      h[j*COLS + k] = hzero[j*COLS + k] 
+      h[j*COLS + k] = hzero[j*COLS + k]
                     + eta  [j*COLS + k];
       //wet update
       wet[j*COLS + k] = 1;

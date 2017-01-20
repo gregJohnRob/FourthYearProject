@@ -15,50 +15,50 @@
 #include "host-generic.h"
  //this takes care of adding enumerations.h and derivedParameters.h
 
-void sw2d_init_data_host  ( stypeHost *hzero
-                          , stypeHost *eta  
-                          , stypeHost *etan 
-                          , stypeHost *h    
-                          , stypeHost *wet  
-                          , stypeHost *u    
-                          , stypeHost *un   
-                          , stypeHost *v    
-                          , stypeHost *vn
-                          , stypeHost hmin
-                          , int BytesPerWord
+void sw2d_init_data_host  ( stypeHost *__attribute__((annotate("15 0 6"))) hzero
+                          , stypeHost *__attribute__((annotate("15 0 6"))) eta
+                          , stypeHost *__attribute__((annotate("15 0 6"))) etan
+                          , stypeHost *__attribute__((annotate("15 0 6"))) h
+                          , stypeHost *__attribute__((annotate("1 0 0"))) wet
+                          , stypeHost *__attribute__((annotate("10 -10 6"))) u
+                          , stypeHost *__attribute__((annotate("10 -10 6"))) un
+                          , stypeHost *__attribute__((annotate("10 -10 6"))) v
+                          , stypeHost *__attribute__((annotate("10 -10 6"))) vn
+                          , stypeHost __attribute__((annotate("15 0 6"))) hmin
+                          , int __attribute__((annotate("10 0 0"))) BytesPerWord
                           );
 
-void sw2d_dyn_host  ( stypeHost dt
-                    , stypeHost dx
-                    , stypeHost dy
-                    , stypeHost g                    
-                    , stypeHost *eta
-                    , stypeHost *un
-                    , stypeHost *u
-                    , stypeHost *wet
-                    , stypeHost *v
-                    , stypeHost *vn
-                    , stypeHost *h
-                    , stypeHost *etan
-                    , int BytesPerWord                    
+void sw2d_dyn_host  ( stypeHost __attribute__((annotate("100 0 2"))) dt
+                    , stypeHost __attribute__((annotate("100 0 2"))) dx
+                    , stypeHost __attribute__((annotate("100 0 2"))) dy
+                    , stypeHost __attribute__((annotate("10 9 2"))) g
+                    , stypeHost *__attribute__((annotate("15 0 6"))) eta
+                    , stypeHost *__attribute__((annotate("10 -10 6"))) un
+                    , stypeHost *__attribute__((annotate("10 -10 6"))) u
+                    , stypeHost *__attribute__((annotate("1 0 0"))) wet
+                    , stypeHost *__attribute__((annotate("10 -10 6"))) v
+                    , stypeHost *__attribute__((annotate("10 -10 6"))) vn
+                    , stypeHost *__attribute__((annotate("15 0 6"))) h
+                    , stypeHost *__attribute__((annotate("15 0 6"))) etan
+                    , int __attribute__((annotate("10 0 0"))) BytesPerWord
                     );
 
-void sw2d_shapiro_host  ( stypeHost *wet 
-                        , stypeHost *etan
-                        , stypeHost eps
-                        , stypeHost *eta
+void sw2d_shapiro_host  ( stypeHost *__attribute__((annotate("1 0 0"))) wet
+                        , stypeHost *__attribute__((annotate("15 0 6"))) etan
+                        , stypeHost __attribute__((annotate("0 0 2"))) eps
+                        , stypeHost *__attribute__((annotate("15 0 6"))) eta
                         );
 
 
-void sw2d_updates_host  ( stypeHost *h 
-                        , stypeHost *hzero
-                        , stypeHost *eta
-                        , stypeHost *u
-                        , stypeHost *un
-                        , stypeHost *v
-                        , stypeHost *vn
-                        , stypeHost *wet
-                        , stypeHost hmin
+void sw2d_updates_host  ( stypeHost *__attribute__((annotate("15 0 6"))) h
+                        , stypeHost *__attribute__((annotate("15 0 6"))) hzero
+                        , stypeHost *__attribute__((annotate("15 0 6"))) eta
+                        , stypeHost *__attribute__((annotate("10 -10 6"))) u
+                        , stypeHost *__attribute__((annotate("10 -10 6"))) un
+                        , stypeHost *__attribute__((annotate("10 -10 6"))) v
+                        , stypeHost *__attribute__((annotate("10 -10 6"))) vn
+                        , stypeHost *__attribute__((annotate("1 0 0"))) wet
+                        , stypeHost __attribute__((annotate("15 0 6"))) hmin
                         );
 
 
