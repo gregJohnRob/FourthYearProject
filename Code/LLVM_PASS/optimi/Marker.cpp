@@ -55,7 +55,6 @@ int Marker::finishMethodAnalysis()
                 (*innerI)->instruction->dump();
             }
             this->addAnnotation(i->first, WORST_CASE_INT);
-            this->cleanDependencies(i->first);
         }
         output = -1;
     }
@@ -66,208 +65,14 @@ int Marker::finishMethodAnalysis()
     return output;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Methods for interacting with dependencyMap, annotationMap
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool Marker::hasAnnotation(Value *v)
-{
-    if (ConstantInt *constant = dyn_cast<ConstantInt>(v)) {
-        return true;
-    } else if (ConstantFP *constantFP = dyn_cast<ConstantFP>(v)) {
-        return true;
-    }
-    return this->annotationMap.find(v) != this->annotationMap.end();
-}
-
-Annotation Marker::getAnnotation(Value *v)
-{
-    if (ConstantInt *constantInt = dyn_cast<ConstantInt>(v)) {
-        double x = constantInt->getValue().signedRoundToDouble();
-        return Annotation(x, x, 0);
-    } else if (ConstantFP *constantFP = dyn_cast<ConstantFP>(v)) {
-        double x;
-        if (constantFP->getType()->isFloatTy()) {
-            x = constantFP->getValueAPF().convertToFloat();
-        } else if (constantFP->getType()->isDoubleTy()) {
-            x = constantFP->getValueAPF().convertToDouble();
-        } else {
-            x = 0.0;
-            errs() << "constantFP is neither a double nor a float. ";
-            constantFP->dump();
-        }
-        int i = 0;
-        double check = x;
-        while (fmod(check, 1) != 0.0) {
-            i++;
-            check *= 10;
-        }
-        return Annotation(x, x, i);
-    }
-    return this->annotationMap.find(v)->second;
-}
-
-void Marker::addAnnotation(Value *v, Annotation a)
-{
-    if (Instruction *instruction = dyn_cast<Instruction>(v)) {
-        LLVMContext& C = instruction->getContext();
-        MDNode* N = MDNode::get(C, MDString::get(C, a.str()));
-        instruction->setMetadata("optimi", N);
-    }
-    this->annotationMap.insert(std::make_pair(v, a));
-}
-
-void Marker::addDependencyCounter(Value *v, DependencyCounter *dc)
-{
-    auto temp = this->dependencyMap.find(v);
-    if (temp != this->dependencyMap.end()) {
-        temp->second.push_back(dc);
-    } else {
-        std::vector<DependencyCounter *> dcVector;
-        dcVector.push_back(dc);
-        this->dependencyMap.insert(std::make_pair(v, dcVector));
-    }
-}
-
-void Marker::cleanDependencies(Value *v)
-{
-    auto temp = this->dependencyMap.find(v);
-    if (temp == this->dependencyMap.end()) {
-        return;
-    }
-    std::vector<DependencyCounter *> dcVector = temp->second;
-    for (unsigned i = 0; i < dcVector.size(); i++) {
-        DependencyCounter *dc = dcVector[i];
-        if (--dc->numOfDependencies == 0) {
-            analyseInstruction(dc->instruction);
-        }
-    }
-    this->dependencyMap.erase(v);
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// Instruction handler methods
+// Terminator Instruction Handlers
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void Marker::handle_store(StoreInst *instruction)
-{
-    Value *target = instruction->getOperand(0);
-    Value *value = instruction->getOperand(1);
-    if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
-        return;
-    }
-    if (this->hasAnnotation(target)) {
-        this->addAnnotation(value, this->getAnnotation(target));
-        this->cleanDependencies(value);
-    } else if (this->hasAnnotation(value)) {
-        this->addAnnotation(target, this->getAnnotation(value));
-        this->cleanDependencies(target);
-    } else {
-        DependencyCounter *dependencyCounter = new DependencyCounter();
-        dependencyCounter->numOfDependencies = 1;
-        dependencyCounter->instruction = instruction;
-        this->dependencyVector.push_back(dependencyCounter);
-        this->addDependencyCounter(target, dependencyCounter);
-        this->addDependencyCounter(value, dependencyCounter);
-    }
-}
 
-void Marker::handle_load(LoadInst *instruction)
-{
-    Value *value = instruction->getOperand(0);
-    Value *target = instruction;
-    if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
-        return;
-    }
-    if (this->hasAnnotation(target)) {
-        this->addAnnotation(value, this->getAnnotation(target));
-        this->cleanDependencies(value);
-    } else if (this->hasAnnotation(value)) {
-        this->addAnnotation(target, this->getAnnotation(value));
-        this->cleanDependencies(target);
-    } else {
-        DependencyCounter *dependencyCounter = new DependencyCounter();
-        dependencyCounter->numOfDependencies = 1;
-        dependencyCounter->instruction = instruction;
-        this->dependencyVector.push_back(dependencyCounter);
-        this->addDependencyCounter(target, dependencyCounter);
-        this->addDependencyCounter(value, dependencyCounter);
-    }
-}
-
-void Marker::handle_select(SelectInst *instruction)
-{
-    if (this->hasAnnotation(instruction)) {
-        return;
-    }
-    Value *trueV = instruction->getTrueValue();
-    Annotation trueA;
-    Value *falseV = instruction->getFalseValue();
-    Annotation falseA;
-    DependencyCounter *d = new DependencyCounter();
-    d->instruction = instruction;
-    if (!this->hasAnnotation(trueV)) {
-        d->numOfDependencies++;
-        this->addDependencyCounter(trueV, d);
-    } else {
-        trueA = this->getAnnotation(trueV);
-    }
-    if (!this->hasAnnotation(falseV)) {
-        d->numOfDependencies++;
-        this->addDependencyCounter(falseV, d);
-    } else {
-        falseA = this->getAnnotation(falseV);
-    }
-    if (d->numOfDependencies == 0) {
-        delete d;
-        Annotation instructionA = Annotation(
-                                      ((trueA.max > falseA.max) ? trueA.max : falseA.max),
-                                      ((trueA.min < falseA.min) ? trueA.min : falseA.min),
-                                      ((trueA.precision > falseA.precision) ? trueA.precision : falseA.precision)
-                                  );
-        this->addAnnotation(instruction, instructionA);
-        this->cleanDependencies(instruction);
-    }
-}
-
-void Marker::handle_phi(PHINode *instruction)
-{
-    if (this->hasAnnotation(instruction)) {
-        return;
-    }
-    unsigned number = instruction->getNumIncomingValues();
-    unsigned i;
-    long max, min, prec;
-    max = INT_MIN;
-    min = INT_MAX;
-    prec = INT_MIN;
-    DependencyCounter *d = new DependencyCounter();
-    d->numOfDependencies = 0;
-    d->instruction = instruction;
-    for (i = 0; i < number; i++) {
-        Value *v = instruction->getIncomingValue(i);
-        if (this->hasAnnotation(v)) {
-            Annotation a = this->getAnnotation(v);
-            if (a.max > max) {
-                max = a.max;
-            }
-            if (a.min < min) {
-                min = a.min;
-            }
-            if (a.precision > prec) {
-                prec = a.precision;
-            }
-        } else {
-            d->numOfDependencies++;
-            this->addDependencyCounter(v, d);
-        }
-    }
-    if (d->numOfDependencies == 0) {
-        delete d;
-        Annotation instructionA = Annotation(max, min, prec);
-        this->addAnnotation(instruction, instructionA);
-        this->cleanDependencies(instruction);
-    }
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Binary Operation Handlers
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Marker::handle_binary_operator(BinaryOperator *instruction)
 {
@@ -366,72 +171,357 @@ void Marker::handle_binary_operator(BinaryOperator *instruction)
     }
 }
 
-void Marker::handle_cast(CastInst *instruction)
+void Marker::handle_add(Value *target, Annotation a0, Annotation a1)
 {
-    Value *value = instruction->getOperand(0);
-    Value *target = instruction;
-    if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
-        return;
-    }
-    if (this->hasAnnotation(target)) {
-        this->addAnnotation(value, this->getAnnotation(target));
-        this->cleanDependencies(value);
-    } else if (this->hasAnnotation(value)) {
-        this->addAnnotation(target, this->getAnnotation(value));
-        this->cleanDependencies(target);
-    } else {
-        DependencyCounter *dependencyCounter = new DependencyCounter();
-        dependencyCounter->numOfDependencies = 1;
-        dependencyCounter->instruction = instruction;
-        this->dependencyVector.push_back(dependencyCounter);
-        this->addDependencyCounter(target, dependencyCounter);
-        this->addDependencyCounter(value, dependencyCounter);
-    }
+    double range[4] = {
+        a0.max + a1.max,
+        a0.max + a1.min,
+        a0.min + a1.max,
+        a0.min + a1.min
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
 }
 
-void Marker::handle_trunc(TruncInst *instruction)
+void Marker::handle_mul(Value *target, Annotation a0, Annotation a1)
 {
-    Value *value = instruction->getOperand(0);
-    Value *target = instruction;
-    if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
-        return;
-    }
-    if (this->hasAnnotation(target)) {
-        this->addAnnotation(value, this->getAnnotation(target));
-        this->cleanDependencies(value);
-    } else if (this->hasAnnotation(value)) {
-        this->addAnnotation(target, this->getAnnotation(value));
-        this->cleanDependencies(target);
-    } else {
-        DependencyCounter *dependencyCounter = new DependencyCounter();
-        dependencyCounter->numOfDependencies = 1;
-        dependencyCounter->instruction = instruction;
-        this->dependencyVector.push_back(dependencyCounter);
-        this->addDependencyCounter(target, dependencyCounter);
-        this->addDependencyCounter(value, dependencyCounter);
-    }
+    double range[4] = {
+        a0.max * a1.max,
+        a0.max * a1.min,
+        a0.min * a1.max,
+        a0.min * a1.min
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_sub(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        a0.max - a1.max,
+        a0.max - a1.min,
+        a0.min - a1.max,
+        a0.min - a1.min
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        std::abs(a0.max / a1.max),
+        std::abs(a0.max / a1.min),
+        std::abs(a0.min / a1.max),
+        std::abs(a0.min / a1.min)
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        a0.max / a1.max,
+        a0.max / a1.min,
+        a0.min / a1.max,
+        a0.min / a1.min
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        a0.max / a1.max,
+        a0.max / a1.min,
+        a0.min / a1.max,
+        a0.min / a1.min
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_urem(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        std::abs(fmod(a0.max, a1.max)),
+        std::abs(fmod(a0.max, a1.min)),
+        std::abs(fmod(a0.min, a1.max)),
+        std::abs(fmod(a0.min, a1.min))
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_srem(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        fmod(a0.max, a1.max),
+        fmod(a0.max, a1.min),
+        fmod(a0.min, a1.max),
+        fmod(a0.min, a1.min)
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_frem(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        fmod(a0.max, a1.max),
+        fmod(a0.max, a1.min),
+        fmod(a0.min, a1.max),
+        fmod(a0.min, a1.min)
+    };
+    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Bitwise Binary Operation Handlers
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Marker::handle_shl(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        a0.max * pow(2, a1.max),
+        a0.max * pow(2, a1.min),
+        a0.min * pow(2, a1.max),
+        a0.min * pow(2, a1.min)
+    };
+    int precision = a0.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_ashr(Value *target, Annotation a0, Annotation a1)
+{
+    double range[4] = {
+        a0.max / pow(2, a1.max),
+        a0.max / pow(2, a1.min),
+        a0.min / pow(2, a1.max),
+        a0.min / pow(2, a1.min)
+    };
+    int precision = a0.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_lshr(Value *target, Annotation a0, Annotation a1)
+{
+    unsigned int a0max = ceil(a0.max);
+    unsigned int a0min = ceil(a0.min);
+    int a1max = ceil(a1.max);
+    int a1min = ceil(a1.min);
+    double range[4] = {
+        double(a0max >> a1max),
+        double(a0max >> a1min),
+        double(a0min >> a1max),
+        double(a0min >> a1min)
+    };
+    int precision = a0.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_and(Value *target, Annotation a0, Annotation a1)
+{
+    int a0max = ceil(a0.max);
+    int a0min = ceil(a0.min);
+    int a1max = ceil(a1.max);
+    int a1min = ceil(a1.min);
+    double range[4] = {
+        double(a0max & a1max),
+        double(a0max & a1min),
+        double(a0min & a1max),
+        double(a0min & a1min)
+    };
+    int precision = a0.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+void Marker::handle_or(Value *target, Annotation a0, Annotation a1)
+{
+    int a0max = ceil(a0.max);
+    int a0min = ceil(a0.min);
+    int a1max = ceil(a1.max);
+    int a1min = ceil(a1.min);
+    double range[4] = {
+        double(a0max | a1max),
+        double(a0max | a1min),
+        double(a0min | a1max),
+        double(a0min | a1min)
+    };
+    int precision = a0.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));;
+}
+
+void Marker::handle_xor(Value *target, Annotation a0, Annotation a1)
+{
+    int a0max = ceil(a0.max);
+    int a0min = ceil(a0.min);
+    int a1max = ceil(a1.max);
+    int a1min = ceil(a1.min);
+    double range[4] = {
+        double(a0max ^ a1max),
+        double(a0max ^ a1min),
+        double(a0min ^ a1max),
+        double(a0min ^ a1min)
+    };
+    int precision = a0.precision;
+    this->handleAnnotation(target, Annotation(range, 4, precision));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Vector Operation Handlers
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Aggregate Operation Handlers
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Memory Access and Addressing Operation Handlers
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Marker::handle_store(StoreInst *instruction)
+{
+    Value *v1 = instruction->getOperand(0);
+    Value *v2 = instruction->getOperand(1);
+    this->markEquivalent(v1, v2, instruction);
+
+}
+
+void Marker::handle_load(LoadInst *instruction)
+{
+    Value *v1 = instruction->getOperand(0);
+    Value *v2 = instruction;
+    this->markEquivalent(v1, v2, instruction);
 }
 
 void Marker::handle_getelementptr(GetElementPtrInst *instruction)
 {
-    Value *value = instruction->getOperand(0);
-    Value *target = instruction;
-    if (this->hasAnnotation(target) && this->hasAnnotation(value)) {
+    Value *v1 = instruction->getOperand(0);
+    Value *v2 = instruction;
+    this->markEquivalent(v1, v2, instruction);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Conversion Operation Handlers
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Marker::handle_cast(CastInst *instruction)
+{
+    Value *v1 = instruction->getOperand(0);
+    Value *v2 = instruction;
+    this->markEquivalent(v1, v2, instruction);
+}
+
+void Marker::handle_trunc(TruncInst *instruction)
+{
+    Value *v1 = instruction->getOperand(0);
+    Value *v2 = instruction;
+    this->markEquivalent(v1, v2, instruction);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Other Operation Handlers
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Marker::handle_cmp(CmpInst *instruction) {
+    // left (<|>|<>|=<|>=) right
+    Value *left = instruction->getOperand(0);
+    Value *right = instruction->getOperand(1);
+    bool hasLeft = this->hasAnnotation(left);
+    bool hasRight = this->hasAnnotation(right);
+    if (!this->hasAnnotation(instruction)) {
+        this->handleAnnotation(instruction, COMPARISON);
+    }
+    if (hasLeft && hasRight) {
         return;
     }
-    if (this->hasAnnotation(target)) {
-        this->addAnnotation(value, this->getAnnotation(target));
-        this->cleanDependencies(value);
-    } else if (this->hasAnnotation(value)) {
-        this->addAnnotation(target, this->getAnnotation(value));
-        this->cleanDependencies(target);
+    if (!hasLeft && hasRight) {
+        Annotation rightAnno = this->getAnnotation(right);
+        switch(instruction->getPredicate()) {
+            // This is so that it is possible to handle incrementers in the program.
+            case CmpInst::ICMP_EQ : {
+                this->handleAnnotation(left, Annotation(rightAnno.max + 1, 0, 0));
+                break;
+            }
+        }
+    }
+}
+
+void Marker::handle_phi(PHINode *instruction)
+{
+    if (this->hasAnnotation(instruction)) {
+        return;
+    }
+    unsigned number = instruction->getNumIncomingValues();
+    unsigned i;
+    long max, min, prec;
+    max = INT_MIN;
+    min = INT_MAX;
+    prec = INT_MIN;
+    DependencyCounter *d = new DependencyCounter();
+    d->numOfDependencies = 0;
+    d->instruction = instruction;
+    for (i = 0; i < number; i++) {
+        Value *v = instruction->getIncomingValue(i);
+        if (this->hasAnnotation(v)) {
+            Annotation a = this->getAnnotation(v);
+            if (a.max > max) {
+                max = a.max;
+            }
+            if (a.min < min) {
+                min = a.min;
+            }
+            if (a.precision > prec) {
+                prec = a.precision;
+            }
+        } else {
+            d->numOfDependencies++;
+            this->addDependencyCounter(v, d);
+        }
+    }
+    if (d->numOfDependencies == 0) {
+        delete d;
+        Annotation instructionA = Annotation(max, min, prec);
+        this->handleAnnotation(instruction, instructionA);
+    }
+}
+
+void Marker::handle_select(SelectInst *instruction)
+{
+    if (this->hasAnnotation(instruction)) {
+        return;
+    }
+    Value *trueV = instruction->getTrueValue();
+    Annotation trueA;
+    Value *falseV = instruction->getFalseValue();
+    Annotation falseA;
+    DependencyCounter *d = new DependencyCounter();
+    d->instruction = instruction;
+    if (!this->hasAnnotation(trueV)) {
+        d->numOfDependencies++;
+        this->addDependencyCounter(trueV, d);
     } else {
-        DependencyCounter *dependencyCounter = new DependencyCounter();
-        dependencyCounter->numOfDependencies = 1;
-        dependencyCounter->instruction = instruction;
-        this->dependencyVector.push_back(dependencyCounter);
-        this->addDependencyCounter(target, dependencyCounter);
-        this->addDependencyCounter(value, dependencyCounter);
+        trueA = this->getAnnotation(trueV);
+    }
+    if (!this->hasAnnotation(falseV)) {
+        d->numOfDependencies++;
+        this->addDependencyCounter(falseV, d);
+    } else {
+        falseA = this->getAnnotation(falseV);
+    }
+    if (d->numOfDependencies == 0) {
+        delete d;
+        Annotation instructionA = Annotation(
+                                      ((trueA.max > falseA.max) ? trueA.max : falseA.max),
+                                      ((trueA.min < falseA.min) ? trueA.min : falseA.min),
+                                      ((trueA.precision > falseA.precision) ? trueA.precision : falseA.precision)
+                                  );
+        this->handleAnnotation(instruction, instructionA);
     }
 }
 
@@ -452,267 +542,130 @@ void Marker::handle_call(CallInst *instruction)
         // ignore
         return;
     } else if (name == "posix_memalign") {
-        this->addAnnotation(instruction, ERRNO);
-        this->cleanDependencies(instruction);
+        this->handleAnnotation(instruction, ERRNO);
     } else if (name == "puts" || name == "printf"){
-        this->addAnnotation(instruction, PUTS);
-        this->cleanDependencies(instruction);
+        this->handleAnnotation(instruction, PUTS);
     } else {
         Value *function = instruction->getCalledValue();
         if (this->hasAnnotation(function)) {
-            this->addAnnotation(instruction, this->getAnnotation(function));
+            this->handleAnnotation(instruction, this->getAnnotation(function));
         } else {
-            DependencyCounter *dc = new DependencyCounter();
-            dc->instruction = instruction;
-            dc->numOfDependencies++;
-            this->addDependencyCounter(function, dc);
+            this->noteEquivalentDependency(function, instruction, instruction);
         }
     }
 }
 
-void Marker::handle_cmp(CmpInst *instruction) {
-    // left (<|>|<>|=<|>=) right
-    Value *left = instruction->getOperand(0);
-    Value *right = instruction->getOperand(1);
-    bool hasLeft = this->hasAnnotation(left);
-    bool hasRight = this->hasAnnotation(right);
-    if (!this->hasAnnotation(instruction)) {
-        this->addAnnotation(instruction, COMPARISON);
-        this->cleanDependencies(instruction);
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Methods for interacting with dependencyMap, annotationMap
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+int Marker::handleAnnotation(Value *v, Annotation a) {
+    if (this->hasAnnotation(v)) {
+        errs() << "\t"<< v << " already has an annotation.\n";
+        errs() << "\t\t";
+        v->dump();
+        return -1;
     }
-    if (hasLeft && hasRight) {
+    this->addAnnotation(v, a);
+    this->cleanDependencies(v);
+    return 1;
+}
+
+bool Marker::hasAnnotation(Value *v)
+{
+    if (ConstantInt *constant = dyn_cast<ConstantInt>(v)) {
+        return true;
+    } else if (ConstantFP *constantFP = dyn_cast<ConstantFP>(v)) {
+        return true;
+    }
+    return this->annotationMap.find(v) != this->annotationMap.end();
+}
+
+Annotation Marker::getAnnotation(Value *v)
+{
+    if (ConstantInt *constantInt = dyn_cast<ConstantInt>(v)) {
+        double x = constantInt->getValue().signedRoundToDouble();
+        return Annotation(x, x, 0);
+    } else if (ConstantFP *constantFP = dyn_cast<ConstantFP>(v)) {
+        double x;
+        if (constantFP->getType()->isFloatTy()) {
+            x = constantFP->getValueAPF().convertToFloat();
+        } else if (constantFP->getType()->isDoubleTy()) {
+            x = constantFP->getValueAPF().convertToDouble();
+        } else {
+            x = 0.0;
+            errs() << "constantFP is neither a double nor a float. ";
+            constantFP->dump();
+        }
+        int i = 0;
+        double check = x;
+        while (fmod(check, 1) != 0.0) {
+            i++;
+            check *= 10;
+        }
+        return Annotation(x, x, i);
+    }
+    return this->annotationMap.find(v)->second;
+}
+
+void Marker::addAnnotation(Value *v, Annotation a)
+{
+    if (Instruction *instruction = dyn_cast<Instruction>(v)) {
+        LLVMContext& C = instruction->getContext();
+        MDNode* N = MDNode::get(C, MDString::get(C, a.str()));
+        instruction->setMetadata("optimi", N);
+    }
+    this->annotationMap.insert(std::make_pair(v, a));
+}
+
+void Marker::addDependencyCounter(Value *v, DependencyCounter *dc)
+{
+    auto temp = this->dependencyMap.find(v);
+    if (temp != this->dependencyMap.end()) {
+        temp->second.push_back(dc);
+    } else {
+        std::vector<DependencyCounter *> dcVector;
+        dcVector.push_back(dc);
+        this->dependencyMap.insert(std::make_pair(v, dcVector));
+    }
+}
+
+void Marker::cleanDependencies(Value *v)
+{
+    auto temp = this->dependencyMap.find(v);
+    if (temp == this->dependencyMap.end()) {
         return;
     }
-    if (!hasLeft && hasRight) {
-        Annotation rightAnno = this->getAnnotation(right);
-        switch(instruction->getPredicate()) {
-            // This is so that it is possible to handle incrementers in the program.
-            case CmpInst::ICMP_EQ : {
-                this->addAnnotation(left, Annotation(rightAnno.max + 1, 0, 0));
-                this->cleanDependencies(left);
-                break;
-            }
+    std::vector<DependencyCounter *> dcVector = temp->second;
+    for (unsigned i = 0; i < dcVector.size(); i++) {
+        DependencyCounter *dc = dcVector[i];
+        if (--dc->numOfDependencies == 0) {
+            analyseInstruction(dc->instruction);
         }
     }
-
-
+    this->dependencyMap.erase(v);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Methods for handling Binary Operations
-///////////////////////////////////////////////////////////////////////////////////////////////////
-void Marker::handle_add(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        a0.max + a1.max,
-        a0.max + a1.min,
-        a0.min + a1.max,
-        a0.min + a1.min
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_mul(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        a0.max * a1.max,
-        a0.max * a1.min,
-        a0.min * a1.max,
-        a0.min * a1.min
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    // int precision = a0.precision * a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_sub(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        a0.max - a1.max,
-        a0.max - a1.min,
-        a0.min - a1.max,
-        a0.min - a1.min
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        std::abs(a0.max / a1.max),
-        std::abs(a0.max / a1.min),
-        std::abs(a0.min / a1.max),
-        std::abs(a0.min / a1.min)
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        a0.max / a1.max,
-        a0.max / a1.min,
-        a0.min / a1.max,
-        a0.min / a1.min
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        a0.max / a1.max,
-        a0.max / a1.min,
-        a0.min / a1.max,
-        a0.min / a1.min
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_urem(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        std::abs(fmod(a0.max, a1.max)),
-        std::abs(fmod(a0.max, a1.min)),
-        std::abs(fmod(a0.min, a1.max)),
-        std::abs(fmod(a0.min, a1.min))
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_srem(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        fmod(a0.max, a1.max),
-        fmod(a0.max, a1.min),
-        fmod(a0.min, a1.max),
-        fmod(a0.min, a1.min)
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_frem(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        fmod(a0.max, a1.max),
-        fmod(a0.max, a1.min),
-        fmod(a0.min, a1.max),
-        fmod(a0.min, a1.min)
-    };
-    int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::saveNewAnnotation(Value *target, double range[4], int precision)
-{
-    double max, min;
-    max = min = range[0];
-    for (int i = 1; i < 4; i++) {
-        if (range[i] > max) {
-            max = range[i];
-        }
-        if (range[i] < min) {
-            min = range[i];
-        }
+void Marker::markEquivalent(Value *v1, Value *v2, Value *instruction) {
+    if (this->hasAnnotation(v1) && this->hasAnnotation(v2)) {
+        return;
     }
-    this->addAnnotation(target, Annotation(max, min, precision));
-    this->cleanDependencies(target);
+    if (this->hasAnnotation(v1)) {
+        this->handleAnnotation(v2, this->getAnnotation(v1));
+    } else if (this->hasAnnotation(v2)) {
+        this->handleAnnotation(v1, this->getAnnotation(v2));
+    } else {
+        this->noteEquivalentDependency(v1, v2, instruction);
+    }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Methods for handling Bitwise Operations
-///////////////////////////////////////////////////////////////////////////////////////////////////
-void Marker::handle_shl(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        a0.max * pow(2, a1.max),
-        a0.max * pow(2, a1.min),
-        a0.min * pow(2, a1.max),
-        a0.min * pow(2, a1.min)
-    };
-    int precision = a0.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_ashr(Value *target, Annotation a0, Annotation a1)
-{
-    double range[4] = {
-        a0.max / pow(2, a1.max),
-        a0.max / pow(2, a1.min),
-        a0.min / pow(2, a1.max),
-        a0.min / pow(2, a1.min)
-    };
-    int precision = a0.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_lshr(Value *target, Annotation a0, Annotation a1)
-{
-    unsigned int a0max = ceil(a0.max);
-    unsigned int a0min = ceil(a0.min);
-    int a1max = ceil(a1.max);
-    int a1min = ceil(a1.min);
-    double range[4] = {
-        double(a0max >> a1max),
-        double(a0max >> a1min),
-        double(a0min >> a1max),
-        double(a0min >> a1min)
-    };
-    int precision = a0.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_and(Value *target, Annotation a0, Annotation a1)
-{
-    int a0max = ceil(a0.max);
-    int a0min = ceil(a0.min);
-    int a1max = ceil(a1.max);
-    int a1min = ceil(a1.min);
-    double range[4] = {
-        double(a0max & a1max),
-        double(a0max & a1min),
-        double(a0min & a1max),
-        double(a0min & a1min)
-    };
-    int precision = a0.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_or(Value *target, Annotation a0, Annotation a1)
-{
-    int a0max = ceil(a0.max);
-    int a0min = ceil(a0.min);
-    int a1max = ceil(a1.max);
-    int a1min = ceil(a1.min);
-    double range[4] = {
-        double(a0max | a1max),
-        double(a0max | a1min),
-        double(a0min | a1max),
-        double(a0min | a1min)
-    };
-    int precision = a0.precision;
-    this->saveNewAnnotation(target, range, precision);
-}
-
-void Marker::handle_xor(Value *target, Annotation a0, Annotation a1)
-{
-    int a0max = ceil(a0.max);
-    int a0min = ceil(a0.min);
-    int a1max = ceil(a1.max);
-    int a1min = ceil(a1.min);
-    double range[4] = {
-        double(a0max ^ a1max),
-        double(a0max ^ a1min),
-        double(a0min ^ a1max),
-        double(a0min ^ a1min)
-    };
-    int precision = a0.precision;
-    this->saveNewAnnotation(target, range, precision);
+void Marker::noteEquivalentDependency(Value *v1, Value *v2, Value *instruction) {
+    DependencyCounter *dependencyCounter = new DependencyCounter();
+    dependencyCounter->numOfDependencies = 1;
+    dependencyCounter->instruction = instruction;
+    this->dependencyVector.push_back(dependencyCounter);
+    this->addDependencyCounter(v1, dependencyCounter);
+    this->addDependencyCounter(v2, dependencyCounter);
 }

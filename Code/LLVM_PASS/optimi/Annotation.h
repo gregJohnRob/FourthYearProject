@@ -31,6 +31,7 @@ struct Annotation {
     double min;
     int precision;
 
+    Annotation(double range[], int size, int precision);
     Annotation(double max, double min, int precision);
     Annotation();
     Annotation(std::string ref);

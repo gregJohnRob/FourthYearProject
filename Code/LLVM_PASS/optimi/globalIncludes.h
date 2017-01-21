@@ -32,5 +32,6 @@
 #include <sstream>
 #include <stdlib.h>
 #include <unordered_map>
+#include <regex>
 
 #endif
