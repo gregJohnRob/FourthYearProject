@@ -538,7 +538,8 @@ void Marker::handle_call(CallInst *instruction)
         this->cleanDependencies(variable);
     } else if (
         name == "llvm.lifetime.end" ||
-        name == "llvm.lifetime.start") {
+        name == "llvm.lifetime.start" ||
+        name.find("llvm.memcpy") == 0) {
         // ignore
         return;
     } else if (name == "posix_memalign") {

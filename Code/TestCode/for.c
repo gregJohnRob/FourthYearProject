@@ -1,7 +1,6 @@
-
 int kernal (int __attribute__((annotate("1000 0 0"))) arr[], int __attribute__((annotate("5 0 0"))) size) {
-    int   __attribute__((annotate("1000 0 0"))) i;
-    int   __attribute__((annotate("1000 0 0"))) total = 0;
+    int   __attribute__((annotate("10 0 0"))) i;
+    int   __attribute__((annotate("3000 0 0"))) total = 0;
     for (i = 0; i < size; i++) {
         total += arr[i];
     }
