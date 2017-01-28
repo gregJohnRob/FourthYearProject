@@ -23,6 +23,14 @@ using namespace llvm;
 namespace optimi
 {
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Constant Annotations
+///////////////////////////////////////////////////////////////////////////////////////////////////
+const Annotation ERRNO = Annotation(3546, 0, 0);
+const Annotation WORST_CASE_INT = Annotation(INT_MAX, INT_MIN, 0);
+const Annotation COMPARISON = Annotation(1, 0, 0);
+const Annotation PUTS = WORST_CASE_INT;
+
 class Marker
 {
     ValueMap<Value *, std::vector<DependencyCounter *>> dependencyMap;

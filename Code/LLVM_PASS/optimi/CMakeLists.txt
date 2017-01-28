@@ -7,6 +7,14 @@ add_library(OptimiPass MODULE
     globalIncludes.h
     Marker.h
     Marker.cpp
+    Marker_AggregateOperationHandlers.cpp
+    Marker_BinaryOperationHandlers.cpp
+    Marker_BitwiseBinaryOperationHandlers.cpp
+    Marker_ConversionOperationHandlers.cpp
+    Marker_MemoryAccessAndAddressingOperationHandlers.cpp
+    Marker_OtherOperationHandlers.cpp
+    Marker_TerminatorInstructionHandlers.cpp
+    Marker_VectorOperationHandlers.cpp
     Optimi.h
     Optimi.cpp
 )
