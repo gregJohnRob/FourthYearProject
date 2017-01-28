@@ -65,10 +65,25 @@ int Marker::finishMethodAnalysis()
     return output;
 }
 
+void Marker::setFunction(Function *F) {
+    this->F = F;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Terminator Instruction Handlers
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Marker::handle_ret(ReturnInst *instruction) {
+    Value *v = instruction->getReturnValue();
+    Annotation a, f;
+    if (this->hasAnnotation(v) && this->hasAnnotation(this->F)) {
+        a = this->getAnnotation(v);
+        f = this->getAnnotation(F);
+        if (a.max != f.max || a.min != f.min || a.precision != f.precision) {
+            errs() << "This function has a booboo\n";
+        }
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Binary Operation Handlers
@@ -611,8 +626,20 @@ Annotation Marker::getAnnotation(Value *v)
     return this->annotationMap.find(v)->second;
 }
 
+/*
+    Check if the value already has an annotation, and if it does then check that they are consistent or flag a warning
+    if value has annotation
+        if previous_annotation != a
+            print warning
+    if a would require more data than current type of instruction
+        print warning
+ */
 void Marker::addAnnotation(Value *v, Annotation a)
 {
+    bool carryOn = this->checkForErrors(v,a);
+    if (!carryOn) {
+        return;
+    }
     if (Instruction *instruction = dyn_cast<Instruction>(v)) {
         LLVMContext& C = instruction->getContext();
         MDNode* N = MDNode::get(C, MDString::get(C, a.str()));
@@ -669,4 +696,32 @@ void Marker::noteEquivalentDependency(Value *v1, Value *v2, Value *instruction) 
     this->dependencyVector.push_back(dependencyCounter);
     this->addDependencyCounter(v1, dependencyCounter);
     this->addDependencyCounter(v2, dependencyCounter);
+}
+
+bool Marker::checkForErrors(Value *v, Annotation a) {
+    if (this->hasAnnotation(v)) {
+        Annotation currA = this->getAnnotation(v);
+        if (a.max != currA.max || a.min != currA.max || a.precision != currA.precision) {
+            if (v->hasName()) {
+                errs() << "\tValue " << v->getName().str()  << " is already annotated\n";
+            } else {
+                errs() << "\tValue " << v << " is already annotated\n";
+            }
+            return false;
+        }
+    }
+    Type *t = v->getType();
+    if (t->isIntegerTy()) {
+        unsigned numBits = t->getIntegerBitWidth();
+        double l = log2((a.max > std::abs(a.min)) ? a.max : std::abs(a.min));
+        unsigned numBitsA = (unsigned int)std::ceil(l);
+        if (numBits < numBitsA) {
+            if (v->hasName()) {
+                errs() << "\tThe number of bits required to handle " << v->getName().str()  << " is more than is in the default integer size\n";
+            } else {
+                errs() << "\tThe number of bits required to handle " << v << " is more than is in the default integer size\n";
+            }
+        }
+    }
+    return true;
 }

@@ -9,6 +9,8 @@ int Optimi::analyseFunction(Function &F)
         return 0;
     }
     Marker marker;
+    marker.setFunction(&F);
+    errs() << F.getName() << "\n";
     for (auto i = this->globalAnnotationMap.begin(), end = this->globalAnnotationMap.end(); i != end; i++) {
         marker.addAnnotation(i->first, i->second);
     }
@@ -32,18 +34,19 @@ bool Optimi::runOnModule(Module &M)
     }
     for (Module::iterator curFunc = M.begin(), endFunc = M.end(); curFunc != endFunc; ++curFunc) {
         int result = this->analyseFunction(*curFunc);
+        errs() << "\t";
         switch (result) {
         case -1:
-            errs() << "Unable to fully mark " << curFunc->getName() << "\n";
+            errs() << "Unable to fully mark\n";
             break;
         case 0:
-            errs() << "Ignoring " << curFunc->getName() << "\n";
+            errs() << "Ignoring\n";
             break;
         case 1:
-            errs() << "Fully marked " << curFunc->getName() << "\n";
+            errs() << "Fully marked\n";
             break;
         default:
-            errs() << "An error occurred while analysing " << curFunc->getName() << "\n";
+            errs() << "An error occurred while analysing\n";
             break;
         }
     }

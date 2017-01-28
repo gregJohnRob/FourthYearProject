@@ -28,8 +28,10 @@ class Marker
     ValueMap<Value *, std::vector<DependencyCounter *>> dependencyMap;
     std::vector<DependencyCounter *> dependencyVector;
     ValueMap<Value *, Annotation> annotationMap;
+    Function *F;
 
     /// Terminator Instruction Handlers
+    void handle_ret(ReturnInst *instruction);
 
     /// Binary Operation Handlers
     void handle_binary_operator(BinaryOperator *instruction);
@@ -82,6 +84,7 @@ class Marker
     void cleanDependencies(Value *v);
     void markEquivalent(Value *v1, Value *v2, Value *instruction);
     void noteEquivalentDependency(Value *v1, Value *v2, Value *instruction);
+    bool checkForErrors(Value *v, Annotation a);
 
 
     /*
@@ -102,6 +105,7 @@ public:
     void addAnnotation(Value *v, Annotation a);
     void analyseInstruction(Value *I);
     int finishMethodAnalysis();
+    void setFunction(Function *F);
 };
 }
 #endif
