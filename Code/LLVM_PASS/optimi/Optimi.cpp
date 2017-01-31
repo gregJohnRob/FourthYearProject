@@ -5,12 +5,12 @@ using namespace optimi;
 
 int Optimi::analyseFunction(Function &F)
 {
+    errs() << F.getName() << "\n";
     if (F.getName().find("llvm") != std::string::npos) {
         return 0;
     }
     Marker marker;
     marker.setFunction(&F);
-    errs() << F.getName() << "\n";
     for (auto i = this->globalAnnotationMap.begin(), end = this->globalAnnotationMap.end(); i != end; i++) {
         marker.addAnnotation(i->first, i->second);
     }

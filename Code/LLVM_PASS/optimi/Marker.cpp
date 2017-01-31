@@ -30,6 +30,8 @@ void Marker::analyseInstruction(Value *v)
         this->handle_trunc(truncInst);
     } else if (CmpInst *cmp = dyn_cast<CmpInst>(v)) {
         this->handle_cmp(cmp);
+    } else if (ReturnInst *ret = dyn_cast<ReturnInst>(v)) {
+        this->handle_ret(ret);
     }
 }
 
@@ -116,7 +118,7 @@ Annotation Marker::getAnnotation(Value *v)
 
 void Marker::addAnnotation(Value *v, Annotation a)
 {
-    bool carryOn = this->checkForErrors(v,a);
+    bool carryOn = true; //this->checkForErrors(v,a);
     if (!carryOn) {
         return;
     }
@@ -179,6 +181,7 @@ void Marker::noteEquivalentDependency(Value *v1, Value *v2, Value *instruction) 
 }
 
 bool Marker::checkForErrors(Value *v, Annotation a) {
+    // Alert if a value gets more than one annotation
     if (this->hasAnnotation(v)) {
         Annotation currA = this->getAnnotation(v);
         if (a.max != currA.max || a.min != currA.max || a.precision != currA.precision) {
@@ -187,21 +190,125 @@ bool Marker::checkForErrors(Value *v, Annotation a) {
             } else {
                 errs() << "\tValue " << v << " is already annotated\n";
             }
+            errs() << "\tOriginal annotation: " << currA.str() << ", New annotation: " << a.str() << "\n";
             return false;
         }
     }
     Type *t = v->getType();
-    if (t->isIntegerTy()) {
-        unsigned numBits = t->getIntegerBitWidth();
-        double l = log2((a.max > std::abs(a.min)) ? a.max : std::abs(a.min));
-        unsigned numBitsA = (unsigned int)std::ceil(l);
-        if (numBits < numBitsA) {
-            if (v->hasName()) {
-                errs() << "\tThe number of bits required to handle " << v->getName().str()  << " is more than is in the default integer size\n";
-            } else {
-                errs() << "\tThe number of bits required to handle " << v << " is more than is in the default integer size\n";
+    Type::TypeID id = t->getTypeID();
+    while (id == Type::PointerTyID) {
+        errs() << "This is a pointer\n";
+        t = t->getPointerElementType();
+        id = t->getTypeID();
+    }
+    // Decide what to do based on type. While all types are included here, not all will
+    // require handlers
+    switch (id) {
+        case Type::VoidTyID: // type with no size
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::HalfTyID: // 16-bit floating point type
+        {
+            // TODO: Handler
+            // 32 bit: 1 sign, 5 exponent, 11 mantissa (10 stored)
+            break;
+        }
+        case Type::FloatTyID: // 32-bit floating point type
+        {
+            // TODO: Handler
+            // 32 bit: 1 sign, 8 exponent, 24 mantissa (23 stored)
+            break;
+        }
+        case Type::DoubleTyID: // 64-bit floating point type
+        {
+            // TODO: Handler
+            // 32 bit: 1 sign, 11 exponent, 53 mantissa (52 stored)
+            break;
+        }
+        case Type::X86_FP80TyID: // 80-bit floating point type (X87)
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::FP128TyID: // 128-bit floating point type (112-bit mantissa)
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::PPC_FP128TyID: // 128-bit floating point type (two 64-bits, PowerPC)
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::LabelTyID: // Labels
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::MetadataTyID: // Metadata
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::X86_MMXTyID: // MMX vectors (64 bits, X86 specific)
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::TokenTyID: // Tokens
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::IntegerTyID: // Arbitrary bit width integers
+        {
+            unsigned numBits = t->getIntegerBitWidth();
+            double l = log2((a.max > std::abs(a.min)) ? a.max : std::abs(a.min));
+            unsigned numBitsA = (unsigned int)std::ceil(l);
+            if (numBits < numBitsA) {
+                if (v->hasName()) {
+                    errs() << "\tThe number of bits required to handle " << v->getName().str()  << " is more than is in the default integer size\n";
+                } else {
+                    errs() << "\tThe number of bits required to handle " << v << " is more than is in the default integer size\n";
+                }
             }
+            break;
+        }
+        case Type::FunctionTyID: // Functions
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::StructTyID: // Structures
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::ArrayTyID: // Arrays
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::PointerTyID: // Pointers
+        {
+            // TODO: Handler
+            break;
+        }
+        case Type::VectorTyID: // SIMD 'packed' format, or other vector type
+        {
+            // TODO: Handler
+            break;
+        }
+        default:
+        {
+            errs() << "Unidentified type: " << v;
+            break;
         }
     }
+
+    // // t->getFPMantissaWidth()
+    // // t->getPrimitiveSizeInBits()
     return true;
 }

@@ -127,6 +127,10 @@ void Marker::handle_call(CallInst *instruction)
         this->handleAnnotation(instruction, PUTS);
     } else {
         Value *function = instruction->getCalledValue();
+        if (!function || instruction->getFunctionType()->getReturnType()->getTypeID() == Type::VoidTyID) {
+            // ignore
+            return;
+        }
         if (this->hasAnnotation(function)) {
             this->handleAnnotation(instruction, this->getAnnotation(function));
         } else {
