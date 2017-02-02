@@ -1,8 +1,8 @@
 /*
  * If we assume that this is the kernel and run on the FPGA
  */
-int __attribute__((annotate("1000 1 0"))) kernel(
-    int __attribute__((annotate("42949672 100 0"))) x,
+int __attribute__((annotate("1079870 48770 0"))) kernel(
+    int __attribute__((annotate("1200 100 0"))) x,
     int __attribute__((annotate("900 500 0"))) y)
 {
 	int z;

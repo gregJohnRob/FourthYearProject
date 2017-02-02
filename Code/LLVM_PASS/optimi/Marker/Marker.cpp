@@ -118,7 +118,7 @@ Annotation Marker::getAnnotation(Value *v)
 
 void Marker::addAnnotation(Value *v, Annotation a)
 {
-    bool carryOn = true; //this->checkForErrors(v,a);
+    bool carryOn = this->checkForErrors(v,a);
     if (!carryOn) {
         return;
     }
@@ -182,6 +182,9 @@ void Marker::noteEquivalentDependency(Value *v1, Value *v2, Value *instruction) 
 
 bool Marker::checkForErrors(Value *v, Annotation a) {
     // Alert if a value gets more than one annotation
+    if (std::isinf(a.max) || std::isinf(a.min)) {
+        errs() << "\t\t" << v->getName().str() << "\n";
+    }
     if (this->hasAnnotation(v)) {
         Annotation currA = this->getAnnotation(v);
         if (a.max != currA.max || a.min != currA.max || a.precision != currA.precision) {
@@ -196,8 +199,8 @@ bool Marker::checkForErrors(Value *v, Annotation a) {
     }
     Type *t = v->getType();
     Type::TypeID id = t->getTypeID();
+
     while (id == Type::PointerTyID) {
-        errs() << "This is a pointer\n";
         t = t->getPointerElementType();
         id = t->getTypeID();
     }
@@ -213,18 +216,36 @@ bool Marker::checkForErrors(Value *v, Annotation a) {
         {
             // TODO: Handler
             // 32 bit: 1 sign, 5 exponent, 11 mantissa (10 stored)
+            auto mantissa = t->getFPMantissaWidth();
+            auto primitiveSize = t->getPrimitiveSizeInBits();
+            auto exponent = primitiveSize - mantissa;
+            if (a.precision > mantissa) {
+                errs() << "This variable requires higher precision than is provided\n";
+            }
             break;
         }
         case Type::FloatTyID: // 32-bit floating point type
         {
             // TODO: Handler
             // 32 bit: 1 sign, 8 exponent, 24 mantissa (23 stored)
+            auto mantissa = t->getFPMantissaWidth();
+            auto primitiveSize = t->getPrimitiveSizeInBits();
+            auto exponent = primitiveSize - mantissa;
+            if (a.precision > mantissa) {
+                errs() << "This variable requires higher precision than is provided\n";
+            }
             break;
         }
         case Type::DoubleTyID: // 64-bit floating point type
         {
             // TODO: Handler
             // 32 bit: 1 sign, 11 exponent, 53 mantissa (52 stored)
+            auto mantissa = t->getFPMantissaWidth();
+            auto primitiveSize = t->getPrimitiveSizeInBits();
+            auto exponent = primitiveSize - mantissa;
+            if (a.precision > mantissa) {
+                errs() << "This variable requires higher precision than is provided\n";
+            }
             break;
         }
         case Type::X86_FP80TyID: // 80-bit floating point type (X87)
@@ -268,11 +289,13 @@ bool Marker::checkForErrors(Value *v, Annotation a) {
             double l = log2((a.max > std::abs(a.min)) ? a.max : std::abs(a.min));
             unsigned numBitsA = (unsigned int)std::ceil(l);
             if (numBits < numBitsA) {
+                errs() << "\tThe number of bits required to handle ";
                 if (v->hasName()) {
-                    errs() << "\tThe number of bits required to handle " << v->getName().str()  << " is more than is in the default integer size\n";
+                    errs() << v->getName().str();
                 } else {
-                    errs() << "\tThe number of bits required to handle " << v << " is more than is in the default integer size\n";
+                    errs() << v;
                 }
+                errs() << " is more than was specified (" << numBits << ")\n";
             }
             break;
         }
@@ -303,7 +326,6 @@ bool Marker::checkForErrors(Value *v, Annotation a) {
         }
         default:
         {
-            errs() << "Unidentified type: " << v;
             break;
         }
     }

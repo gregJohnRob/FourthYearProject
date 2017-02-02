@@ -1,22 +1,26 @@
 add_library(OptimiPass MODULE
     # List your source files here.
-    Annotation.h
-    Annotation.cpp
-    DependencyCounter.h
-    DependencyCounter.cpp
+    # Annotation
+        Annotation/Annotation.h
+        Annotation/Annotation.cpp
+    # Dependency Counter
+        DependencyCounter/DependencyCounter.h
+        DependencyCounter/DependencyCounter.cpp
+    # Marker
+        Marker/Marker.h
+        Marker/Marker.cpp
+        Marker/AggregateOperationHandlers.cpp
+        Marker/BinaryOperationHandlers.cpp
+        Marker/BitwiseBinaryOperationHandlers.cpp
+        Marker/ConversionOperationHandlers.cpp
+        Marker/MemoryAccessAndAddressingOperationHandlers.cpp
+        Marker/OtherOperationHandlers.cpp
+        Marker/TerminatorInstructionHandlers.cpp
+        Marker/VectorOperationHandlers.cpp
+    # Optimi
+        Optimi/Optimi.h
+        Optimi/Optimi.cpp
     globalIncludes.h
-    Marker.h
-    Marker.cpp
-    Marker_AggregateOperationHandlers.cpp
-    Marker_BinaryOperationHandlers.cpp
-    Marker_BitwiseBinaryOperationHandlers.cpp
-    Marker_ConversionOperationHandlers.cpp
-    Marker_MemoryAccessAndAddressingOperationHandlers.cpp
-    Marker_OtherOperationHandlers.cpp
-    Marker_TerminatorInstructionHandlers.cpp
-    Marker_VectorOperationHandlers.cpp
-    Optimi.h
-    Optimi.cpp
 )
 
 # Use C++11 to compile our pass (i.e., supply -std=c++11).

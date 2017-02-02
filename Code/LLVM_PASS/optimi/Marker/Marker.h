@@ -13,10 +13,10 @@
 #ifndef MARKER_H
 #define MARKER_H
 
-#include "Annotation.h"
-#include "DependencyCounter.h"
+#include "../Annotation/Annotation.h"
+#include "../DependencyCounter/DependencyCounter.h"
 
-#include "globalIncludes.h"
+#include "../globalIncludes.h"
 
 using namespace llvm;
 

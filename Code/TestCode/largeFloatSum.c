@@ -2,7 +2,7 @@
  * If we assume that this is the kernel and run on the FPGA
  */
 float __attribute__((annotate("1000 1 0"))) kernel(
-    float __attribute__((annotate("200 100 2"))) x,
+    float __attribute__((annotate("200 100 4"))) x,
     float __attribute__((annotate("900 500 5"))) y)
 {
 	float z;

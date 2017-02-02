@@ -25,7 +25,9 @@ Annotation::Annotation(double range[], int size, int precision)
         return;
     }
     this->max = this->min = range[0];
+    errs() << range[0] << " ";
     for (int i = 1; i < 4; i++) {
+        errs() << range[1] << " ";
         if (range[i] > this->max) {
             this->max = range[i];
         }
@@ -34,20 +36,21 @@ Annotation::Annotation(double range[], int size, int precision)
         }
     }
     this->precision = precision;
-
+    errs() << "\n";
 }
 
 Annotation::Annotation(std::string ref)
 {
-    if (std::regex_match(ref, std::regex(""))) {
-        errs() << "Invalid annotation " << ref << "\n";
+    if (std::regex_match(ref, std::regex("((-?)([0123456789]+)((\\.[0123456789]+)?)) ((-?)([0123456789]+)((\\.[0123456789]+)?)) ([0123456789]+)"))) {
+        std::stringstream stream(ref);
+        stream >> this->max >> this->min >> this->precision;
+    } else {
+        errs() << "Invalid Annotation " << ref << "\n";
         this->max = INT_MAX;
         this->min = INT_MIN;
         this->precision = 0;
-        return;
     }
-    std::stringstream stream(ref);
-    stream >> this->max >> this->min >> this->precision;
+    return;
 }
 
 std::string Annotation::str()

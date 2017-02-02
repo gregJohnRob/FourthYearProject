@@ -13,11 +13,11 @@
 #ifndef OPTIMI_H
 #define OPTIMI_H
 
-#include "Annotation.h"
-#include "DependencyCounter.h"
-#include "Marker.h"
+#include "../Annotation/Annotation.h"
+#include "../DependencyCounter/DependencyCounter.h"
+#include "../Marker/Marker.h"
 
-#include "globalIncludes.h"
+#include "../globalIncludes.h"
 
 using namespace llvm;
 

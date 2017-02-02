@@ -142,6 +142,9 @@ void Marker::handle_sub(Value *target, Annotation a0, Annotation a1)
 
 void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1)
 {
+    if (a1.max == 0 || a1.min == 0) {
+        errs() << "\tPossible division by 0\n";
+    }
     double range[4] = {
         std::abs(a0.max / a1.max),
         std::abs(a0.max / a1.min),
@@ -154,6 +157,9 @@ void Marker::handle_udiv(Value *target, Annotation a0, Annotation a1)
 
 void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1)
 {
+    if (a1.max == 0 || a1.min == 0) {
+        errs() << "\tPossible division by 0\n";
+    }
     double range[4] = {
         a0.max / a1.max,
         a0.max / a1.min,
@@ -166,6 +172,9 @@ void Marker::handle_sdiv(Value *target, Annotation a0, Annotation a1)
 
 void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1)
 {
+    if (a1.max == 0 || a1.min == 0) {
+        errs() << "\tPossible division by 0\n";
+    }
     double range[4] = {
         a0.max / a1.max,
         a0.max / a1.min,
@@ -173,6 +182,7 @@ void Marker::handle_fdiv(Value *target, Annotation a0, Annotation a1)
         a0.min / a1.min
     };
     int precision = (a0.precision > a1.precision) ? a0.precision : a1.precision;
+    //errs() << "\t\t" << target->getName().str() << " ";
     this->handleAnnotation(target, Annotation(range, 4, precision));
 }
 

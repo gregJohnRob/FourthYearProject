@@ -13,7 +13,7 @@
 #ifndef DEPENDENCY_COUNTER_H
 #define DEPENDENCY_COUNTER_H
 
-#include "globalIncludes.h"
+#include "../globalIncludes.h"
 
 using namespace llvm;
 
