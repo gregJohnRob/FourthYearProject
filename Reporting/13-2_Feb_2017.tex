@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{csquotes}
+ 
+\usepackage{comment}
+
+\usepackage[dvipsnames]{xcolor}
+ 
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+ 
+\title{Report 13}
+\author{Gregor Robertson}
+\date{2 Feb 2017}
+ 
+\begin{document}
+ 
+\maketitle
+ 
+\section*{Progress This Week}
+This week I have continued work on my dissertation. As well as working on my dissertation, I found, and worked to solve bugs in my LLVM pass. I have also started to add in warnings (for example, if the pass finds potential overflow errors).
+
+\section*{Aims For Next Week}
+I feel that it would be best for me to focus on my dissertation and continue to look for issues next week. I will also attempt to find other programs which I can use for testing my pass. 
+
+\section*{Questions}
+While working on my pass, I noticed that it is possible for division by zero errors to occur if someone said that the min/max value something can take is zero. At the moment I simply print a warning message that it is possible for division by zero to occur, however I was wondering if you had better ideas of how to handle it?
+
+With regards to other programs for testing my pass, if you have any which you think would be beneficial to test against, I would be very grateful if you would send them to me. 
+\medskip
+ 
+\printbibliography
+
+\end{document}
