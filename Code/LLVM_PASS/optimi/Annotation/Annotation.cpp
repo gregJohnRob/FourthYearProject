@@ -25,9 +25,7 @@ Annotation::Annotation(double range[], int size, int precision)
         return;
     }
     this->max = this->min = range[0];
-    errs() << range[0] << " ";
     for (int i = 1; i < 4; i++) {
-        errs() << range[1] << " ";
         if (range[i] > this->max) {
             this->max = range[i];
         }
@@ -36,7 +34,6 @@ Annotation::Annotation(double range[], int size, int precision)
         }
     }
     this->precision = precision;
-    errs() << "\n";
 }
 
 Annotation::Annotation(std::string ref)

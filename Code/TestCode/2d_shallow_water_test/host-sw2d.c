@@ -11,6 +11,69 @@
 //------------------------------------------
 // initialize 2D shallow-water host arrays
 //------------------------------------------
+
+/*
+void initHzero(stypeHost *__attribute__((annotate("15 0 6"))) hzero)
+{
+*/
+void sw2d_init_data_host_loop1(stypeHost *hzero) {
+    *hzero = 10.0;
+}
+
+/*
+void sw2d_init_data_host_loop2(
+    stypeHost *__attribute__((annotate("15 0 6"))) hzero_row0_k,
+    stypeHost *__attribute__((annotate("15 0 6"))) hzero_lastRow_k)
+{
+*/
+void sw2d_init_data_host_loop2And3(stypeHost *hzero_row0_k, stypeHost *hzero_lastRow_k) {
+    *hzero_col0_k = *hzero_colRowNeg1_k = -10.0;
+}
+
+/*
+void sw2d_init_data_host_eta_etan(
+    stypeHost *__attribute__((annotate("15 0 6"))) eta,
+    stypeHost __attribute__((annotate("15 0 6"))) hzero,
+    stypeHost *__attribute__((annotate("15 0 6"))) etan)
+{
+*/
+void sw2d_init_data_host_eta_etan(stypeHost *eta, stypeHost hzero, stypeHost *etan) {
+    *eta = -MIN(0.0, hzero);
+    *etan = *eta;
+}
+
+/*
+void sw2d_init_data_host_finalLoop(
+    stypeHost *__attribute__((annotate("15 0 6"))) h_j_COLS_k,
+    stypeHost __attribute__((annotate("15 0 6"))) hzero_j_COLS_k,
+    stypeHost __attribute__((annotate("15 0 6"))) eta_j_COLS_k,
+    stypeHost *__attribute__((annotate("1 0 0"))) wet_j_COLS_k,
+    stypeHost __attribute__((annotate("15 0 6"))) hmin,
+    stypeHost *__attribute__((annotate("10 -10 6"))) u,
+    stypeHost *__attribute__((annotate("10 -10 6"))) un,
+    stypeHost *__attribute__((annotate("10 -10 6"))) v,
+    stypeHost *__attribute__((annotate("10 -10 6"))) vn)
+{
+*/
+void sw2d_init_data_host_finalLoop(
+    stypeHost *h_j_COLS_k,
+    stypeHost hzero_j_COLS_k,
+    stypeHost eta_j_COLS_k,
+    stypeHost *wet_j_COLS_k,
+    stypeHost hmin,
+    stypeHost *u,
+    stypeHost *un,
+    stypeHost *v,
+    stypeHost *vn)
+{
+    *h_j_COLS_k = hzero_j_COLS_k + eta_j_COLS_k;
+    *wet_j_COLS_k = 1;
+    if (*h_j_COLS_k < hmin) {
+        *wet_j_COLS_k = 0;
+    }
+    *u = *un = v = *vn = 0;
+}
+
 void sw2d_init_data_host (  stypeHost *__attribute__((annotate("15 0 6"))) hzero
                           , stypeHost *__attribute__((annotate("15 0 6"))) eta
                           , stypeHost *__attribute__((annotate("15 0 6"))) etan
@@ -30,29 +93,22 @@ void sw2d_init_data_host (  stypeHost *__attribute__((annotate("15 0 6"))) hzero
   //initialize height
   for (j=0; j<=ROWS-1; j++) {
     for (k=0; k<=COLS-1; k++) {
-      hzero[j*COLS + k] = 10.0;
+        initHzero(&hzero[j*COLS + k]);
     }
   }
 
   //land boundaries with 10 m elevation
   for (k=0; k<=COLS-1; k++) {
-    //top-row
-    hzero[0*COLS + k] = -10.0;
-    //bottom-row (ROWS-1)
-    hzero[(ROWS-1)*COLS + k] = -10.0;
+      sw2d_init_data_host_loop2(&hzero[0*COLS + k], &hzero[(ROWS-1)*COLS + k]);
   }
   for (j=0; j<=ROWS-1; j++) {
-    //left-most-col
-    hzero[j*COLS + 0] = -10.0;
-    //right-most-col
-    hzero[j*COLS + COLS-1] = -10.0;
+      sw2d_init_data_host_loop2(&hzero[j*COLS + 0], &hzero[j*COLS + COLS-1]);
   }
 
   // eta and etan
   for (j=0; j<= ROWS-1; j++) {
     for (k=0; k<=COLS-1; k++) {
-      eta [j*COLS + k] = -MIN(0.0, hzero[j*COLS + k] );
-      etan[j*COLS + k] = eta[j*COLS + k];
+        sw2d_init_data_host_eta_etan(&eta [j*COLS + k], &hzero[j*COLS + k], &etan[j*COLS + k]);
     }
   }
 
@@ -60,22 +116,16 @@ void sw2d_init_data_host (  stypeHost *__attribute__((annotate("15 0 6"))) hzero
   // eta and etan
   for (j=0; j<= ROWS-1; j++) {
     for (k=0; k<= COLS-1; k++) {
-      //h
-      h[j*COLS + k] = hzero[j*COLS + k]
-                    +   eta[j*COLS + k];
-
-      //wet
-      //wet = 1 defines "wet" grid cells
-      //wet = 0 defines "dry" grid cells (land)
-      wet[j*COLS + k] = 1;
-      if (h[j*COLS + k] < hmin)
-       wet[j*COLS + k] = 0;
-
-      //u, v, un, vn
-      u [j*COLS + k] = 0;
-      un[j*COLS + k] = 0;
-      v [j*COLS + k] = 0;
-      vn[j*COLS + k] = 0;
+        sw2d_init_data_host_finalLoop(
+            &h[j*COLS + k],
+            hzero[j*COLS + k],
+            eta[j*COLS + k],
+            wet[j*COLS + k],
+            hmin,
+            &u [j*COLS + k],
+            &un[j*COLS + k],
+            &v [j*COLS + k],
+            &vn[j*COLS + k]);
     }
   }
 
@@ -105,8 +155,8 @@ void sw2d_dyn_host  ( stypeHost __attribute__((annotate("100 0 2"))) dt
 
 //locals
 //-------------------
-stypeHost *du;// [ROWS][COLS];
-stypeHost *dv;// [ROWS][COLS];
+stypeHost *__attribute__((annotate("15000 -15000 6"))) du;// [ROWS][COLS];
+stypeHost *__attribute__((annotate("15000 -15000 6"))) dv;// [ROWS][COLS];
 posix_memalign ((void**)&du, ALIGNMENT, SIZE*BytesPerWord);
 posix_memalign ((void**)&dv, ALIGNMENT, SIZE*BytesPerWord);
 stypeHost uu;

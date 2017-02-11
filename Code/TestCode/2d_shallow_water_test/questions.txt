@@ -1,0 +1,9 @@
+Questions:
+    1. How can you work out the range and precision of a floating point number, given the size of the mantissa and exponent?
+        2 to the power exponent
+    2. I changed a division by zero to simply be division by 1, is this okay, or would it be better to leave it as it was before (i.e. inf and nan)
+       instead of 1, use smallest number in that precision 
+
+TODO:
+    1. Ask questions 
+    2. Show Waqar the pass

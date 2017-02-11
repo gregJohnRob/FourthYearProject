@@ -1,4 +1,4 @@
-clang -c -emit-llvm  host.c host-generic.c host-sw2d.c
+clang -c -emit-llvm -O2  host.c host-generic.c host-sw2d.c
 #echo "host.ll"
 #opt   -load ../../LLVM_PASS/build/optimi/libOptimiPass.so -passname host.bc -S -o host.ll
 #echo "host-generic"
