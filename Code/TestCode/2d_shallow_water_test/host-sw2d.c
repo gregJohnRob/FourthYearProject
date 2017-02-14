@@ -16,18 +16,18 @@
 void initHzero(stypeHost *__attribute__((annotate("15 0 6"))) hzero)
 {
 */
-void sw2d_init_data_host_loop1(stypeHost *hzero) {
+void initHzero(stypeHost *hzero) {
     *hzero = 10.0;
 }
 
 /*
-void sw2d_init_data_host_loop2(
+void sw2d_init_data_host_loop2And3(
     stypeHost *__attribute__((annotate("15 0 6"))) hzero_row0_k,
     stypeHost *__attribute__((annotate("15 0 6"))) hzero_lastRow_k)
 {
 */
 void sw2d_init_data_host_loop2And3(stypeHost *hzero_row0_k, stypeHost *hzero_lastRow_k) {
-    *hzero_col0_k = *hzero_colRowNeg1_k = -10.0;
+    *hzero_row0_k = *hzero_lastRow_k = -10.0;
 }
 
 /*
@@ -71,7 +71,7 @@ void sw2d_init_data_host_finalLoop(
     if (*h_j_COLS_k < hmin) {
         *wet_j_COLS_k = 0;
     }
-    *u = *un = v = *vn = 0;
+    *u = *un = *v = *vn = 0;
 }
 
 void sw2d_init_data_host (  stypeHost *__attribute__((annotate("15 0 6"))) hzero
@@ -99,16 +99,16 @@ void sw2d_init_data_host (  stypeHost *__attribute__((annotate("15 0 6"))) hzero
 
   //land boundaries with 10 m elevation
   for (k=0; k<=COLS-1; k++) {
-      sw2d_init_data_host_loop2(&hzero[0*COLS + k], &hzero[(ROWS-1)*COLS + k]);
+      sw2d_init_data_host_loop2And3(&hzero[0*COLS + k], &hzero[(ROWS-1)*COLS + k]);
   }
   for (j=0; j<=ROWS-1; j++) {
-      sw2d_init_data_host_loop2(&hzero[j*COLS + 0], &hzero[j*COLS + COLS-1]);
+      sw2d_init_data_host_loop2And3(&hzero[j*COLS + 0], &hzero[j*COLS + COLS-1]);
   }
 
   // eta and etan
   for (j=0; j<= ROWS-1; j++) {
     for (k=0; k<=COLS-1; k++) {
-        sw2d_init_data_host_eta_etan(&eta [j*COLS + k], &hzero[j*COLS + k], &etan[j*COLS + k]);
+        sw2d_init_data_host_eta_etan(&eta [j*COLS + k], hzero[j*COLS + k], &etan[j*COLS + k]);
     }
   }
 
@@ -120,7 +120,7 @@ void sw2d_init_data_host (  stypeHost *__attribute__((annotate("15 0 6"))) hzero
             &h[j*COLS + k],
             hzero[j*COLS + k],
             eta[j*COLS + k],
-            wet[j*COLS + k],
+            &wet[j*COLS + k],
             hmin,
             &u [j*COLS + k],
             &un[j*COLS + k],
@@ -137,6 +137,112 @@ void sw2d_init_data_host (  stypeHost *__attribute__((annotate("15 0 6"))) hzero
 //------------------------------------------
 // dyn() - the dynamics
 //------------------------------------------
+
+void sw2d_dyn_host_firstLoop(
+    stypeHost* __attribute__((annotate("1500000 -1500000 10"))) du,
+    stypeHost* __attribute__((annotate("1500000 -1500000 10"))) dv,
+    stypeHost __attribute__((annotate("100 0 2"))) dt,
+    stypeHost __attribute__((annotate("10 9 2"))) g,
+    stypeHost __attribute__((annotate("15 0 6"))) eta_jCOLS_k_1,
+    stypeHost __attribute__((annotate("15 0 6"))) eta_jCOLS_k,
+    stypeHost __attribute__((annotate("15 0 6"))) eta_j1COLS_k,
+    stypeHost __attribute__((annotate("100 0 2"))) dx,
+    stypeHost __attribute__((annotate("100 0 2"))) dy)
+{
+    *du = -dt * g * (eta_jCOLS_k_1 - eta_jCOLS_k) / dx;
+    *dv = -dt * g * (eta_j1COLS_k - eta_jCOLS_k) / dy;
+}
+
+void sw2d_dyn_host_secondLoop(
+    stypeHost *__attribute__((annotate("10 -10 6"))) un_jCOLS_k,
+    stypeHost *__attribute__((annotate("10 -10 6"))) uu,
+    stypeHost __attribute__((annotate("10 -10 6"))) u_jCOLS_k,
+    stypeHost *__attribute__((annotate("1500000 -1500000 10"))) duu,
+    stypeHost __attribute__((annotate("1500000 -1500000 10"))) du_jCOLS_k,
+    stypeHost __attribute__((annotate("1 0 0"))) wet_jCOLS_k,
+    stypeHost __attribute__((annotate("1 0 0"))) wet_jCOLS_k_1,
+    stypeHost *__attribute__((annotate("10 -10 6"))) vn,
+    stypeHost *__attribute__((annotate("10 -10 6"))) vv,
+    stypeHost __attribute__((annotate("10 -10 6"))) v_jCOLS_k,
+    stypeHost *__attribute__((annotate("1500000 -1500000 10"))) dvv,
+    stypeHost *__attribute__((annotate("1500000 -1500000 10"))) dv
+) {
+    *un_jCOLS_k = 0.0;
+    *uu = u_jCOLS_k;
+    *duu = du_jCOLS_k;
+    if (wet_jCOLS_k == 1) {
+        if (wet_jCOLS_k_1 == 1 || (*duu) > 0.0) {
+            *un_jCOLS_k = (*uu) + (*duu);
+        }
+    } else {
+        if (wet_jCOLS_k_1 == 1 || (*duu) > 0.0) {
+            *un_jCOLS_k == (*uu) + (*duu);
+        }
+    }
+
+    *vn = 0.0;
+    *vv = v_jCOLS_k;
+    *dvv = *dv;
+    if (wet_jCOLS_k == 1) {
+        if (wet_jCOLS_k_1 == 1 || (*dvv) > 0.0) {
+            *vn = (*vv) + (*dvv);
+        }
+    } else {
+        if (wet_jCOLS_k_1 == 1 || (*dvv) < 0.0) {
+            *vn = (*vv) + (*dvv);
+        }
+    }
+}
+
+
+
+
+void sw2d_dyn_host_finalLoop(
+    stypeHost *hep,
+    stypeHost *hen,
+    stypeHost *hue,
+    stypeHost *hwp,
+    stypeHost *hwn,
+    stypeHost *huw,
+    stypeHost *hnp,
+    stypeHost *hnn,
+    stypeHost *hvn,
+    stypeHost *hsp,
+    stypeHost *hsn,
+    stypeHost *hvs,
+    stypeHost dx,
+    stypeHost dy,
+    stypeHost dt,
+    stypeHost un_jCOLS_k,
+    stypeHost un_jCOLS_k_neg1,
+    stypeHost vn_jCOLS_k,
+    stypeHost vn_neg1_jCOLS_k,
+    stypeHost h_jCOLS_k,
+    stypeHost h_jCOLS_k_1,
+    stypeHost h_jCOLS_k_neg1,
+    stypeHost h_jCOLS_1_k,
+    stypeHost h_neg1_jCOLS_k,
+    stypeHost *etan,
+    stypeHost *eta)
+{
+    *hep = 0.5*(un_jCOLS_k + abs(un_jCOLS_k)) * h_jCOLS_k;
+    *hen = 0.5*(un_jCOLS_k - abd(un_jCOLS_k)) * h_jCOLS_k_1;
+    *hue (*hep)+(*hen);
+
+    *hwp = 0.5*(un_jCOLS_k_neg1 + abs(un_jCOLS_k_neg1) ) * h_jCOLS_k_neg1;
+    *hwn = 0.5*(un_jCOLS_k_neg1 - abs(un_jCOLS_k_neg1)) * h_jCOLS_k;
+    *huw = (*hwp)+(*hwn);
+
+    *hnp = 0.5*(vn_jCOLS_k + abs(vn_jCOLS_k)) * h_jCOLS_k;
+    *hnn = 0.5*(vn_jCOLS_k - abs(vn_jCOLS_k)) * h_jCOLS_1_k;
+    *hvn = (*hnp)+(*hnn);
+
+    *hsp = 0.5*(vn_neg1_jCOLS_k + abs(vn_neg1_jCOLS_k)) * h_neg1_jCOLS_k;
+    *hsn = 0.5*(vn_neg1_jCOLS_k - abs(vn_neg1_jCOLS_k)) * h_jCOLS_k;
+    *hvs = (*hsp)+(*hsn);
+
+    *etan = (*eta) - dt*((*hue)-(*huw))/dx - dt*((*hvn)-(*hvs))/dy;
+}
 
 void sw2d_dyn_host  ( stypeHost __attribute__((annotate("100 0 2"))) dt
                     , stypeHost __attribute__((annotate("100 0 2"))) dx
@@ -155,8 +261,8 @@ void sw2d_dyn_host  ( stypeHost __attribute__((annotate("100 0 2"))) dt
 
 //locals
 //-------------------
-stypeHost *__attribute__((annotate("15000 -15000 6"))) du;// [ROWS][COLS];
-stypeHost *__attribute__((annotate("15000 -15000 6"))) dv;// [ROWS][COLS];
+stypeHost *__attribute__((annotate("1500000 -1500000 10"))) du;// [ROWS][COLS];
+stypeHost *__attribute__((annotate("1500000 -1500000 10"))) dv;// [ROWS][COLS];
 posix_memalign ((void**)&du, ALIGNMENT, SIZE*BytesPerWord);
 posix_memalign ((void**)&dv, ALIGNMENT, SIZE*BytesPerWord);
 stypeHost uu;
@@ -182,18 +288,16 @@ int j, k;
 //-------------------------------------------
   for (j=1; j<= ROWS-2; j++) {
     for (k=1; k<= COLS-2; k++) {
-      du[j*COLS + k]  = -dt
-                      * g
-                      * ( eta[j*COLS + k+1 ]
-                        - eta[j*COLS + k   ]
-                        )
-                      / dx;
-      dv[j*COLS + k]  = -dt
-                      * g
-                      * ( eta[(j+1)*COLS + k]
-                        - eta[    j*COLS + k]
-                        )
-                      / dy;
+        sw2d_dyn_host_firstLoop(
+            &du[j*COLS + k],
+            &dv[j*COLS + k],
+            dt,
+            g,
+            eta[j*COLS + k+1 ],
+            eta[j*COLS + k   ],
+            eta[(j+1)*COLS + k],
+            dx,
+            dy);
     }
   }
 
@@ -201,32 +305,20 @@ int j, k;
 //---------------------------------
   for (j=1; j<= ROWS-2; j++) {
     for (k=1; k<= COLS-2; k++) {
-
-      //u
-      un[j*COLS + k]  = 0.0;
-      uu = u[j*COLS + k];
-      duu= du[j*COLS + k];
-      if (wet[j*COLS + k] == 1){
-        if( (wet[j*COLS + k+1] == 1) || (duu > 0.0) )
-          un[j*COLS + k] = uu+duu;
-      }//if
-      else {
-        if((wet[j*COLS + k+1] == 1) && (duu < 0.0) )
-          un[j*COLS + k] = uu+duu;
-      }//else
-
-      //v
-      vn[j*COLS + k]  = 0.0;
-      vv =  v[j*COLS + k];
-      dvv= dv[j*COLS + k];
-      if (wet[j*COLS + k] == 1){
-        if( (wet[j*COLS + k+1] == 1) || (dvv > 0.0) )
-          vn[j*COLS + k] = vv+dvv;
-      }//if
-      else {
-        if((wet[j*COLS + k+1] == 1) && (dvv < 0.0) )
-          vn[j*COLS + k] = vv+dvv;
-      }//else
+        sw2d_dyn_host_secondLoop(
+            &un[j*COLS + k],
+            &uu,
+            u[j*COLS + k],
+            &duu,
+            du[j*COLS + k],
+            wet[j*COLS + k],
+            wet[j*COLS + k+1],
+            &vn[j*COLS + k],
+            &vv,
+            v[j*COLS + k],
+            &dvv,
+            &dv[j*COLS + k]
+        );
 
     }//for
   }//for
@@ -235,31 +327,61 @@ int j, k;
 //--------------------
   for (j=1; j<= ROWS-2; j++) {
     for (k=1; k<= COLS-2; k++) {
-      hep = 0.5*( un[j*COLS + k] + abs(un[j*COLS + k]) ) * h[j*COLS + k  ];
-      hen = 0.5*( un[j*COLS + k] - abs(un[j*COLS + k]) ) * h[j*COLS + k+1];
-      hue = hep+hen;
-
-      hwp = 0.5*( un[j*COLS + k-1] + abs(un[j*COLS + k-1]) ) * h[j*COLS + k-1];
-      hwn = 0.5*( un[j*COLS + k-1] - abs(un[j*COLS + k-1]) ) * h[j*COLS + k  ];
-      huw = hwp+hwn;
-
-      hnp = 0.5*( vn[j*COLS + k] + abs(vn[j*COLS + k]) ) * h[    j*COLS + k];
-      hnn = 0.5*( vn[j*COLS + k] - abs(vn[j*COLS + k]) ) * h[(j+1)*COLS + k];
-      hvn = hnp+hnn;
-
-      hsp = 0.5*( vn[(j-1)*COLS + k] + abs(vn[(j-1)*COLS + k]) ) * h[(j-1)*COLS + k];
-      hsn = 0.5*( vn[(j-1)*COLS + k] - abs(vn[(j-1)*COLS + k]) ) * h[    j*COLS + k];
-      hvs = hsp+hsn;
-
-      etan[j*COLS + k]  = eta[j*COLS + k]
-                        - dt*(hue-huw)/dx
-                        - dt*(hvn-hvs)/dy;
+        sw2d_dyn_host_finalLoop(
+            &hep,
+            &hen,
+            &hue,
+            &hwp,
+            &hwn,
+            &huw,
+            &hnp,
+            &hnn,
+            &hvn,
+            &hsp,
+            &hsn,
+            &hvs,
+            dx,
+            dy,
+            dt,
+            un[j*COLS + k],
+            un[j*COLS + k-1],
+            vn[j*COLS + k],
+            vn[(j-1)*COLS + k],
+            h[j*COLS + k  ],
+            h[j*COLS + k+1],
+            h[j*COLS + k-1],
+            h[(j+1)*COLS + k],
+            h[(j-1)*COLS + k],
+            &etan[j*COLS + k],
+            &eta[j*COLS + k]);
     }//for
   }//for
 }//()
 
-
-
+void sw2d_shapiro_host_terms(
+    stypeHost wet_jCOLS_k,
+    stypeHost wet_jCOLS_k_1,
+    stypeHost wet_jCOLS_k_neg1,
+    stypeHost wet_j1COLS_k,
+    stypeHost wet_jNeg1COLS_k,
+    stypeHost etan_jCOLS_k,
+    stypeHost etan_j1COLS_k,
+    stypeHost etan_jNeg1COLS_k,
+    stypeHost etan_jCOLS_k_1,
+    stypeHost etan_jCOLS_k_neg1,
+    stypeHost eps,
+    stypeHost *eta)
+{
+    stypeHost term1,term2,term3;
+    if (wet_jCOLS_k == 1) {
+        term1 = (1.0-0.25*eps * (wet_jCOLS_k_1 + wet_jCOLS_k_neg1 + wet_j1COLS_k + wet_jNeg1COLS_k)) * etan_jCOLS_k;
+        term2 = 0.25 * eps * (wet_jCOLS_k_1 * etan_jCOLS_k_1 + wet_jCOLS_k_neg1 * etan_jCOLS_k_neg1);
+        term3 = 0.25*eps*(wet_j1COLS_k * etan_j1COLS_k + wet_jNeg1COLS_k * etan_jNeg1COLS_k);
+        *eta = term1 + term2 + term3;
+    } else {
+        eta = etan_jNeg1COLS_k;
+    }
+}
 //------------------------------------------
 // shapiro() - filter
 //------------------------------------------
@@ -276,35 +398,43 @@ void sw2d_shapiro_host  ( stypeHost *__attribute__((annotate("1 0 0"))) wet
   //1-order Shapiro filter
   for (j=1; j<= ROWS-2; j++) {
     for (k=1; k<= COLS-2; k++) {
-        if (wet[j*COLS + k]==1) {
-        term1 = ( 1.0-0.25*eps
-                  * ( wet[    j*COLS + k+1]
-                    + wet[    j*COLS + k-1]
-                    + wet[(j+1)*COLS + k  ]
-                    + wet[(j-1)*COLS + k  ]
-                    )
-                )
-                * etan[j*COLS + k];
-        term2 = 0.25*eps
-                * ( wet [j*COLS + k+1]
-                  * etan[j*COLS + k+1]
-                  + wet [j*COLS + k-1]
-                  * etan[j*COLS + k-1]
-                  );
-        term3 = 0.25*eps
-                * ( wet [(j+1)*COLS + k]
-                  * etan[(j+1)*COLS + k]
-                  + wet [(j-1)*COLS + k]
-                  * etan[(j-1)*COLS + k]
-                  );
-        eta[(j-1)*COLS + k] = term1 + term2 + term3;
-      }//if
-      else {
-        eta[(j-1)*COLS + k] = etan[(j-1)*COLS + k];
-      }//else
+            sw2d_shapiro_host_terms(
+                wet[    j*COLS + k],
+                wet[    j*COLS + k+1],
+                wet[    j*COLS + k-1],
+                wet[(j+1)*COLS + k  ],
+                wet[(j-1)*COLS + k  ],
+                etan[j*COLS + k],
+                etan[(j+1)*COLS + k],
+                etan[(j-1)*COLS + k],
+                etan[j*COLS + k+1],
+                etan[j*COLS + k-1],
+                eps,
+                &eta[(j-1)*COLS + k]);
     }//for
   }//for
 }//()
+
+void sw2d_updates_host_loop(
+    stypeHost *h_jCOLS_k,
+    stypeHost hzero_jCOLS_k,
+    stypeHost eta_jCOLS_k,
+    stypeHost wet_jCOLS_k,
+    stypeHost hmin,
+    stypeHost *u,
+    stypeHost *v,
+    stypeHost un,
+    stypeHost vn)
+{
+    *h_jCOLS_k = hzero_jCOLS_k + eta_jCOLS_k;
+    *wet_jCOLS_k = 1;
+    if (h_jCOLS_k < hmin) {
+        wet_jCOLS_k = 0;
+    }
+    *u = un;
+    *v = vn;
+}
+
 
 //------------------------------------------
 // updates() -
@@ -323,16 +453,16 @@ void sw2d_updates_host  ( stypeHost *__attribute__((annotate("15 0 6"))) h
 
   for (int j=0; j<= ROWS-1; j++) {
     for (int k=0; k<=COLS-1; k++) {
-      //h update
-      h[j*COLS + k] = hzero[j*COLS + k]
-                    + eta  [j*COLS + k];
-      //wet update
-      wet[j*COLS + k] = 1;
-      if ( h[j*COLS + k] < hmin )
-            wet[j*COLS + k] = 0;
-      //u, v updates
-      u[j*COLS + k] = un[j*COLS + k];
-      v[j*COLS + k] = vn[j*COLS + k];
+        sw2d_updates_host_loop(
+            &h[j*COLS + k],
+            hzero[j*COLS + k],
+            eta  [j*COLS + k],
+            wet[j*COLS + k],
+            hmin,
+            &u[j*COLS + k],
+            &v[j*COLS + k],
+            un[j*COLS + k],
+            vn[j*COLS + k]);
     }//for
   }//for
 }//()
