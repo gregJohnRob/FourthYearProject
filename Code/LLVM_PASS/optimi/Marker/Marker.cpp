@@ -187,7 +187,7 @@ bool Marker::checkForErrors(Value *v, Annotation a) {
     }
     if (this->hasAnnotation(v)) {
         Annotation currA = this->getAnnotation(v);
-        if (a.max != currA.max || a.min != currA.max || a.precision != currA.precision) {
+        if (a.max != currA.max || a.min != currA.min || a.precision != currA.precision) {
             if (v->hasName()) {
                 errs() << "\tValue " << v->getName().str()  << " is already annotated\n";
             } else {
