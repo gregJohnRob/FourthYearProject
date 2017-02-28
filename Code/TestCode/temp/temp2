@@ -1,0 +1,723 @@
+LES_combined_kernel_mono.c:33:8: error: ‘int4’ does not name a type
+ inline int4 calc_loop_iters(int idx, int im, int jm, int km, int i_off, int j_off, int k_off) {
+        ^
+LES_combined_kernel_mono.c:48:6: error: variable or field ‘velnw__bondv1_init_uvw_kernel’ declared void
+      float2 * p,
+      ^
+LES_combined_kernel_mono.c:48:6: error: ‘float2’ was not declared in this scope
+LES_combined_kernel_mono.c:48:15: error: ‘p’ was not declared in this scope
+      float2 * p,
+               ^
+LES_combined_kernel_mono.c:49:6: error: ‘float4’ was not declared in this scope
+      float4 * uvw,
+      ^
+LES_combined_kernel_mono.c:49:15: error: ‘uvw’ was not declared in this scope
+      float4 * uvw,
+               ^
+LES_combined_kernel_mono.c:50:6: error: ‘float4’ was not declared in this scope
+      float4 * fgh,
+      ^
+LES_combined_kernel_mono.c:50:15: error: ‘fgh’ was not declared in this scope
+      float4 * fgh,
+               ^
+LES_combined_kernel_mono.c:51:6: error: expected primary-expression before ‘float’
+      float * dxs,
+      ^
+LES_combined_kernel_mono.c:52:6: error: expected primary-expression before ‘float’
+      float * dys,
+      ^
+LES_combined_kernel_mono.c:53:6: error: expected primary-expression before ‘float’
+      float * dzs,
+      ^
+LES_combined_kernel_mono.c:54:6: error: expected primary-expression before ‘float’
+      float * dzn,
+      ^
+LES_combined_kernel_mono.c:55:6: error: expected primary-expression before ‘float’
+      float * z2,
+      ^
+LES_combined_kernel_mono.c:56:6: error: expected primary-expression before ‘unsigned’
+      unsigned int* n_ptr,
+      ^
+LES_combined_kernel_mono.c:57:5: error: expected primary-expression before ‘const’
+     const unsigned int im,
+     ^
+LES_combined_kernel_mono.c:58:5: error: expected primary-expression before ‘const’
+     const unsigned int jm,
+     ^
+LES_combined_kernel_mono.c:59:5: error: expected primary-expression before ‘const’
+     const unsigned int km,
+     ^
+LES_combined_kernel_mono.c:60:5: error: expected primary-expression before ‘const’
+     const float dt
+     ^
+LES_combined_kernel_mono.c:66:6: error: ‘float4’ has not been declared
+      float4 * uvw,
+      ^
+LES_combined_kernel_mono.c:75:10: error: variable or field ‘bondv1_calc_uvw_kernel’ declared void
+          float4* uvw,
+          ^
+LES_combined_kernel_mono.c:75:10: error: ‘float4’ was not declared in this scope
+LES_combined_kernel_mono.c:75:18: error: ‘uvw’ was not declared in this scope
+          float4* uvw,
+                  ^
+LES_combined_kernel_mono.c:76:10: error: ‘float4’ was not declared in this scope
+          float4 *uvwsum,
+          ^
+LES_combined_kernel_mono.c:76:18: error: ‘uvwsum’ was not declared in this scope
+          float4 *uvwsum,
+                  ^
+LES_combined_kernel_mono.c:77:10: error: ‘float4’ was not declared in this scope
+          float4* fgh,
+          ^
+LES_combined_kernel_mono.c:77:18: error: ‘fgh’ was not declared in this scope
+          float4* fgh,
+                  ^
+LES_combined_kernel_mono.c:78:10: error: ‘float4’ was not declared in this scope
+          float4 *mask1,
+          ^
+LES_combined_kernel_mono.c:78:18: error: ‘mask1’ was not declared in this scope
+          float4 *mask1,
+                  ^
+LES_combined_kernel_mono.c:79:10: error: ‘float16’ was not declared in this scope
+          float16* diu,
+          ^
+LES_combined_kernel_mono.c:79:19: error: ‘diu’ was not declared in this scope
+          float16* diu,
+                   ^
+LES_combined_kernel_mono.c:80:10: error: expected primary-expression before ‘float’
+          float * dxs,
+          ^
+LES_combined_kernel_mono.c:81:10: error: expected primary-expression before ‘float’
+          float* dzs,
+          ^
+LES_combined_kernel_mono.c:82:10: error: expected primary-expression before ‘float’
+          float* dx1,
+          ^
+LES_combined_kernel_mono.c:83:10: error: expected primary-expression before ‘float’
+          float* dy1,
+          ^
+LES_combined_kernel_mono.c:84:10: error: expected primary-expression before ‘float’
+          float* dzn,
+          ^
+LES_combined_kernel_mono.c:85:10: error: expected primary-expression before ‘float’
+          float *sm,
+          ^
+LES_combined_kernel_mono.c:86:10: error: expected primary-expression before ‘float’
+          float * uout_ptr,
+          ^
+LES_combined_kernel_mono.c:87:9: error: expected primary-expression before ‘const’
+         const float dt,
+         ^
+LES_combined_kernel_mono.c:88:9: error: expected primary-expression before ‘const’
+         const unsigned int im,
+         ^
+LES_combined_kernel_mono.c:89:9: error: expected primary-expression before ‘const’
+         const unsigned int jm,
+         ^
+LES_combined_kernel_mono.c:90:9: error: expected primary-expression before ‘const’
+         const unsigned int km
+         ^
+LES_combined_kernel_mono.c:96:6: error: variable or field ‘vel2’ declared void
+      float4 * uvw,
+      ^
+LES_combined_kernel_mono.c:96:6: error: ‘float4’ was not declared in this scope
+LES_combined_kernel_mono.c:96:15: error: ‘uvw’ was not declared in this scope
+      float4 * uvw,
+               ^
+LES_combined_kernel_mono.c:97:6: error: ‘float16’ was not declared in this scope
+      float16 * diu,
+      ^
+LES_combined_kernel_mono.c:97:16: error: ‘diu’ was not declared in this scope
+      float16 * diu,
+                ^
+LES_combined_kernel_mono.c:98:2: error: ‘float16’ was not declared in this scope
+  float16* cov_ijk,
+  ^
+LES_combined_kernel_mono.c:98:11: error: ‘cov_ijk’ was not declared in this scope
+  float16* cov_ijk,
+           ^
+LES_combined_kernel_mono.c:99:2: error: ‘float16’ was not declared in this scope
+  float16* cov_ijk_p1,
+  ^
+LES_combined_kernel_mono.c:99:11: error: ‘cov_ijk_p1’ was not declared in this scope
+  float16* cov_ijk_p1,
+           ^
+LES_combined_kernel_mono.c:100:2: error: ‘float16’ was not declared in this scope
+  float16* diu_ijk,
+  ^
+LES_combined_kernel_mono.c:100:11: error: ‘diu_ijk’ was not declared in this scope
+  float16* diu_ijk,
+           ^
+LES_combined_kernel_mono.c:101:2: error: ‘float16’ was not declared in this scope
+  float16* diu_ijk_p1,
+  ^
+LES_combined_kernel_mono.c:101:11: error: ‘diu_ijk_p1’ was not declared in this scope
+  float16* diu_ijk_p1,
+           ^
+LES_combined_kernel_mono.c:102:6: error: expected primary-expression before ‘float’
+      float * dzs,
+      ^
+LES_combined_kernel_mono.c:103:6: error: expected primary-expression before ‘float’
+      float * dx1,
+      ^
+LES_combined_kernel_mono.c:104:6: error: expected primary-expression before ‘float’
+      float * dy1,
+      ^
+LES_combined_kernel_mono.c:105:6: error: expected primary-expression before ‘float’
+      float * dzn,
+      ^
+LES_combined_kernel_mono.c:106:5: error: expected primary-expression before ‘const’
+     const unsigned int im,
+     ^
+LES_combined_kernel_mono.c:107:5: error: expected primary-expression before ‘const’
+     const unsigned int jm,
+     ^
+LES_combined_kernel_mono.c:108:5: error: expected primary-expression before ‘const’
+     const unsigned int km,
+     ^
+LES_combined_kernel_mono.c:109:5: error: expected primary-expression before ‘int’
+     int i,int j,int k
+     ^
+LES_combined_kernel_mono.c:109:11: error: expected primary-expression before ‘int’
+     int i,int j,int k
+           ^
+LES_combined_kernel_mono.c:109:17: error: expected primary-expression before ‘int’
+     int i,int j,int k
+                 ^
+LES_combined_kernel_mono.c:112:10: error: variable or field ‘velfg__feedbf__les_calc_sm_kernel’ declared void
+          float4* uvw,
+          ^
+LES_combined_kernel_mono.c:112:10: error: ‘float4’ was not declared in this scope
+LES_combined_kernel_mono.c:112:18: error: ‘uvw’ was not declared in this scope
+          float4* uvw,
+                  ^
+LES_combined_kernel_mono.c:113:10: error: ‘float4’ was not declared in this scope
+          float4 *uvwsum,
+          ^
+LES_combined_kernel_mono.c:113:18: error: ‘uvwsum’ was not declared in this scope
+          float4 *uvwsum,
+                  ^
+LES_combined_kernel_mono.c:114:10: error: ‘float4’ was not declared in this scope
+          float4* fgh,
+          ^
+LES_combined_kernel_mono.c:114:18: error: ‘fgh’ was not declared in this scope
+          float4* fgh,
+                  ^
+LES_combined_kernel_mono.c:115:10: error: ‘float4’ was not declared in this scope
+          float4 *mask1,
+          ^
+LES_combined_kernel_mono.c:115:18: error: ‘mask1’ was not declared in this scope
+          float4 *mask1,
+                  ^
+LES_combined_kernel_mono.c:116:10: error: ‘float16’ was not declared in this scope
+          float16* diu,
+          ^
+LES_combined_kernel_mono.c:116:19: error: ‘diu’ was not declared in this scope
+          float16* diu,
+                   ^
+LES_combined_kernel_mono.c:117:10: error: expected primary-expression before ‘float’
+          float * dxs,
+          ^
+LES_combined_kernel_mono.c:118:10: error: expected primary-expression before ‘float’
+          float* dzs,
+          ^
+LES_combined_kernel_mono.c:119:10: error: expected primary-expression before ‘float’
+          float* dx1,
+          ^
+LES_combined_kernel_mono.c:120:10: error: expected primary-expression before ‘float’
+          float* dy1,
+          ^
+LES_combined_kernel_mono.c:121:10: error: expected primary-expression before ‘float’
+          float* dzn,
+          ^
+LES_combined_kernel_mono.c:122:10: error: expected primary-expression before ‘float’
+          float *sm,
+          ^
+LES_combined_kernel_mono.c:123:10: error: expected primary-expression before ‘float’
+          float * uout_ptr,
+          ^
+LES_combined_kernel_mono.c:124:9: error: expected primary-expression before ‘const’
+         const float dt,
+         ^
+LES_combined_kernel_mono.c:125:9: error: expected primary-expression before ‘const’
+         const unsigned int im,
+         ^
+LES_combined_kernel_mono.c:126:9: error: expected primary-expression before ‘const’
+         const unsigned int jm,
+         ^
+LES_combined_kernel_mono.c:127:9: error: expected primary-expression before ‘const’
+         const unsigned int km
+         ^
+LES_combined_kernel_mono.c:130:10: error: variable or field ‘les_bound_sm_kernel’ declared void
+          float4 *fgh,
+          ^
+LES_combined_kernel_mono.c:130:10: error: ‘float4’ was not declared in this scope
+LES_combined_kernel_mono.c:130:18: error: ‘fgh’ was not declared in this scope
+          float4 *fgh,
+                  ^
+LES_combined_kernel_mono.c:131:10: error: expected primary-expression before ‘float’
+          float *dx1, float *dy1, float *dzn,
+          ^
+LES_combined_kernel_mono.c:131:22: error: expected primary-expression before ‘float’
+          float *dx1, float *dy1, float *dzn,
+                      ^
+LES_combined_kernel_mono.c:131:34: error: expected primary-expression before ‘float’
+          float *dx1, float *dy1, float *dzn,
+                                  ^
+LES_combined_kernel_mono.c:132:10: error: ‘float16’ was not declared in this scope
+          float16 *diu,
+          ^
+LES_combined_kernel_mono.c:132:19: error: ‘diu’ was not declared in this scope
+          float16 *diu,
+                   ^
+LES_combined_kernel_mono.c:133:10: error: expected primary-expression before ‘float’
+          float *sm,
+          ^
+LES_combined_kernel_mono.c:134:9: error: expected primary-expression before ‘const’
+         const unsigned int im,
+         ^
+LES_combined_kernel_mono.c:135:9: error: expected primary-expression before ‘const’
+         const unsigned int jm,
+         ^
+LES_combined_kernel_mono.c:136:9: error: expected primary-expression before ‘const’
+         const unsigned int km
+         ^
+LES_combined_kernel_mono.c:139:4: error: variable or field ‘les_calc_visc__adam_kernel’ declared void
+    float4 *fgh,
+    ^
+LES_combined_kernel_mono.c:139:4: error: ‘float4’ was not declared in this scope
+LES_combined_kernel_mono.c:139:12: error: ‘fgh’ was not declared in this scope
+    float4 *fgh,
+            ^
+LES_combined_kernel_mono.c:140:4: error: ‘float4’ was not declared in this scope
+    float4 *fgh_old,
+    ^
+LES_combined_kernel_mono.c:140:12: error: ‘fgh_old’ was not declared in this scope
+    float4 *fgh_old,
+            ^
+LES_combined_kernel_mono.c:141:4: error: expected primary-expression before ‘float’
+    float *dx1, float *dy1, float *dzn,
+    ^
+LES_combined_kernel_mono.c:141:16: error: expected primary-expression before ‘float’
+    float *dx1, float *dy1, float *dzn,
+                ^
+LES_combined_kernel_mono.c:141:28: error: expected primary-expression before ‘float’
+    float *dx1, float *dy1, float *dzn,
+                            ^
+LES_combined_kernel_mono.c:142:4: error: ‘float16’ was not declared in this scope
+    float16 *diu,
+    ^
+LES_combined_kernel_mono.c:142:13: error: ‘diu’ was not declared in this scope
+    float16 *diu,
+             ^
+LES_combined_kernel_mono.c:143:4: error: expected primary-expression before ‘float’
+    float *sm,
+    ^
+LES_combined_kernel_mono.c:144:3: error: expected primary-expression before ‘const’
+   const unsigned int im,
+   ^
+LES_combined_kernel_mono.c:145:3: error: expected primary-expression before ‘const’
+   const unsigned int jm,
+   ^
+LES_combined_kernel_mono.c:146:3: error: expected primary-expression before ‘const’
+   const unsigned int km
+   ^
+LES_combined_kernel_mono.c:149:17: error: variable or field ‘bondfgc_’ declared void
+ void bondfgc_ ( float4 *fgh,const int im,const int jm,const int km,int i,int j, int k) ;
+                 ^
+LES_combined_kernel_mono.c:149:17: error: ‘float4’ was not declared in this scope
+LES_combined_kernel_mono.c:149:25: error: ‘fgh’ was not declared in this scope
+ void bondfgc_ ( float4 *fgh,const int im,const int jm,const int km,int i,int j, int k) ;
+                         ^
+LES_combined_kernel_mono.c:149:29: error: expected primary-expression before ‘const’
+ void bondfgc_ ( float4 *fgh,const int im,const int jm,const int km,int i,int j, int k) ;
+                             ^
+LES_combined_kernel_mono.c:149:42: error: expected primary-expression before ‘const’
+ void bondfgc_ ( float4 *fgh,const int im,const int jm,const int km,int i,int j, int k) ;
+                                          ^
+LES_combined_kernel_mono.c:149:55: error: expected primary-expression before ‘const’
+ void bondfgc_ ( float4 *fgh,const int im,const int jm,const int km,int i,int j, int k) ;
+                                                       ^
+LES_combined_kernel_mono.c:149:68: error: expected primary-expression before ‘int’
+ void bondfgc_ ( float4 *fgh,const int im,const int jm,const int km,int i,int j, int k) ;
+                                                                    ^
+LES_combined_kernel_mono.c:149:74: error: expected primary-expression before ‘int’
+ void bondfgc_ ( float4 *fgh,const int im,const int jm,const int km,int i,int j, int k) ;
+                                                                          ^
+LES_combined_kernel_mono.c:149:81: error: expected primary-expression before ‘int’
+ void bondfgc_ ( float4 *fgh,const int im,const int jm,const int km,int i,int j, int k) ;
+                                                                                 ^
+LES_combined_kernel_mono.c:153:4: error: ‘float4’ has not been declared
+    float4* uvw,
+    ^
+LES_combined_kernel_mono.c:154:4: error: ‘float4’ has not been declared
+    float4* fgh,
+    ^
+LES_combined_kernel_mono.c:168:10: error: ‘float2’ was not declared in this scope
+          float2* p_scratch,
+          ^
+LES_combined_kernel_mono.c:168:18: error: ‘p_scratch’ was not declared in this scope
+          float2* p_scratch,
+                  ^
+LES_combined_kernel_mono.c:169:10: error: expected primary-expression before ‘float’
+          float* rhs,
+          ^
+LES_combined_kernel_mono.c:170:9: error: expected primary-expression before ‘float’
+         float rhsav,
+         ^
+LES_combined_kernel_mono.c:171:9: error: expected primary-expression before ‘const’
+         const  float *cn1,
+         ^
+LES_combined_kernel_mono.c:172:9: error: expected primary-expression before ‘const’
+         const  float *cn2l,const  float *cn2s,
+         ^
+LES_combined_kernel_mono.c:172:28: error: expected primary-expression before ‘const’
+         const  float *cn2l,const  float *cn2s,
+                            ^
+LES_combined_kernel_mono.c:173:9: error: expected primary-expression before ‘const’
+         const  float *cn3l,
+         ^
+LES_combined_kernel_mono.c:174:9: error: expected primary-expression before ‘const’
+         const  float *cn3s,
+         ^
+LES_combined_kernel_mono.c:175:9: error: expected primary-expression before ‘const’
+         const  float *cn4l,
+         ^
+LES_combined_kernel_mono.c:176:9: error: expected primary-expression before ‘const’
+         const  float *cn4s,
+         ^
+LES_combined_kernel_mono.c:177:9: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+         ^
+LES_combined_kernel_mono.c:177:25: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+                         ^
+LES_combined_kernel_mono.c:177:41: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+                                         ^
+LES_combined_kernel_mono.c:178:9: error: expected primary-expression before ‘const’
+         const unsigned int ip,
+         ^
+LES_combined_kernel_mono.c:179:9: error: expected primary-expression before ‘const’
+         const unsigned int jp,
+         ^
+LES_combined_kernel_mono.c:180:9: error: expected primary-expression before ‘const’
+         const unsigned int kp
+         ^
+LES_combined_kernel_mono.c:181:9: error: expression list treated as compound expression in initializer [-fpermissive]
+         ) ;
+         ^
+LES_combined_kernel_mono.c:183:10: error: ‘float2’ was not declared in this scope
+          float2* p_scratch,
+          ^
+LES_combined_kernel_mono.c:183:18: error: ‘p_scratch’ was not declared in this scope
+          float2* p_scratch,
+                  ^
+LES_combined_kernel_mono.c:184:10: error: expected primary-expression before ‘float’
+          float* rhs,
+          ^
+LES_combined_kernel_mono.c:185:9: error: expected primary-expression before ‘float’
+         float rhsav,
+         ^
+LES_combined_kernel_mono.c:186:9: error: expected primary-expression before ‘const’
+         const  float *cn1,
+         ^
+LES_combined_kernel_mono.c:187:9: error: expected primary-expression before ‘const’
+         const  float *cn2l,const  float *cn2s,
+         ^
+LES_combined_kernel_mono.c:187:28: error: expected primary-expression before ‘const’
+         const  float *cn2l,const  float *cn2s,
+                            ^
+LES_combined_kernel_mono.c:188:9: error: expected primary-expression before ‘const’
+         const  float *cn3l,
+         ^
+LES_combined_kernel_mono.c:189:9: error: expected primary-expression before ‘const’
+         const  float *cn3s,
+         ^
+LES_combined_kernel_mono.c:190:9: error: expected primary-expression before ‘const’
+         const  float *cn4l,
+         ^
+LES_combined_kernel_mono.c:191:9: error: expected primary-expression before ‘const’
+         const  float *cn4s,
+         ^
+LES_combined_kernel_mono.c:192:9: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+         ^
+LES_combined_kernel_mono.c:192:25: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+                         ^
+LES_combined_kernel_mono.c:192:41: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+                                         ^
+LES_combined_kernel_mono.c:193:9: error: expected primary-expression before ‘const’
+         const unsigned int ip,
+         ^
+LES_combined_kernel_mono.c:194:9: error: expected primary-expression before ‘const’
+         const unsigned int jp,
+         ^
+LES_combined_kernel_mono.c:195:9: error: expected primary-expression before ‘const’
+         const unsigned int kp
+         ^
+LES_combined_kernel_mono.c:196:9: error: expression list treated as compound expression in initializer [-fpermissive]
+         ) ;
+         ^
+LES_combined_kernel_mono.c:198:4: error: ‘float2’ was not declared in this scope
+    float2* p_scratch,
+    ^
+LES_combined_kernel_mono.c:198:12: error: ‘p_scratch’ was not declared in this scope
+    float2* p_scratch,
+            ^
+LES_combined_kernel_mono.c:199:10: error: expected primary-expression before ‘float’
+          float* rhs,
+          ^
+LES_combined_kernel_mono.c:200:9: error: expected primary-expression before ‘float’
+         float rhsav,
+         ^
+LES_combined_kernel_mono.c:201:9: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+         ^
+LES_combined_kernel_mono.c:201:27: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                           ^
+LES_combined_kernel_mono.c:201:46: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                              ^
+LES_combined_kernel_mono.c:201:65: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                                                 ^
+LES_combined_kernel_mono.c:201:84: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                                                                    ^
+LES_combined_kernel_mono.c:201:103: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                                                                                       ^
+LES_combined_kernel_mono.c:201:122: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                                                                                                          ^
+LES_combined_kernel_mono.c:202:9: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+         ^
+LES_combined_kernel_mono.c:202:25: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+                         ^
+LES_combined_kernel_mono.c:202:41: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+                                         ^
+LES_combined_kernel_mono.c:203:9: error: expected primary-expression before ‘unsigned’
+         unsigned int j_lhs,unsigned int k_lhs,
+         ^
+LES_combined_kernel_mono.c:203:28: error: expected primary-expression before ‘unsigned’
+         unsigned int j_lhs,unsigned int k_lhs,
+                            ^
+LES_combined_kernel_mono.c:204:9: error: expected primary-expression before ‘unsigned’
+         unsigned int nrd,
+         ^
+LES_combined_kernel_mono.c:205:9: error: expected primary-expression before ‘const’
+         const unsigned int ip,
+         ^
+LES_combined_kernel_mono.c:206:9: error: expected primary-expression before ‘const’
+         const unsigned int jp,
+         ^
+LES_combined_kernel_mono.c:207:9: error: expected primary-expression before ‘const’
+         const unsigned int kp
+         ^
+LES_combined_kernel_mono.c:208:9: error: expression list treated as compound expression in initializer [-fpermissive]
+         ) ;
+         ^
+LES_combined_kernel_mono.c:210:4: error: ‘float2’ was not declared in this scope
+    float2* p_scratch,
+    ^
+LES_combined_kernel_mono.c:210:12: error: ‘p_scratch’ was not declared in this scope
+    float2* p_scratch,
+            ^
+LES_combined_kernel_mono.c:211:10: error: expected primary-expression before ‘float’
+          float* rhs,
+          ^
+LES_combined_kernel_mono.c:212:9: error: expected primary-expression before ‘float’
+         float rhsav,
+         ^
+LES_combined_kernel_mono.c:213:9: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+         ^
+LES_combined_kernel_mono.c:213:27: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                           ^
+LES_combined_kernel_mono.c:213:46: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                              ^
+LES_combined_kernel_mono.c:213:65: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                                                 ^
+LES_combined_kernel_mono.c:213:84: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                                                                    ^
+LES_combined_kernel_mono.c:213:103: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                                                                                       ^
+LES_combined_kernel_mono.c:213:122: error: expected primary-expression before ‘const’
+         const  float *cn1,const  float *cn2l,const  float *cn2s,const  float *cn3l,const  float *cn3s,const  float *cn4l,const  float *cn4s,
+                                                                                                                          ^
+LES_combined_kernel_mono.c:214:9: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+         ^
+LES_combined_kernel_mono.c:214:25: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+                         ^
+LES_combined_kernel_mono.c:214:41: error: expected primary-expression before ‘unsigned’
+         unsigned int i, unsigned int j, unsigned int k,
+                                         ^
+LES_combined_kernel_mono.c:215:9: error: expected primary-expression before ‘unsigned’
+         unsigned int j_lhs,unsigned int k_lhs,
+         ^
+LES_combined_kernel_mono.c:215:28: error: expected primary-expression before ‘unsigned’
+         unsigned int j_lhs,unsigned int k_lhs,
+                            ^
+LES_combined_kernel_mono.c:216:9: error: expected primary-expression before ‘unsigned’
+         unsigned int nrd,
+         ^
+LES_combined_kernel_mono.c:217:9: error: expected primary-expression before ‘const’
+         const unsigned int ip,
+         ^
+LES_combined_kernel_mono.c:218:9: error: expected primary-expression before ‘const’
+         const unsigned int jp,
+         ^
+LES_combined_kernel_mono.c:219:9: error: expected primary-expression before ‘const’
+         const unsigned int kp
+         ^
+LES_combined_kernel_mono.c:220:9: error: expression list treated as compound expression in initializer [-fpermissive]
+         ) ;
+         ^
+LES_combined_kernel_mono.c:225:10: error: ‘float4’ has not been declared
+          float4* uvw,
+          ^
+LES_combined_kernel_mono.c:227:10: error: ‘float2’ has not been declared
+          float2* p_scratch,
+          ^
+LES_combined_kernel_mono.c:241:10: error: ‘float2’ has not been declared
+          float2* p2,
+          ^
+LES_combined_kernel_mono.c:250:10: error: variable or field ‘press_adj_kernel’ declared void
+          float2* p2,
+          ^
+LES_combined_kernel_mono.c:250:10: error: ‘float2’ was not declared in this scope
+LES_combined_kernel_mono.c:250:18: error: ‘p2’ was not declared in this scope
+          float2* p2,
+                  ^
+LES_combined_kernel_mono.c:251:10: error: expected primary-expression before ‘float’
+          float *pav_ptr,
+          ^
+LES_combined_kernel_mono.c:252:9: error: expected primary-expression before ‘const’
+         const unsigned int im,
+         ^
+LES_combined_kernel_mono.c:253:9: error: expected primary-expression before ‘const’
+         const unsigned int jm,
+         ^
+LES_combined_kernel_mono.c:254:9: error: expected primary-expression before ‘const’
+         const unsigned int km
+         ^
+LES_combined_kernel_mono.c:256:18: error: variable or field ‘boundp12c_’ declared void
+ void boundp12c_( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km);
+                  ^
+LES_combined_kernel_mono.c:256:18: error: ‘float2’ was not declared in this scope
+LES_combined_kernel_mono.c:256:26: error: ‘p2’ was not declared in this scope
+ void boundp12c_( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km);
+                          ^
+LES_combined_kernel_mono.c:256:29: error: expected primary-expression before ‘const’
+ void boundp12c_( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km);
+                             ^
+LES_combined_kernel_mono.c:256:51: error: expected primary-expression before ‘const’
+ void boundp12c_( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km);
+                                                   ^
+LES_combined_kernel_mono.c:256:73: error: expected primary-expression before ‘const’
+ void boundp12c_( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km);
+                                                                         ^
+LES_combined_kernel_mono.c:257:19: error: variable or field ‘boundp_new’ declared void
+ void boundp_new ( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km,unsigned int idx_g,unsigned int idx_l);
+                   ^
+LES_combined_kernel_mono.c:257:19: error: ‘float2’ was not declared in this scope
+LES_combined_kernel_mono.c:257:27: error: ‘p2’ was not declared in this scope
+ void boundp_new ( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km,unsigned int idx_g,unsigned int idx_l);
+                           ^
+LES_combined_kernel_mono.c:257:30: error: expected primary-expression before ‘const’
+ void boundp_new ( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km,unsigned int idx_g,unsigned int idx_l);
+                              ^
+LES_combined_kernel_mono.c:257:52: error: expected primary-expression before ‘const’
+ void boundp_new ( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km,unsigned int idx_g,unsigned int idx_l);
+                                                    ^
+LES_combined_kernel_mono.c:257:74: error: expected primary-expression before ‘const’
+ void boundp_new ( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km,unsigned int idx_g,unsigned int idx_l);
+                                                                          ^
+LES_combined_kernel_mono.c:257:96: error: expected primary-expression before ‘unsigned’
+ void boundp_new ( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km,unsigned int idx_g,unsigned int idx_l);
+                                                                                                ^
+LES_combined_kernel_mono.c:257:115: error: expected primary-expression before ‘unsigned’
+ void boundp_new ( float2 *p2,const unsigned int im,const unsigned int jm,const unsigned int km,unsigned int idx_g,unsigned int idx_l);
+                                                                                                                   ^
+LES_combined_kernel_mono.c:260:4: error: variable or field ‘press_boundp_kernel’ declared void
+    float2* p2,
+    ^
+LES_combined_kernel_mono.c:260:4: error: ‘float2’ was not declared in this scope
+LES_combined_kernel_mono.c:260:12: error: ‘p2’ was not declared in this scope
+    float2* p2,
+            ^
+LES_combined_kernel_mono.c:261:9: error: expected primary-expression before ‘const’
+         const unsigned int im,
+         ^
+LES_combined_kernel_mono.c:262:9: error: expected primary-expression before ‘const’
+         const unsigned int jm,
+         ^
+LES_combined_kernel_mono.c:263:9: error: expected primary-expression before ‘const’
+         const unsigned int km
+         ^
+LES_combined_kernel_mono.c:268:1: error: ‘__kernel’ does not name a type
+ __kernel void LES_combined_kernel_mono (
+ ^
+LES_combined_kernel_mono.c:432:6: error: variable or field ‘velnw__bondv1_init_uvw_kernel’ declared void
+      float2 * p,
+      ^
+LES_combined_kernel_mono.c:432:6: error: ‘float2’ was not declared in this scope
+LES_combined_kernel_mono.c:432:15: error: ‘p’ was not declared in this scope
+      float2 * p,
+               ^
+LES_combined_kernel_mono.c:433:6: error: ‘float4’ was not declared in this scope
+      float4 * uvw,
+      ^
+LES_combined_kernel_mono.c:433:15: error: ‘uvw’ was not declared in this scope
+      float4 * uvw,
+               ^
+LES_combined_kernel_mono.c:434:6: error: ‘float4’ was not declared in this scope
+      float4 * fgh,
+      ^
+LES_combined_kernel_mono.c:434:15: error: ‘fgh’ was not declared in this scope
+      float4 * fgh,
+               ^
+LES_combined_kernel_mono.c:435:6: error: expected primary-expression before ‘float’
+      float * dxs,
+      ^
+LES_combined_kernel_mono.c:436:6: error: expected primary-expression before ‘float’
+      float * dys,
+      ^
+LES_combined_kernel_mono.c:437:6: error: expected primary-expression before ‘float’
+      float * dzs,
+      ^
+LES_combined_kernel_mono.c:438:6: error: expected primary-expression before ‘float’
+      float * dzn,
+      ^
+LES_combined_kernel_mono.c:439:6: error: expected primary-expression before ‘float’
+      float * z2,
+      ^
+LES_combined_kernel_mono.c:440:6: error: expected primary-expression before ‘unsigned’
+      unsigned int* n_ptr,
+      ^
+LES_combined_kernel_mono.c:441:5: error: expected primary-expression before ‘const’
+     const unsigned int im,
+     ^
+LES_combined_kernel_mono.c:442:5: error: expected primary-expression before ‘const’
+     const unsigned int jm,
+     ^
+LES_combined_kernel_mono.c:443:5: error: expected primary-expression before ‘const’
+     const unsigned int km,
+     ^
+LES_combined_kernel_mono.c:444:5: error: expected primary-expression before ‘const’
+     const float dt
+     ^
