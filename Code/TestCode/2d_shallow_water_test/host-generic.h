@@ -69,7 +69,7 @@
 //The type of word used in the streaming experiments
 //[int* / float / double]
 #ifndef WORD
-  #define WORD DOUBLE
+  #define WORD INT
 #endif
 
 //The size of vector used in the kernel arguments

@@ -52,9 +52,21 @@ Annotation::Annotation(std::string ref)
 
 std::string Annotation::str()
 {
+    double c = 0.0;
+    if (this->max != 0 && this->min != 0) {
+        c = std::max(std::ceil(log2(std::abs(this->max))), std::ceil(log2(std::abs(this->min))));
+    } else if (this->max != 0) {
+        c = std::ceil(log2(std::abs(this->max)));
+    } else if (this->min != 0) {
+        c = std::ceil(log2(std::abs(this->min)));
+    } else {
+        c = 1;
+    }
+    c += (this->precision * 3) + 1;
     std::stringstream ss;
     ss << "(" << this->max << ", ";
     ss << this->min << ", ";
-    ss << this->precision << ")";
+    ss << this->precision << ", ";
+    ss << c << ")";
     return ss.str();
 }
