@@ -1,10 +1,16 @@
-int get_global_id (int idx) {
+int __attribute__((annotate("0 0 0"))) get_global_id (
+    int __attribute__((annotate("20 20 0"))) idx)
+{
     return 0;
 }
-int get_local_id (int idx) {
+int __attribute__((annotate("0 0 0"))) get_local_id (
+    int __attribute__((annotate("20 20 0"))) idx)
+{
     return 0;
 }
-int get_group_id (int idx) {
+int __attribute__((annotate("0 0 0 "))) get_group_id (
+    int __attribute__((annotate("20 20 0"))) idx)
+{
     return 0;
 }
 #include <math.h>
@@ -14,7 +20,17 @@ int get_group_id (int idx) {
 
 #include "array_index_f2c1d.h"
 
-void adam_map_26( int *km, int *f, int *g, int *h, int *fold, int *gold, int *hold, int *jm, int *im) {
+void adam_map_26(
+    int *km,
+    int *f,
+    int *g,
+    int *h,
+    int *fold,
+    int *gold,
+    int *hold,
+    int *jm,
+    int *im)
+{
 
     #include "params_common_sn.h"
         // local vars: fd,gd,hd,i,j,k
@@ -54,7 +70,20 @@ void adam_map_26( int *km, int *f, int *g, int *h, int *fold, int *gold, int *ho
                 gold[F3D2C(((ip - 1 )+1),((jp - 1 )+1) , 1,1,1 , i,j,k)] = gd;
                 hold[F3D2C(((ip - 1 )+1),((jp - 1 )+1) , 1,1,1 , i,j,k)] = hd;
         }
-void bondv1_map_29( int *im, int *z2, int *dzn, int *ical, int *n, int *km, int *i, int *jm, int *k, int *u, int *v, int *w) {
+void bondv1_map_29(
+    int *im,
+    int *z2,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *ical,
+    int *n,
+    int *km,
+    int *i,
+    int *jm,
+    int *k,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *__attribute__((annotate("50 0 3"))) w)
+{
 
     #include "params_common_sn.h"
         // local vars: j,k2
@@ -98,7 +127,15 @@ void bondv1_map_29( int *im, int *z2, int *dzn, int *ical, int *n, int *km, int 
        }
        }
        }
-void bondv1_reduce_56( int *u, int *im, int *j, int *k, int *global_aaa_array, int *global_bbb_array) {
+
+void bondv1_reduce_56(
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *im,
+    int *j,
+    int *k,
+    int *global_aaa_array,
+    int *global_bbb_array)
+{
 
     #include "params_common_sn.h"
         // missing args:
@@ -159,7 +196,19 @@ void bondv1_reduce_56( int *u, int *im, int *j, int *k, int *global_aaa_array, i
         global_aaa_array[F1D2C(1 , group_id_fortran)] = local_aaa;
         global_bbb_array[F1D2C(1 , group_id_fortran)] = local_bbb;
     }
-void bondv1_map_64( int *km, int *im, int *u, int *dt, int *uout, int *dxs, int *v, int *w, int *jm, int *k) {
+
+void bondv1_map_64(
+    int *km,
+    int *im,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *__attribute__((annotate("0.2 0.2 1"))) dt,
+    int *__attribute__((annotate("50 0 3"))) uout,
+    int *__attribute__((annotate("20 20 0"))) dxs,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *__attribute__((annotate("50 0 3"))) w,
+    int *jm,
+    int *k)
+{
 
     #include "params_common_sn.h"
         // local vars: j
@@ -184,7 +233,15 @@ void bondv1_map_64( int *km, int *im, int *u, int *dt, int *uout, int *dxs, int 
               v[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , (*im)+1,j,*k)] = v[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , (*im)+1,j,*k)]-(*dt)*(*uout)*(v[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , (*im)+1,j,*k)]-v[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , *im,j,*k)])/dxs[F1D2C(0 , *im)];
               w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , (*im)+1,j,*k)] = w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , (*im)+1,j,*k)]-(*dt)*(*uout)*(w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , (*im)+1,j,*k)]-w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , *im,j,*k)])/dxs[F1D2C(0 , *im)];
        }
-void bondv1_map_72( int *km, int *jm, int *u, int *v, int *w, int *im, int *k) {
+void bondv1_map_72(
+    int *km,
+    int *jm,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *__attribute__((annotate("50 0 3"))) w,
+    int *im,
+    int *k)
+{
 
     #include "params_common_sn.h"
         // local vars: i
@@ -214,7 +271,14 @@ void bondv1_map_72( int *km, int *jm, int *u, int *v, int *w, int *im, int *k) {
                 w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,(*jm)+1,*k)] = w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,1,*k)];
         }
         }
-void bondv1_map_85( int *jm, int *u, int *km, int *v, int *im, int *j, int *w) {
+void bondv1_map_85(
+    int *jm,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *km,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *im,
+    int *j,
+    int *__attribute__((annotate("50 0 3"))) w) {
 
     #include "params_common_sn.h"
         // local vars: i
@@ -243,7 +307,29 @@ void bondv1_map_85( int *jm, int *u, int *km, int *v, int *im, int *j, int *w) {
                 w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,*j,0)] = 0;
                 w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,*j,*km)] = 0;
         }
-void feedbf_map_37( int *km, int *usum, int *u, int *bmask1, int *vsum, int *v, int *cmask1, int *wsum, int *w, int *dmask1, int *alpha, int *dt, int *beta, int *jm, int *im, int *f, int *fx, int *g, int *fy, int *h, int *fz) {
+void feedbf_map_37(
+    int *km,
+    int *usum,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *bmask1,
+    int *vsum,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *cmask1,
+    int *wsum,
+    int *__attribute__((annotate("50 0 3"))) w,
+    int *dmask1,
+    int *alpha,
+    int *__attribute__((annotate("0.2 0.2 1")))dt,
+    int *beta,
+    int *jm,
+    int *im,
+    int *f,
+    int *fx,
+    int *g,
+    int *fy,
+    int *h,
+    int *fz)
+{
 
     #include "params_common_sn.h"
         // local vars: f1x,f1y,f1z,f2x,f2y,f2z,i,j,k
@@ -292,7 +378,12 @@ void feedbf_map_37( int *km, int *usum, int *u, int *bmask1, int *vsum, int *v, 
                   g[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)] = g[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)]+fy[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)];
                   h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)] = h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)]+fz[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)];
          }
-void les_map_71( int *km, int *dx1, int *dy1, int *dzn, int *delx1) {
+void les_map_71(
+    int *km,
+    int *__attribute__((annotate("20 0 0"))) dx1,
+    int *__attribute__((annotate("20 0 0"))) dy1,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *delx1) {
 
     #include "params_common_sn.h"
         // local vars: k
@@ -308,7 +399,21 @@ void les_map_71( int *km, int *dx1, int *dy1, int *dzn, int *delx1) {
         // parallelfortran: original code
                     delx1[F1D2C(1 , k)] = pow((int)((dx1[F1D2C((-1) , 0)]*dy1[F1D2C(0 , 0)]*dzn[F1D2C((-1) , k)])),0);
           }
-void les_map_76( int *km, int *diu1, int *diu2, int *diu3, int *diu4, int *diu5, int *diu6, int *diu7, int *diu8, int *diu9, int *delx1, int *jm, int *im, int *sm) {
+void les_map_76(
+    int *km,
+    int *diu1,
+    int *diu2,
+    int *diu3,
+    int *diu4,
+    int *diu5,
+    int *diu6,
+    int *diu7,
+    int *diu8,
+    int *diu9,
+    int *delx1,
+    int *jm,
+    int *im,
+    int *sm) {
 
     #include "params_common_sn.h"
         // local vars: csx1,dudxx1,dudyx1,dudzx1,dvdxx1,dvdyx1,dvdzx1,dwdxx1,dwdyx1,dwdzx1,i,j,k
@@ -358,7 +463,26 @@ void les_map_76( int *km, int *diu1, int *diu2, int *diu3, int *diu4, int *diu5,
             csx1 = cs0;
             sm[F3D2C((((ip+1) - (-1) )+1),(((jp+1) - (-1) )+1) , (-1),(-1),0 , i,j,k)] = pow((int)((csx1*delx1[F1D2C(1 , k)])),(int)(2))*sqrt(2*(pow((int)(dudxx1),(int)(2))+pow((int)(dvdyx1),(int)(2))+pow((int)(dwdzx1),(int)(2)))+pow((int)(dudyx1+dvdxx1),(int)(2))+pow((int)(dwdyx1+dvdzx1),(int)(2))+pow((int)(dudzx1+dwdxx1),(int)(2)));
       }
-void les_map_99( int *km, int *sm, int *dy1, int *dx1, int *dzn, int *diu1, int *diu2, int *diu4, int *diu3, int *diu7, int *f, int *jm, int *im, int *diu5, int *diu6, int *diu8, int *g, int *diu9, int *h) {
+void les_map_99(
+    int *km,
+    int *sm,
+    int *__attribute__((annotate("20 20 0"))) dy1,
+    int *__attribute__((annotate("20 20 0"))) dx1,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *diu1,
+    int *diu2,
+    int *diu4,
+    int *diu3,
+    int *diu7,
+    int *f,
+    int *jm,
+    int *im,
+    int *diu5,
+    int *diu6,
+    int *diu8,
+    int *g,
+    int *diu9,
+    int *h) {
 
     #include "params_common_sn.h"
         // local vars: evsx1,evsx2,evsy1,evsy2,evsz1,evsz2,i,j,k,vfu,vfv,vfw,visux1,visux2,visuy1,visuy2,visuz1,visuz2,visvx1,visvx2,visvy1,visvy2,visvz1,visvz2,viswx1,viswx2,viswy1,viswy2,viswz1,viswz2
@@ -455,7 +579,21 @@ void les_map_99( int *km, int *sm, int *dy1, int *dx1, int *dzn, int *diu1, int 
             vfw = (viswx2-viswx1)/dx1[F1D2C((-1) , i)]+(viswy2-viswy1)/dy1[F1D2C(0 , j)]+(viswz2-viswz1)/dzn[F1D2C((-1) , k)];
             h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)] = (h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)]+vfw);
       }
-void press_map_58( int *km, int *u, int *dx1, int *v, int *dy1, int *w, int *dzn, int *f, int *g, int *h, int *rhs, int *dt, int *jm, int *im) {
+void press_map_58(
+    int *km,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *__attribute__((annotate("20 20 0"))) dx1,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *__attribute__((annotate("20 20 0"))) dy1,
+    int *__attribute__((annotate("50 0 3"))) w,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *f,
+    int *g,
+    int *h,
+    int *__attribute__((annotate("1.5 0.5 5"))) rhs,
+    int *__attribute__((annotate("0.2 0.2 1"))) dt,
+    int *jm,
+    int *im) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -485,7 +623,13 @@ void press_map_58( int *km, int *u, int *dx1, int *v, int *dy1, int *w, int *dzn
                 rhs[F3D2C((((ip+1) - 0 )+1),(((jp+1) - 0 )+1) , 0,0,0 , i,j,k)] = (-u[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , i-1,j,k)]+u[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , i,j,k)])/dx1[F1D2C((-1) , i)]+(-v[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , i,j-1,k)]+v[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , i,j,k)])/dy1[F1D2C(0 , j)]+(-w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,j,k-1)]+w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,j,k)])/dzn[F1D2C((-1) , k)];
                 rhs[F3D2C((((ip+1) - 0 )+1),(((jp+1) - 0 )+1) , 0,0,0 , i,j,k)] = (f[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)]-f[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i-1,j,k)])/dx1[F1D2C((-1) , i)]+(g[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)]-g[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j-1,k)])/dy1[F1D2C(0 , j)]+(h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)]-h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k-1)])/dzn[F1D2C((-1) , k)]+rhs[F3D2C((((ip+1) - 0 )+1),(((jp+1) - 0 )+1) , 0,0,0 , i,j,k)]/(*dt);
         }
-void press_reduce_71( int *dx1, int *dy1, int *dzn, int *rhs, int *global_rhsav_array, int *global_area_array) {
+void press_reduce_71(
+    int *__attribute__((annotate("20 20 0"))) dx1,
+    int *__attribute__((annotate("20 20 0"))) dy1,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *__attribute__((annotate("1.5 0.5 5"))) rhs,
+    int *global_rhsav_array,
+    int *global_area_array) {
 
     #include "params_common_sn.h"
         // missing args:
@@ -553,7 +697,12 @@ void press_reduce_71( int *dx1, int *dy1, int *dzn, int *rhs, int *global_rhsav_
         global_rhsav_array[F1D2C(1 , group_id_fortran)] = local_rhsav;
         global_area_array[F1D2C(1 , group_id_fortran)] = local_area;
     }
-void press_map_82( int *km, int *rhs, int *rhsav, int *jm, int *im) {
+void press_map_82(
+    int *km,
+    int *__attribute__((annotate("1.5 0.5 5"))) rhs,
+    int *rhsav,
+    int *jm,
+    int *im) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -582,7 +731,22 @@ void press_map_82( int *km, int *rhs, int *rhsav, int *jm, int *im) {
         // parallelfortran: original code
                 rhs[F3D2C((((ip+1) - 0 )+1),(((jp+1) - 0 )+1) , 0,0,0 , i,j,k)] = rhs[F3D2C((((ip+1) - 0 )+1),(((jp+1) - 0 )+1) , 0,0,0 , i,j,k)]-(*rhsav);
         }
-void press_map_93( int *km, int *cn1, int *cn2l, int *p, int *cn2s, int *cn3l, int *cn3s, int *cn4l, int *cn4s, int *rhs, int *jm, int *k, int *j, int *nrd, int *im) {
+void press_map_93(
+    int *km,
+    int *cn1,
+    int *cn2l,
+    int *__attribute__((annotate("1.5 0.5 5"))) p,
+    int *cn2s,
+    int *cn3l,
+    int *cn3s,
+    int *cn4l,
+    int *cn4s,
+    int *__attribute__((annotate("1.5 0.5 5"))) rhs,
+    int *jm,
+    int *k,
+    int *j,
+    int *nrd,
+    int *im) {
 
     #include "params_common_sn.h"
         // local vars: i,reltmp,sor
@@ -614,7 +778,13 @@ void press_map_93( int *km, int *cn1, int *cn2l, int *p, int *cn2s, int *cn3l, i
                     p[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,*j,*k)] = p[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,*j,*k)]+reltmp;
                     sor = sor+reltmp*reltmp;
           }
-void press_reduce_114( int *p, int *dx1, int *dy1, int *dzn, int *global_pav_array, int *global_pco_array) {
+void press_reduce_114(
+    int *__attribute__((annotate("1.5 0.5 5")))p,
+    int *__attribute__((annotate("20 20 0"))) dx1,
+    int *__attribute__((annotate("20 20 0"))) dy1,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *global_pav_array,
+    int *global_pco_array) {
 
     #include "params_common_sn.h"
         // missing args:
@@ -683,7 +853,12 @@ void press_reduce_114( int *p, int *dx1, int *dy1, int *dzn, int *global_pav_arr
         global_pav_array[F1D2C(1 , group_id_fortran)] = local_pav;
         global_pco_array[F1D2C(1 , group_id_fortran)] = local_pco;
     }
-void press_map_124( int *km, int *p, int *pav, int *jm, int *im) {
+void press_map_124(
+    int *km,
+    int *__attribute__((annotate("1.5 0.5 5"))) p,
+    int *pav,
+    int *jm,
+    int *im) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -712,7 +887,38 @@ void press_map_124( int *km, int *p, int *pav, int *jm, int *im) {
         // parallelfortran: original code
                 p[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)] = p[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)]-(*pav);
         }
-void vel2_map_48( int *km, int *u, int *dx1, int *v, int *dy1, int *w, int *dzn, int *nou1, int *diu1, int *nou5, int *diu5, int *nou9, int *diu9, int *jm, int *im, int *nou2, int *diu2, int *dzs, int *nou3, int *diu3, int *nou4, int *diu4, int *nou6, int *diu6, int *cov1, int *cov5, int *cov9, int *cov2, int *cov3, int *cov4, int *cov6) {
+void vel2_map_48(
+    int *km,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *__attribute__((annotate("20 20 0"))) dx1,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *__attribute__((annotate("20 20 0"))) dy1,
+    int *__attribute__((annotate("50 0 3"))) w,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *nou1,
+    int *diu1,
+    int *nou5,
+    int *diu5,
+    int *nou9,
+    int *diu9,
+    int *jm,
+    int *im,
+    int *nou2,
+    int *diu2,
+    int *dzs,
+    int *nou3,
+    int *diu3,
+    int *nou4,
+    int *diu4,
+    int *nou6,
+    int *diu6,
+    int *cov1,
+    int *cov5,
+    int *cov9,
+    int *cov2,
+    int *cov3,
+    int *cov4,
+    int *cov6) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -768,7 +974,22 @@ void vel2_map_48( int *km, int *u, int *dx1, int *v, int *dy1, int *w, int *dzn,
                 diu6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)] = (-v[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , i,j,k-1)]+v[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),0 , i,j,k)])/dzs[F1D2C((-1) , k-1)];
                 cov6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)] = nou6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)]*diu6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)];
         }
-void vel2_map_105( int *km, int *dzn, int *u, int *w, int *dx1, int *nou7, int *diu7, int *jm, int *im, int *v, int *dy1, int *nou8, int *diu8, int *cov7, int *cov8) {
+void vel2_map_105(
+    int *km,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *__attribute__((annotate("50 0 3"))) w,
+    int *__attribute__((annotate("20 20 0"))) dx1,
+    int *nou7,
+    int *diu7,
+    int *jm,
+    int *im,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *__attribute__((annotate("20 20 0"))) dy1,
+    int *nou8,
+    int *diu8,
+    int *cov7,
+    int *cov8) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -803,7 +1024,13 @@ void vel2_map_105( int *km, int *dzn, int *u, int *w, int *dx1, int *nou7, int *
                 diu8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)] = 2*(-w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,j-1,k)]+w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,j,k)])/(dy1[F1D2C(0 , j-1)]+dy1[F1D2C(0 , j)]);
                 cov8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)] = nou8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)]*diu8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)];
         }
-void vel2_map_125( int *km, int *im, int *nou1, int *diu1, int *cov1, int *jm) {
+void vel2_map_125(
+    int *km,
+    int *im,
+    int *nou1,
+    int *diu1,
+    int *cov1,
+    int *jm) {
 
     #include "params_common_sn.h"
         // local vars: j,k
@@ -828,7 +1055,13 @@ void vel2_map_125( int *km, int *im, int *nou1, int *diu1, int *cov1, int *jm) {
                 diu1[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , (*im)+1,j,k)] = diu1[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , *im,j,k)];
                 cov1[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , (*im)+1,j,k)] = cov1[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , *im,j,k)];
         }
-void vel2_map_132( int *km, int *jm, int *nou2, int *diu2, int *cov2, int *im) {
+void vel2_map_132(
+    int *km,
+    int *jm,
+    int *nou2,
+    int *diu2,
+    int *cov2,
+    int *im) {
 
     #include "params_common_sn.h"
         // local vars: i,k
@@ -856,7 +1089,13 @@ void vel2_map_132( int *km, int *jm, int *nou2, int *diu2, int *cov2, int *im) {
                 diu2[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,(*jm)+1,k)] = diu2[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,1,k)];
                 cov2[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,(*jm)+1,k)] = cov2[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,1,k)];
         }
-void vel2_map_142( int *km, int *im, int *nou4, int *diu4, int *cov4, int *jm) {
+void vel2_map_142(
+    int *km,
+    int *im,
+    int *nou4,
+    int *diu4,
+    int *cov4,
+    int *jm) {
 
     #include "params_common_sn.h"
         // local vars: j,k
@@ -881,7 +1120,13 @@ void vel2_map_142( int *km, int *im, int *nou4, int *diu4, int *cov4, int *jm) {
                 diu4[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = diu4[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
                 cov4[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = cov4[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
         }
-void vel2_map_149( int *km, int *jm, int *nou5, int *diu5, int *cov5, int *im) {
+void vel2_map_149(
+    int *km,
+    int *jm,
+    int *nou5,
+    int *diu5,
+    int *cov5,
+    int *im) {
 
     #include "params_common_sn.h"
         // local vars: i,k
@@ -909,7 +1154,13 @@ void vel2_map_149( int *km, int *jm, int *nou5, int *diu5, int *cov5, int *im) {
                 diu5[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , i,(*jm)+1,k)] = diu5[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , i,1,k)];
                 cov5[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , i,(*jm)+1,k)] = cov5[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , i,1,k)];
         }
-void vel2_map_159( int *km, int *im, int *nou7, int *diu7, int *cov7, int *jm) {
+void vel2_map_159(
+    int *km,
+    int *im,
+    int *nou7,
+    int *diu7,
+    int *cov7,
+    int *jm) {
 
     #include "params_common_sn.h"
         // local vars: j,k
@@ -934,7 +1185,13 @@ void vel2_map_159( int *km, int *im, int *nou7, int *diu7, int *cov7, int *jm) {
                 diu7[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = diu7[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
                 cov7[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = cov7[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
         }
-void vel2_map_166( int *km, int *jm, int *nou8, int *diu8, int *cov8, int *im) {
+void vel2_map_166(
+    int *km,
+    int *jm,
+    int *nou8,
+    int *diu8,
+    int *cov8,
+    int *im) {
 
     #include "params_common_sn.h"
         // local vars: i,k
@@ -962,7 +1219,12 @@ void vel2_map_166( int *km, int *jm, int *nou8, int *diu8, int *cov8, int *im) {
                 diu8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,(*jm)+1,k)] = diu8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,1,k)];
                 cov8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,(*jm)+1,k)] = cov8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,1,k)];
         }
-void vel2_map_177( int *km, int *im, int *diu2, int *diu3, int *jm) {
+void vel2_map_177(
+    int *km,
+    int *im,
+    int *diu2,
+    int *diu3,
+    int *jm) {
 
     #include "params_common_sn.h"
         // local vars: j,k
@@ -986,7 +1248,12 @@ void vel2_map_177( int *km, int *im, int *diu2, int *diu3, int *jm) {
                 diu2[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = diu2[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
                 diu3[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = diu3[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
         }
-void vel2_map_183( int *km, int *jm, int *diu4, int *diu6, int *im) {
+void vel2_map_183(
+    int *km,
+    int *jm,
+    int *diu4,
+    int *diu6,
+    int *im) {
 
     #include "params_common_sn.h"
         // local vars: i,k
@@ -1010,7 +1277,39 @@ void vel2_map_183( int *km, int *jm, int *diu4, int *diu6, int *im) {
                 diu4[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,0,k)] = diu4[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,*jm,k)];
                 diu6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,0,k)] = diu6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,*jm,k)];
         }
-void velfg_map_62( int *km, int *dx1, int *cov1, int *cov2, int *cov3, int *diu1, int *diu2, int *dy1, int *diu3, int *dzn, int *vn, int *dfu1, int *jm, int *im, int *cov4, int *cov5, int *cov6, int *diu4, int *diu5, int *diu6, int *dfv1, int *cov7, int *cov8, int *cov9, int *diu7, int *diu8, int *diu9, int *dzs, int *dfw1, int *f, int *g, int *h) {
+void velfg_map_62(
+    int *km,
+    int *__attribute__((annotate("20 20 0"))) dx1,
+    int *cov1,
+    int *cov2,
+    int *cov3,
+    int *diu1,
+    int *diu2,
+    int *__attribute__((annotate("20 20 0"))) dy1,
+    int *diu3,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *__attribute__((annotate("50 0 3"))) vn,
+    int *dfu1,
+    int *jm,
+    int *im,
+    int *cov4,
+    int *cov5,
+    int *cov6,
+    int *diu4,
+    int *diu5,
+    int *diu6,
+    int *dfv1,
+    int *cov7,
+    int *cov8,
+    int *cov9,
+    int *diu7,
+    int *diu8,
+    int *diu9,
+    int *dzs,
+    int *dfw1,
+    int *f,
+    int *g,
+    int *h) {
 
     #include "params_common_sn.h"
         // local vars: covc,covx1,covy1,covz1,df,i,j,k
@@ -1066,7 +1365,22 @@ void velfg_map_62( int *km, int *dx1, int *cov1, int *cov2, int *cov3, int *diu1
                 h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)] = -covc+df;
     }
     }
-void velnw_map_27( int *km, int *p, int *ro, int *dxs, int *u, int *dt, int *f, int *jm, int *im, int *dys, int *v, int *g, int *dzs, int *w, int *h) {
+void velnw_map_27(
+    int *km,
+    int *__attribute__((annotate("1.5 0.5 5"))) p,
+    int *ro,
+    int *dxs,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *__attribute__((annotate("0.2 0.2 1"))) dt,
+    int *f,
+    int *jm,
+    int *im,
+    int *dys,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *g,
+    int *dzs,
+    int *__attribute__((annotate("50 0 3"))) w,
+    int *h) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k,pz
@@ -1106,7 +1420,97 @@ void velnw_map_27( int *km, int *p, int *ro, int *dxs, int *u, int *dt, int *f, 
                 w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,j,k)] = w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,j,k)];
     }
     }
-void adam_bondv1_feedbf_les_press_v_etc_superkernel( int *km, int *f, int *g, int *h, int *fold, int *gold, int *hold, int *jm, int *im, int *z2, int *dzn, int *ical, int *n, int *i, int *k, int *u, int *v, int *w, int *j, int *global_aaa_array, int *global_bbb_array, int *dt, int *uout, int *dxs, int *usum, int *bmask1, int *vsum, int *cmask1, int *wsum, int *dmask1, int *alpha, int *beta, int *fx, int *fy, int *fz, int *dx1, int *dy1, int *delx1, int *diu1, int *diu2, int *diu3, int *diu4, int *diu5, int *diu6, int *diu7, int *diu8, int *diu9, int *sm, int *rhs, int *global_rhsav_array, int *global_area_array, int *rhsav, int *cn1, int *cn2l, int *p, int *cn2s, int *cn3l, int *cn3s, int *cn4l, int *cn4s, int *nrd, int *global_pav_array, int *global_pco_array, int *pav, int *nou1, int *nou5, int *nou9, int *nou2, int *dzs, int *nou3, int *nou4, int *nou6, int *cov1, int *cov5, int *cov9, int *cov2, int *cov3, int *cov4, int *cov6, int *nou7, int *nou8, int *cov7, int *cov8, int *vn, int *dfu1, int *dfv1, int *dfw1, int *ro, int *dys, int *state_ptr) {
+void adam_bondv1_feedbf_les_press_v_etc_superkernel(
+    int *km,
+    int *f,
+    int *g,
+    int *h,
+    int *fold,
+    int *gold,
+    int *hold,
+    int *jm,
+    int *im,
+    int *z2,
+    int *__attribute__((annotate("10 1 4"))) dzn,
+    int *ical,
+    int *n,
+    int *i,
+    int *k,
+    int *__attribute__((annotate("50 0 3"))) u,
+    int *__attribute__((annotate("50 0 3"))) v,
+    int *__attribute__((annotate("50 0 3"))) w,
+    int *j,
+    int *global_aaa_array,
+    int *global_bbb_array,
+    int *__attribute__((annotate("0.2 0.2 1"))) dt,
+    int *__attribute__((annotate("50 0 3"))) uout,
+    int *dxs,
+    int *usum,
+    int *bmask1,
+    int *vsum,
+    int *cmask1,
+    int *wsum,
+    int *dmask1,
+    int *alpha,
+    int *beta,
+    int *fx,
+    int *fy,
+    int *fz,
+    int *__attribute__((annotate("20 20 0"))) dx1,
+    int *__attribute__((annotate("20 20 0"))) dy1,
+    int *delx1,
+    int *diu1,
+    int *diu2,
+    int *diu3,
+    int *diu4,
+    int *diu5,
+    int *diu6,
+    int *diu7,
+    int *diu8,
+    int *diu9,
+    int *sm,
+    int *__attribute__((annotate("1.5 0.5 5"))) rhs,
+    int *global_rhsav_array,
+    int *global_area_array,
+    int *rhsav,
+    int *cn1,
+    int *cn2l,
+    int *__attribute__((annotate("1.5 0.5 5"))) p,
+    int *__attribute__((annotate("0.0025 0.000625 6"))) cn2s,
+    int *__attribute__((annotate("0.0025 0.000625 6"))) cn3l,
+    int *__attribute__((annotate("0.0025 0.000625 6"))) cn3s,
+    int *__attribute__((annotate("0.0025 0.000625 6"))) cn4l,
+    int *__attribute__((annotate("0.0025 0.000625 6"))) cn4s,
+    int *nrd,
+    int *global_pav_array,
+    int *global_pco_array,
+    int *pav,
+    int *nou1,
+    int *nou5,
+    int *nou9,
+    int *nou2,
+    int *dzs,
+    int *nou3,
+    int *nou4,
+    int *nou6,
+    int *cov1,
+    int *cov5,
+    int *cov9,
+    int *cov2,
+    int *cov3,
+    int *cov4,
+    int *cov6,
+    int *nou7,
+    int *nou8,
+    int *cov7,
+    int *cov8,
+    int *__attribute__((annotate("50 0 3"))) vn,
+    int *dfu1,
+    int *dfv1,
+    int *dfw1,
+    int *ro,
+    int *dys,
+    int *state_ptr) {
 
 #include "params_common_sn.h"
   int state;

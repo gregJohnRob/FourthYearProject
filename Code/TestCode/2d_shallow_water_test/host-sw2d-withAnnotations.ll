@@ -545,6 +545,7 @@ entry:
   %div = sdiv i32 %mul11, %4, !optimi !21
   %5 = load i32*, i32** %du.addr, align 8, !tbaa !2, !optimi !21
   store i32 %div, i32* %5, align 4, !tbaa !6
+
   %6 = load i32, i32* %dt.addr, align 4, !tbaa !6, !optimi !22
   %sub12 = sub i32 0, %6, !optimi !24
   %7 = load i32, i32* %g.addr, align 4, !tbaa !6, !optimi !23
@@ -730,6 +731,7 @@ entry:
   %2 = load i32, i32* %h_jCOLS_k_1.addr, align 4, !tbaa !6, !optimi !1
   %mul22 = mul nsw i32 %sub21, %2, !optimi !30
   %div23 = sdiv i32 %mul22, 2, !optimi !31
+
   %3 = load i32, i32* %un_jCOLS_k_neg1.addr, align 4, !tbaa !6, !optimi !10
   %cmp25 = icmp sgt i32 %3, -1, !optimi !8
   %sub28 = sub nsw i32 0, %3, !optimi !10
@@ -739,6 +741,7 @@ entry:
   %mul32 = mul nsw i32 %add31, %4, !optimi !30
   %sub40 = sub nsw i32 %3, %cond30, !optimi !29
   %mul41 = mul nsw i32 %sub40, %1, !optimi !30
+
   %5 = load i32, i32* %vn_jCOLS_k.addr, align 4, !tbaa !6, !optimi !10
   %cmp44 = icmp sgt i32 %5, -1, !optimi !8
   %sub47 = sub nsw i32 0, %5, !optimi !10
@@ -750,6 +753,7 @@ entry:
   %6 = load i32, i32* %h_jCOLS_1_k.addr, align 4, !tbaa !6, !optimi !1
   %mul60 = mul nsw i32 %sub59, %6, !optimi !30
   %div61 = sdiv i32 %mul60, 2, !optimi !31
+
   %7 = load i32, i32* %vn_neg1_jCOLS_k.addr, align 4, !tbaa !6, !optimi !10
   %cmp63 = icmp sgt i32 %7, -1, !optimi !8
   %sub66 = sub nsw i32 0, %7, !optimi !10
@@ -759,6 +763,8 @@ entry:
   %mul70 = mul nsw i32 %add69, %8, !optimi !30
   %sub78 = sub nsw i32 %7, %cond68, !optimi !29
   %mul79 = mul nsw i32 %sub78, %1, !optimi !30
+
+  
   %9 = load i32*, i32** %eta.addr, align 8, !tbaa !2, !optimi !1
   %10 = load i32, i32* %9, align 4, !tbaa !6, !optimi !1
   %11 = load i32, i32* %dt.addr, align 4, !tbaa !6, !optimi !22

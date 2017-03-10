@@ -1,0 +1,8 @@
+I think the pressure (p2, rhs) is normalised to 1 so it will be between say 0.5 and 1.5, the precision is 1e-5
+For the velocities uvw, I don’t know if they were normalised, I don’t think so,
+so normal values are between 0 and 50 m/s, I guess the precision could be 1e-3 at most.
+These are the only actual inputs to the simulator. fgh is a derived value: fgh = uvd/dt and dt is a constant dt=0.2
+
+The arrays dx, dy etc are set to 20; dz varies between 1 and 10 with a precision of 1e-4
+The cn* are defined essentially as dx^-2 so they are also constant, between 1/400 and 1/1600
+diu and sm are computed in the kernel.

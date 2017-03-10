@@ -42,12 +42,6 @@ int Marker::finishMethodAnalysis()
         output = 1;
     } else {
         for (auto i = this->dependencyMap.begin(), end = this->dependencyMap.end(); i != end; i++) {
-            errs() << "\t";
-            i->first->dump();
-            for (auto innerI = i->second.begin(), innerEnd = i->second.end(); innerI != innerEnd; innerI++) {
-                errs() << "\t\t";
-                (*innerI)->instruction->dump();
-            }
             this->addAnnotation(i->first, WORST_CASE_INT);
         }
         output = -1;

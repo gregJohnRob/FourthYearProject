@@ -1,0 +1,322 @@
+;-- =============================================================================
+;-- Company      : Unversity of Glasgow, Comuting Science
+;-- Author:        Syed Waqar Nabi
+;-- 
+;-- Create Date  : 2017.02.28
+;-- Project Name : TyTra
+;--
+;-- Dependencies : 
+;--
+;-- Revision     : 
+;-- Revision 0.01. File Created
+;-- 
+;-- Conventions  : TIr-16
+;-- =============================================================================
+;--
+;-- =============================================================================
+;-- General Description
+;-- -----------------------------------------------------------------------------
+;-- Tytra-IR BACKEND file 2D-shallow water for Gregor's project
+;-- =============================================================================
+;--
+;-- *****************************************************************************
+;--                        *** MANAGE-IR ***  
+;-- *****************************************************************************
+
+;-- C-style macros 
+#define NDim1     256
+#define NLinear   256
+#define NLanes    1
+#define NLinearPL 1
+#define NKIter    1
+;-- numner of Kernel Iterations
+
+; =============================================================================
+; ** Launchpad
+; =============================================================================
+define void launch()
+{
+  ; ---------------------------------------------------------------------------
+  ; ** Memory Objects
+  ; ---------------------------------------------------------------------------
+  @mem_hzero  = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+  @mem_eta    = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+  @mem_etan   = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+  @mem_h      = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+  @mem_wet    = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+  @mem_u      = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+  @mem_un     = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+  @mem_v      = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+  @mem_vn     = addrSpace(1) <NLinear x ui32>,  !"readPorts"  , !1 , !"writePorts" , !1
+
+  ; ---------------------------------------------------------------------------
+  ; ** Streaming Objects
+  ; ---------------------------------------------------------------------------
+  ; NOTE: the extended semantic that allows added context 
+  ;       also the declaration of constant memories using addrSpace 
+  @strobj_hzero = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_hzero" ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  @strobj_eta   = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_eta  " ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  @strobj_etan  = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_etan " ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  @strobj_h     = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_h    " ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  @strobj_wet   = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_wet  " ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  @strobj_u     = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_u    " ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  @strobj_un    = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_un   " ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  @strobj_v     = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_v    " ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  @strobj_vn    = addrSpace(10), !"dir", !"in" ,!"memConn" , !"@mem_vn   " ,!"length" , !NLinear  ,!"start" , !0,!"signal" , !"yes", !"stride" , !1
+  
+  ; ---------------------------------------------------------------------------
+  call @main()
+}
+
+; *****************************************************************************
+;                        *** COMPUTE-IR ***
+; *****************************************************************************
+
+; ModuleID = 'top'
+  ; top level module for LLVM
+
+; =============================================================================
+; ** GLOBAL VARIABLES (PORTS)
+; =============================================================================
+
+@main.hzero  = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_hzero" 
+@main.eta    = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_eta  " 
+@main.etan   = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_etan " 
+@main.h      = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_h    " 
+@main.wet    = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_wet  " 
+@main.u      = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_u    " 
+@main.un     = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_un   " 
+@main.v      = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_v    " 
+@main.vn     = addrSpace(12) ui32, !"istream", !"CONT", !0, !"strobj_vn   " 
+
+; =============================================================================
+; ** DATAFLOW
+; =============================================================================
+
+; -----------------------------------------------------------------------------
+; ** DYN-FIRST-LOOP
+; -----------------------------------------------------------------------------
+;--dt = 8
+;--dy =6
+;--dx =7
+;--g = 10
+define void @dyn_first_loop(
+    ui32 %eta  
+  , ui32 %du
+  , ui32 %dv
+  ) pipe
+{
+  ui32 %sub  = sub   ui32 0, 8
+  ui32 %mul  = mul   ui32 %sub, 10
+  ui32 %sub1 = sub   ui32 %eta, %eta
+  ui32 %mul2 = mul   ui32 %sub1, %mul
+  ui32 %du   = sdiv  ui32 %mul2, 7
+  ui32 %sub5 = sub   ui32 %eta, %eta
+  ui32 %mul6 = mul   ui32 %sub5, %mul
+  ui32 %dv   = sdiv  ui32 %mul6, 6
+}
+
+; -----------------------------------------------------------------------------
+; ** DYN-SECOND-LOOP
+; -----------------------------------------------------------------------------
+;--dt = 8
+;--dy =6
+;--dx =7
+;--g = 10
+define void @dyn_second_loop(
+    ui32 %u    
+  , ui32 %un   
+  , ui32 %v    
+  , ui32 %vn
+  , ui32 %du
+  , ui32 %dv
+  ) pipe
+{
+    ui32 %un = add ui32 %u, %du
+    ui32 %vn = add ui32 %v, %dv
+}
+
+; -----------------------------------------------------------------------------
+; ** DYN-SECOND-LOOP
+; -----------------------------------------------------------------------------
+;--dt = 8
+;--dy =6
+;--dx =7
+;--g = 10
+define void @dyn_final_loop(
+    ui32 %un   
+  , ui32 %vn
+  , ui32 %h
+  , ui32 %eta
+  , ui32 %etan
+  ) pipe
+{
+;--  %cmp  = icmp sgt i32 %un_jCOLS_k, -1
+;--  %sub  = sub nsw i32 0, %un_jCOLS_k
+;--  %cond = select i1 %cmp, i32 %un_jCOLS_k, i32 %sub
+;-- TODO: Create ABS instruction in TyTra-IR
+  
+  ui32 %add    = add   ui32 %un, %un
+  ui32 %mul    = mul   ui32 %add, %h
+  ui32 %div    = sdiv  ui32 %mul, 2
+  ui32 %sub7   = sub   ui32 %un, %un
+  ui32 %mul8   = mul   ui32 %sub7, %h
+  ui32 %div9   = sdiv  ui32 %mul8, 2
+  
+  ;--%cmp11  = icmp sgt i32 %un_jCOLS_k_neg1, -1
+  ;--%sub14 = sub nsw i32 0, %un_jCOLS_k_neg1
+  ;--%cond16 = select i1 %cmp11, i32 %un_jCOLS_k_neg1, i32 %sub14
+  
+  ui32 %add17  = add   ui32 %un, %un
+  ui32 %mul18  = mul   ui32 %add17, %h
+  ui32 %sub26  = sub   ui32 %un, %un
+  ui32 %mul27  = mul   ui32 %sub26, %h
+  
+  ;--%cmp30  = icmp sgt i32 %vn_jCOLS_k, -1
+  ;--%sub33 = sub nsw i32 0, %vn_jCOLS_k
+  ;--%cond35 = select i1 %cmp30, i32 %vn_jCOLS_k, i32 %sub33
+  
+  ui32 %add36  = add   ui32 %vn, %vn
+  ui32 %mul37  = mul   ui32 %add36, %h
+  ui32 %div38  = sdiv  ui32 %mul37, 2
+  ui32 %sub45  = sub   ui32 %vn, %vn
+  ui32 %mul46  = mul   ui32 %sub45, %h
+  ui32 %div47  = sdiv  ui32 %mul46, 2
+  
+  ;--%cmp49 = icmp sgt i32 %vn_neg1_jCOLS_k, -1
+  ;--%sub52 = sub nsw i32 0, %vn_neg1_jCOLS_k
+  ;--%cond54 = select i1 %cmp49, i32 %vn_neg1_jCOLS_k, i32 %sub52
+  
+  ui32 %add55  = add  ui32 %vn, %vn
+  ui32 %mul56  = mul  ui32 %add55, %h
+  ui32 %sub64  = sub  ui32 %vn, %vn
+  ui32 %mul65  = mul  ui32 %sub64, %h
+  
+  ui32 %div28  = sdiv  ui32 %mul27, -2
+  ui32 %div19  = sdiv  ui32 %mul18, -2
+  ui32 %add29  = add   ui32 %div28, %div
+  ui32 %add10  = add   ui32 %add29, %div9
+  ui32 %sub68  = add   ui32 %add10, %div19
+  ui32 %mul69  = mul   ui32 %sub68, 8
+  ui32 %div70  = sdiv  ui32 %mul69, 7
+  ui32 %sub71  = sub   ui32 %eta, %div70
+  ui32 %div66  = sdiv  ui32 %mul65, -2
+  ui32 %div57  = sdiv  ui32 %mul56, -2
+  ui32 %add67  = add   ui32 %div66, %div38
+  ui32 %add48  = add   ui32 %add67, %div47
+  ui32 %sub72  = add   ui32 %add48, %div57
+  ui32 %mul73  = mul   ui32 %sub72, 8
+  ui32 %div74  = sdiv  ui32 %mul73, 6
+  ui32 %etan   = sub   ui32 %sub71, %div74
+;--  ret void
+}
+
+
+; -----------------------------------------------------------------------------
+; ** SHAPIRO
+; -----------------------------------------------------------------------------
+; eps = 15
+define void @shapiro(
+    ui32 %etan 
+  , ui32 %wet
+  ) pipe
+{
+  ui32 %add    = add   ui32 %wet, %wet
+  ui32 %add1   = add   ui32 %add, %wet
+  ui32 %add2   = add   ui32 %add1, %wet
+  ui32 %mul    = mul   ui32 %add2, 15
+  ui32 %div    = sdiv  ui32 %mul, 4
+  ui32 %sub    = sub   ui32 1, %div
+  ui32 %mul3   = mul   ui32 %sub, %etan
+  ui32 %mul4   = mul   ui32 %etan, %wet
+  ui32 %mul5   = mul   ui32 %etan, %wet
+  ui32 %add6   = add   ui32 %mul5, %mul4
+  ui32 %mul7   = mul   ui32 %add6, 15
+  ui32 %div8   = sdiv  ui32 %mul7, 4
+  ui32 %mul9   = mul   ui32 %etan, %wet
+  ui32 %mul10  = mul   ui32 %etan, %wet
+  ui32 %add11  = add   ui32 %mul10, %mul9
+  ui32 %mul12  = mul   ui32 %add11, 15
+  ui32 %div13  = sdiv  ui32 %mul12, 4
+  ui32 %add14  = add   ui32 %div8, %div13
+  ui32 %add15  = add   ui32 %add14, %mul3
+}
+
+  
+; -----------------------------------------------------------------------------
+; ** Main execution pipeline function
+; -----------------------------------------------------------------------------
+define void @kernelTop(
+    ui32 %hzero 
+  , ui32 %eta  
+  , ui32 %etan 
+  , ui32 %h    
+  , ui32 %wet  
+  , ui32 %u    
+  , ui32 %un   
+  , ui32 %v    
+  , ui32 %vn   
+  ) pipe
+{
+
+call @dyn_first_loop(
+    ui32 %eta  
+  , ui32 %du
+  , ui32 %dv
+  ) pipe
+  
+call @dyn_second_loop(
+    ui32 %u
+  , ui32 %un   
+  , ui32 %v    
+  , ui32 %vn
+  , ui32 %du
+  , ui32 %dv
+  ) pipe  
+
+call @dyn_final_loop(
+    ui32 %un   
+  , ui32 %vn
+  , ui32 %h
+  , ui32 %eta
+  , ui32 %etan
+  ) pipe
+  
+call @shapiro(
+    ui32 %etan 
+  , ui32 %wet
+  ) pipe
+  
+}
+
+; -----------------------------------------------------------------------------
+; main 
+; -----------------------------------------------------------------------------
+define void @main ()
+{
+;--call @shapiro(
+;--    ui32 %hzero 
+;--  , ui32 %eta  
+;--  , ui32 %etan 
+;--  , ui32 %h    
+;--  , ui32 %wet
+;--  , ui32 %u    
+;--  , ui32 %un   
+;--  , ui32 %v    
+;--  , ui32 %vn
+;--  ) pipe
+
+
+call @kernelTop(
+          ui32 %hzero 
+        , ui32 %eta  
+        , ui32 %etan 
+        , ui32 %h    
+        , ui32 %wet  
+        , ui32 %u    
+        , ui32 %un   
+        , ui32 %v    
+        , ui32 %vn  
+        ) pipe
+  ret void
+}
