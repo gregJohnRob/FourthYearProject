@@ -1,0 +1,312 @@
+get_global_id
+	Fully marked
+llvm.var.annotation
+	Ignoring
+get_local_id
+	Fully marked
+get_group_id
+	Fully marked
+adam_map_26
+	Value 0x6097718 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+llvm.lifetime.start
+	Ignoring
+llvm.lifetime.end
+	Ignoring
+bondv1_map_29
+	Value 0x609b078 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Fully marked
+pow
+	Fully marked
+bondv1_reduce_56
+	Value 0x60a1a48 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x60a1d38 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x60a2028 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle div is more than was specified (32)
+	Unable to fully mark
+fmax
+	Fully marked
+fmin
+	Fully marked
+bondv1_map_64
+	The number of bits required to handle dt.addr2 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	Value 0x6098188 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x6098788 is more than was specified (32)
+	The number of bits required to handle 0x60987e8 is more than was specified (32)
+	The number of bits required to handle 0x60a9248 is more than was specified (32)
+	The number of bits required to handle 0x60a9d98 is more than was specified (32)
+	Unable to fully mark
+bondv1_map_72
+	Value 0x60a0248 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+bondv1_map_85
+	Value 0x60b2ba8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+feedbf_map_37
+	The number of bits required to handle dt.addr4 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	Value 0x60b49f8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x60b5c38 is more than was specified (32)
+	The number of bits required to handle 0x60b5c98 is more than was specified (32)
+	Unable to fully mark
+les_map_71
+	Value 0x60a72a8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Fully marked
+les_map_76
+	Value 0x60abbf8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+sqrt
+	Fully marked
+les_map_99
+	Value 0x60c63e8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+press_map_58
+	The number of bits required to handle dt.addr8 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	Value 0x60b9ae8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x60e1b48 is more than was specified (32)
+	The number of bits required to handle 0x60e1ba8 is more than was specified (32)
+	Unable to fully mark
+press_reduce_71
+	Value 0x60e4ac8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x60e4db8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x60e50a8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle div is more than was specified (32)
+	Unable to fully mark
+press_map_82
+	Value 0x60ea308 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+press_map_93
+	The number of bits required to handle cn1.addr1 is more than was specified (8)
+	The number of bits required to handle cn1.addr is more than was specified (32)
+	The number of bits required to handle cn1 is more than was specified (32)
+	The number of bits required to handle cn2l.addr2 is more than was specified (8)
+	The number of bits required to handle cn2l.addr is more than was specified (32)
+	The number of bits required to handle cn2l is more than was specified (32)
+	The number of bits required to handle cn2s.addr4 is more than was specified (8)
+	The number of bits required to handle cn2s.addr is more than was specified (32)
+	The number of bits required to handle cn2s is more than was specified (32)
+	The number of bits required to handle cn3l.addr5 is more than was specified (8)
+	The number of bits required to handle cn3l.addr is more than was specified (32)
+	The number of bits required to handle cn3l is more than was specified (32)
+	The number of bits required to handle cn3s.addr6 is more than was specified (8)
+	The number of bits required to handle cn3s.addr is more than was specified (32)
+	The number of bits required to handle cn3s is more than was specified (32)
+	The number of bits required to handle cn4l.addr7 is more than was specified (8)
+	The number of bits required to handle cn4l.addr is more than was specified (32)
+	The number of bits required to handle cn4l is more than was specified (32)
+	The number of bits required to handle cn4s.addr8 is more than was specified (8)
+	The number of bits required to handle cn4s.addr is more than was specified (32)
+	The number of bits required to handle cn4s is more than was specified (32)
+	Value 0x60bd6d8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x60bdd88 is more than was specified (32)
+	The number of bits required to handle arrayidx is more than was specified (32)
+	The number of bits required to handle 0x60be058 is more than was specified (32)
+	The number of bits required to handle 0x60be0b8 is more than was specified (32)
+	The number of bits required to handle arrayidx33 is more than was specified (32)
+	The number of bits required to handle 0x60be208 is more than was specified (32)
+	The number of bits required to handle mul38 is more than was specified (32)
+	The number of bits required to handle 0x60be698 is more than was specified (32)
+	The number of bits required to handle arrayidx41 is more than was specified (32)
+	The number of bits required to handle 0x60be788 is more than was specified (32)
+	The number of bits required to handle mul46 is more than was specified (32)
+	The number of bits required to handle add47 is more than was specified (32)
+	The number of bits required to handle 0x60beab8 is more than was specified (32)
+	The number of bits required to handle 0x60beb18 is more than was specified (32)
+	The number of bits required to handle mul55 is more than was specified (32)
+	The number of bits required to handle add56 is more than was specified (32)
+	The number of bits required to handle 0x60beec8 is more than was specified (32)
+	The number of bits required to handle 0x60bef28 is more than was specified (32)
+	The number of bits required to handle mul64 is more than was specified (32)
+	The number of bits required to handle add65 is more than was specified (32)
+	The number of bits required to handle 0x60bf258 is more than was specified (32)
+	The number of bits required to handle arrayidx68 is more than was specified (32)
+	The number of bits required to handle 0x60bf3a8 is more than was specified (32)
+	The number of bits required to handle mul73 is more than was specified (32)
+	The number of bits required to handle add74 is more than was specified (32)
+	The number of bits required to handle 0x60bf7d8 is more than was specified (32)
+	The number of bits required to handle arrayidx77 is more than was specified (32)
+	The number of bits required to handle 0x60bf8c8 is more than was specified (32)
+	The number of bits required to handle mul82 is more than was specified (32)
+	The number of bits required to handle add83 is more than was specified (32)
+	The number of bits required to handle mul88 is more than was specified (32)
+	Unable to fully mark
+press_reduce_114
+	Value 0x60c2b78 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x60c2e68 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x60c3158 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle div is more than was specified (32)
+	Unable to fully mark
+press_map_124
+	Value 0x61005e8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_48
+	Value 0x61038e8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_105
+	Value 0x610d708 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Fully marked
+vel2_map_125
+	Value 0x6110d48 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_132
+	Value 0x6112718 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_142
+	Value 0x6114be8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_149
+	Value 0x60d9af8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_159
+	Value 0x60dbf88 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_166
+	Value 0x60dd8d8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_177
+	Value 0x60dfd28 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_183
+	Value 0x60e0f68 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+velfg_map_62
+	Value 0x6127c58 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+velnw_map_27
+	The number of bits required to handle dt.addr3 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	Value 0x60ec618 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x60ecf68 is more than was specified (32)
+	The number of bits required to handle 0x60ecfc8 is more than was specified (32)
+	The number of bits required to handle 0x60ed888 is more than was specified (32)
+	The number of bits required to handle 0x60ee338 is more than was specified (32)
+	Unable to fully mark
+adam_bondv1_feedbf_les_press_v_etc_superkernel
+	The number of bits required to handle dt.addr5 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	The number of bits required to handle cn1.addr10 is more than was specified (8)
+	The number of bits required to handle cn1.addr is more than was specified (32)
+	The number of bits required to handle cn1 is more than was specified (32)
+	The number of bits required to handle cn2l.addr11 is more than was specified (8)
+	The number of bits required to handle cn2l.addr is more than was specified (32)
+	The number of bits required to handle cn2l is more than was specified (32)
+	The number of bits required to handle cn2s.addr13 is more than was specified (8)
+	The number of bits required to handle cn2s.addr is more than was specified (32)
+	The number of bits required to handle cn2s is more than was specified (32)
+	The number of bits required to handle cn3l.addr14 is more than was specified (8)
+	The number of bits required to handle cn3l.addr is more than was specified (32)
+	The number of bits required to handle cn3l is more than was specified (32)
+	The number of bits required to handle cn3s.addr15 is more than was specified (8)
+	The number of bits required to handle cn3s.addr is more than was specified (32)
+	The number of bits required to handle cn3s is more than was specified (32)
+	The number of bits required to handle cn4l.addr16 is more than was specified (8)
+	The number of bits required to handle cn4l.addr is more than was specified (32)
+	The number of bits required to handle cn4l is more than was specified (32)
+	The number of bits required to handle cn4s.addr17 is more than was specified (8)
+	The number of bits required to handle cn4s.addr is more than was specified (32)
+	The number of bits required to handle cn4s is more than was specified (32)
+	Value 0x60f77c8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x60f8e58 is more than was specified (32)
+	Value 0x60f9e88 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x60fac18 is more than was specified (64)
+	The number of bits required to handle 0x60fac78 is more than was specified (64)
+	The number of bits required to handle 0x60fb498 is more than was specified (64)
+	The number of bits required to handle dt.addr.i is more than was specified (32)
+	The number of bits required to handle 0x60fafd8 is more than was specified (8)
+	The number of bits required to handle 0x60fafd8 is more than was specified (8)
+	Value 0x612fd68 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x6130fa8 is more than was specified (32)
+	The number of bits required to handle 0x6131008 is more than was specified (32)
+	Value 0x60ca6e8 is already annotated
+	Original annotation: (20, 20, 0, 6), New annotation: (20, 0, 0, 6)
+	Value 0x60ca7e8 is already annotated
+	Original annotation: (20, 20, 0, 6), New annotation: (20, 0, 0, 6)
+	Value 0x60caef8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x60cb4a8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x613a658 is more than was specified (64)
+	The number of bits required to handle 0x613a6b8 is more than was specified (64)
+	The number of bits required to handle 0x60cfdc8 is more than was specified (64)
+	The number of bits required to handle dt.addr.i371 is more than was specified (32)
+	The number of bits required to handle 0x613ae18 is more than was specified (8)
+	The number of bits required to handle 0x613ae18 is more than was specified (8)
+	Value 0x60cff78 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x613eaf8 is more than was specified (32)
+	The number of bits required to handle 0x613eb58 is more than was specified (32)
+	Value 0x613f8e8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x613ff88 is more than was specified (32)
+	The number of bits required to handle 0x613ffe8 is more than was specified (32)
+	The number of bits required to handle 0x61400a8 is more than was specified (32)
+	The number of bits required to handle 0x6140108 is more than was specified (32)
+	The number of bits required to handle 0x6140168 is more than was specified (32)
+	The number of bits required to handle 0x61401c8 is more than was specified (32)
+	The number of bits required to handle 0x6140228 is more than was specified (32)
+	Value 0x6140b78 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x6129858 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x6149468 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x614a418 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x614bde8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x614cd98 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x614e768 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x614f718 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x6137c48 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Value 0x61387d8 is already annotated
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x613c498 is more than was specified (32)
+	Unable to fully mark

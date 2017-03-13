@@ -41,9 +41,9 @@ int Marker::finishMethodAnalysis()
     if (this->dependencyMap.empty()) {
         output = 1;
     } else {
-        for (auto i = this->dependencyMap.begin(), end = this->dependencyMap.end(); i != end; i++) {
-            this->addAnnotation(i->first, WORST_CASE_INT);
-        }
+        // for (auto i = this->dependencyMap.begin(), end = this->dependencyMap.end(); i != end; i++) {
+        //     this->addAnnotation(i->first, WORST_CASE_INT);
+        // }
         output = -1;
     }
     for (unsigned i = 0; i < this->dependencyVector.size(); i++) {
@@ -185,7 +185,8 @@ bool Marker::checkForErrors(Value *v, Annotation a) {
             if (v->hasName()) {
                 errs() << "\tValue " << v->getName().str()  << " is already annotated\n";
             } else {
-                errs() << "\tValue " << v << " is already annotated\n";
+                errs() << "\t"; //Value " << v << " is already annotated\n";
+                v->dump();
             }
             errs() << "\tOriginal annotation: " << currA.str() << ", New annotation: " << a.str() << "\n";
             return false;

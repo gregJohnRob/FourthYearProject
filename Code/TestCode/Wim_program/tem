@@ -6,3 +6,53 @@ These are the only actual inputs to the simulator. fgh is a derived value: fgh =
 The arrays dx, dy etc are set to 20; dz varies between 1 and 10 with a precision of 1e-4
 The cn* are defined essentially as dx^-2 so they are also constant, between 1/400 and 1/1600
 diu and sm are computed in the kernel.
+
+u = __attribute__((annotate("50 0 3")))
+v = __attribute__((annotate("50 0 3")))
+w = __attribute__((annotate("50 0 3")))
+aaa = __attribute__((annotate("50 0 3")))
+gloabl_aaa_array = __attribute__((annotate("50 0 3")))
+bbb = __attribute__((annotate("50 0 3")))
+gloabl_bbb_array = __attribute__((annotate("50 0 3")))
+usum = __attribute__((annotate("50 0 3")))
+vsum = __attribute__((annotate("50 0 3")))
+
+p2 = __attribute__((annotate("1.5 0.5 5")))
+pav = __attribute__((annotate("1.5 0.5 5")))
+rhs = __attribute__((annotate("1.5 0.5 5")))
+global_rhsav_array = __attribute__((annotate("1.5 0.5 5")))
+rhsav = __attribute__((annotate("1.5 0.5 5")))
+
+nrd = __attribute__((annotate("2 0 0")))
+
+km = __attribute__((annotate("2147483647 -2147483648 0")))
+kp = __attribute__((annotate("2147483647 -2147483648 0")))
+
+jm = __attribute__((annotate("2147483647 -2147483648 0")))
+jp = __attribute__((annotate("2147483647 -2147483648 0")))
+
+im = __attribute__((annotate("2147483647 -2147483648 0")))
+ip = __attribute__((annotate("2147483647 -2147483648 0")))
+
+ical = __attribute__((annotate("1 0 0")))
+
+bmask = __attribute__((annotate("1 0 0")))
+cmask = __attribute__((annotate("1 0 0")))
+dmask = __attribute__((annotate("1 0 0")))
+
+alpha = __attribute__((annotate("-10 -10 0")))
+
+beta = __attribute__((annotate("-1 -1 0")))
+
+n = __attribute__((annotate("2147483647 -2147483648 0")))
+
+ro = __attribute__((annotate("1.1763 1.1763 4")))
+
+
+
+
+Never told me:
+    1. what area is
+    2. what ip, jp, kp is
+    3. what pco is
+    

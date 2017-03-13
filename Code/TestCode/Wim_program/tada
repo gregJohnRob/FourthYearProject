@@ -1,0 +1,312 @@
+get_global_id
+	Fully marked
+llvm.var.annotation
+	Ignoring
+get_local_id
+	Fully marked
+get_group_id
+	Fully marked
+adam_map_26
+	%0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+llvm.lifetime.start
+	Ignoring
+llvm.lifetime.end
+	Ignoring
+bondv1_map_29
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Fully marked
+pow
+	Fully marked
+bondv1_reduce_56
+	  %2 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %3 = bitcast i32* %idx.addr.i107 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %4 = bitcast i32* %idx.addr.i105 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle div is more than was specified (32)
+	Unable to fully mark
+fmax
+	Fully marked
+fmin
+	Fully marked
+bondv1_map_64
+	The number of bits required to handle dt.addr2 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x76f1728 is more than was specified (32)
+	The number of bits required to handle 0x76f1788 is more than was specified (32)
+	The number of bits required to handle 0x77021b8 is more than was specified (32)
+	The number of bits required to handle 0x7702d08 is more than was specified (32)
+	Unable to fully mark
+bondv1_map_72
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+bondv1_map_85
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+feedbf_map_37
+	The number of bits required to handle dt.addr4 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x770ec18 is more than was specified (32)
+	The number of bits required to handle 0x770ec78 is more than was specified (32)
+	Unable to fully mark
+les_map_71
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Fully marked
+les_map_76
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+sqrt
+	Fully marked
+les_map_99
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+press_map_58
+	The number of bits required to handle dt.addr8 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x773ab18 is more than was specified (32)
+	The number of bits required to handle 0x773ab78 is more than was specified (32)
+	Unable to fully mark
+press_reduce_71
+	  %2 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %3 = bitcast i32* %idx.addr.i140 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %4 = bitcast i32* %idx.addr.i138 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle div is more than was specified (32)
+	Unable to fully mark
+press_map_82
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+press_map_93
+	The number of bits required to handle cn1.addr1 is more than was specified (8)
+	The number of bits required to handle cn1.addr is more than was specified (32)
+	The number of bits required to handle cn1 is more than was specified (32)
+	The number of bits required to handle cn2l.addr2 is more than was specified (8)
+	The number of bits required to handle cn2l.addr is more than was specified (32)
+	The number of bits required to handle cn2l is more than was specified (32)
+	The number of bits required to handle cn2s.addr4 is more than was specified (8)
+	The number of bits required to handle cn2s.addr is more than was specified (32)
+	The number of bits required to handle cn2s is more than was specified (32)
+	The number of bits required to handle cn3l.addr5 is more than was specified (8)
+	The number of bits required to handle cn3l.addr is more than was specified (32)
+	The number of bits required to handle cn3l is more than was specified (32)
+	The number of bits required to handle cn3s.addr6 is more than was specified (8)
+	The number of bits required to handle cn3s.addr is more than was specified (32)
+	The number of bits required to handle cn3s is more than was specified (32)
+	The number of bits required to handle cn4l.addr7 is more than was specified (8)
+	The number of bits required to handle cn4l.addr is more than was specified (32)
+	The number of bits required to handle cn4l is more than was specified (32)
+	The number of bits required to handle cn4s.addr8 is more than was specified (8)
+	The number of bits required to handle cn4s.addr is more than was specified (32)
+	The number of bits required to handle cn4s is more than was specified (32)
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7716d58 is more than was specified (32)
+	The number of bits required to handle arrayidx is more than was specified (32)
+	The number of bits required to handle 0x7717028 is more than was specified (32)
+	The number of bits required to handle 0x7717088 is more than was specified (32)
+	The number of bits required to handle arrayidx33 is more than was specified (32)
+	The number of bits required to handle 0x77171d8 is more than was specified (32)
+	The number of bits required to handle mul38 is more than was specified (32)
+	The number of bits required to handle 0x7717668 is more than was specified (32)
+	The number of bits required to handle arrayidx41 is more than was specified (32)
+	The number of bits required to handle 0x7717758 is more than was specified (32)
+	The number of bits required to handle mul46 is more than was specified (32)
+	The number of bits required to handle add47 is more than was specified (32)
+	The number of bits required to handle 0x7717a88 is more than was specified (32)
+	The number of bits required to handle 0x7717ae8 is more than was specified (32)
+	The number of bits required to handle mul55 is more than was specified (32)
+	The number of bits required to handle add56 is more than was specified (32)
+	The number of bits required to handle 0x7717e98 is more than was specified (32)
+	The number of bits required to handle 0x7717ef8 is more than was specified (32)
+	The number of bits required to handle mul64 is more than was specified (32)
+	The number of bits required to handle add65 is more than was specified (32)
+	The number of bits required to handle 0x7718228 is more than was specified (32)
+	The number of bits required to handle arrayidx68 is more than was specified (32)
+	The number of bits required to handle 0x7718378 is more than was specified (32)
+	The number of bits required to handle mul73 is more than was specified (32)
+	The number of bits required to handle add74 is more than was specified (32)
+	The number of bits required to handle 0x77187a8 is more than was specified (32)
+	The number of bits required to handle arrayidx77 is more than was specified (32)
+	The number of bits required to handle 0x7718898 is more than was specified (32)
+	The number of bits required to handle mul82 is more than was specified (32)
+	The number of bits required to handle add83 is more than was specified (32)
+	The number of bits required to handle mul88 is more than was specified (32)
+	Unable to fully mark
+press_reduce_114
+	  %2 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %3 = bitcast i32* %idx.addr.i141 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %4 = bitcast i32* %idx.addr.i139 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle div is more than was specified (32)
+	Unable to fully mark
+press_map_124
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_48
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_105
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Fully marked
+vel2_map_125
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_132
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_142
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_149
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_159
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_166
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_177
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+vel2_map_183
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+velfg_map_62
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	Unable to fully mark
+velnw_map_27
+	The number of bits required to handle dt.addr3 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7745f38 is more than was specified (32)
+	The number of bits required to handle 0x7745f98 is more than was specified (32)
+	The number of bits required to handle 0x7746858 is more than was specified (32)
+	The number of bits required to handle 0x7747308 is more than was specified (32)
+	Unable to fully mark
+adam_bondv1_feedbf_les_press_v_etc_superkernel
+	The number of bits required to handle dt.addr5 is more than was specified (8)
+	The number of bits required to handle dt.addr is more than was specified (32)
+	The number of bits required to handle dt is more than was specified (32)
+	The number of bits required to handle cn1.addr10 is more than was specified (8)
+	The number of bits required to handle cn1.addr is more than was specified (32)
+	The number of bits required to handle cn1 is more than was specified (32)
+	The number of bits required to handle cn2l.addr11 is more than was specified (8)
+	The number of bits required to handle cn2l.addr is more than was specified (32)
+	The number of bits required to handle cn2l is more than was specified (32)
+	The number of bits required to handle cn2s.addr13 is more than was specified (8)
+	The number of bits required to handle cn2s.addr is more than was specified (32)
+	The number of bits required to handle cn2s is more than was specified (32)
+	The number of bits required to handle cn3l.addr14 is more than was specified (8)
+	The number of bits required to handle cn3l.addr is more than was specified (32)
+	The number of bits required to handle cn3l is more than was specified (32)
+	The number of bits required to handle cn3s.addr15 is more than was specified (8)
+	The number of bits required to handle cn3s.addr is more than was specified (32)
+	The number of bits required to handle cn3s is more than was specified (32)
+	The number of bits required to handle cn4l.addr16 is more than was specified (8)
+	The number of bits required to handle cn4l.addr is more than was specified (32)
+	The number of bits required to handle cn4l is more than was specified (32)
+	The number of bits required to handle cn4s.addr17 is more than was specified (8)
+	The number of bits required to handle cn4s.addr is more than was specified (32)
+	The number of bits required to handle cn4s is more than was specified (32)
+	  %1 = bitcast i32* %idx.addr.i.i to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7751e28 is more than was specified (32)
+	  %35 = bitcast i32* %idx.addr.i.i233 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7753be8 is more than was specified (64)
+	The number of bits required to handle 0x7753c48 is more than was specified (64)
+	The number of bits required to handle 0x7754468 is more than was specified (64)
+	The number of bits required to handle dt.addr.i is more than was specified (32)
+	The number of bits required to handle 0x7753fa8 is more than was specified (8)
+	The number of bits required to handle 0x7753fa8 is more than was specified (8)
+	  %57 = bitcast i32* %idx.addr.i.i234 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7789f78 is more than was specified (32)
+	The number of bits required to handle 0x7789fd8 is more than was specified (32)
+	  %94 = bitcast i32** %dx1.addr.i344 to i8*, !optimi !1
+	Original annotation: (20, 20, 0, 6), New annotation: (20, 0, 0, 6)
+	  %95 = bitcast i32** %dy1.addr.i345 to i8*, !optimi !1
+	Original annotation: (20, 20, 0, 6), New annotation: (20, 0, 0, 6)
+	  %100 = bitcast i32* %idx.addr.i.i343 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %101 = bitcast i32* %idx.addr.i.i349 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7793628 is more than was specified (64)
+	The number of bits required to handle 0x7793688 is more than was specified (64)
+	The number of bits required to handle 0x7728d98 is more than was specified (64)
+	The number of bits required to handle dt.addr.i371 is more than was specified (32)
+	The number of bits required to handle 0x7793de8 is more than was specified (8)
+	The number of bits required to handle 0x7793de8 is more than was specified (8)
+	  %164 = bitcast i32* %idx.addr.i.i364 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7797ac8 is more than was specified (32)
+	The number of bits required to handle 0x7797b28 is more than was specified (32)
+	  %200 = bitcast i32* %idx.addr.i.i384 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7798f58 is more than was specified (32)
+	The number of bits required to handle 0x7798fb8 is more than was specified (32)
+	The number of bits required to handle 0x7799078 is more than was specified (32)
+	The number of bits required to handle 0x77990d8 is more than was specified (32)
+	The number of bits required to handle 0x7799138 is more than was specified (32)
+	The number of bits required to handle 0x7799198 is more than was specified (32)
+	The number of bits required to handle 0x77991f8 is more than was specified (32)
+	  %221 = bitcast i32* %idx.addr.i.i347 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %255 = bitcast i32* %idx.addr.i.i331 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %280 = bitcast i32* %idx.addr.i.i314 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %287 = bitcast i32* %idx.addr.i.i289 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %306 = bitcast i32* %idx.addr.i.i276 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %313 = bitcast i32* %idx.addr.i.i266 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %332 = bitcast i32* %idx.addr.i.i258 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %339 = bitcast i32* %idx.addr.i.i250 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %358 = bitcast i32* %idx.addr.i.i245 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	  %363 = bitcast i32* %idx.addr.i.i242 to i8*, !optimi !1
+	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x7795468 is more than was specified (32)
+	Unable to fully mark
