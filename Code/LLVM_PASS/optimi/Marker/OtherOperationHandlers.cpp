@@ -123,8 +123,108 @@ void Marker::handle_call(CallInst *instruction)
         return;
     } else if (name == "posix_memalign") {
         this->handleAnnotation(instruction, ERRNO);
-    } else if (name == "puts" || name == "printf"){
+    } else if (name == "puts" || name == "printf") {
         this->handleAnnotation(instruction, PUTS);
+    } else if (name == "fmin") {
+        Value *param0 = instruction->getOperand(0);
+        Value *param1 = instruction->getOperand(1);
+        DependencyCounter *d = new DependencyCounter();
+        Annotation anno0, anno1;
+        if (!this->hasAnnotation(param0)) {
+            d->numOfDependencies++;
+            this->addDependencyCounter(param0, d);
+        }
+        if (!this->hasAnnotation(param1)) {
+            d->numOfDependencies++;
+            this->addDependencyCounter(param1, d);
+        }
+        if (d->numOfDependencies != 0) {
+            d->instruction = instruction;
+        } else {
+            delete d;
+            Annotation anno0 = this->getAnnotation(param0);
+            Annotation anno1 = this->getAnnotation(param1);
+            Annotation newAnno = Annotation(
+                ((anno0.max < anno1.max) ? anno0.max : anno1.max),
+                ((anno0.min < anno1.min) ? anno0.min : anno1.min),
+                ((anno0.precision > anno1.precision) ? anno0.precision : anno1.precision)
+            );
+            this->addAnnotation(instruction, newAnno);
+            this->cleanDependencies(instruction);
+        }
+    } else if (name == "fmax") {
+        Value *param0 = instruction->getOperand(0);
+        Value *param1 = instruction->getOperand(1);
+        DependencyCounter *d = new DependencyCounter();
+        Annotation anno0, anno1;
+        if (!this->hasAnnotation(param0)) {
+            d->numOfDependencies++;
+            this->addDependencyCounter(param0, d);
+        }
+        if (!this->hasAnnotation(param1)) {
+            d->numOfDependencies++;
+            this->addDependencyCounter(param1, d);
+        }
+        if (d->numOfDependencies != 0) {
+            d->instruction = instruction;
+        } else {
+            delete d;
+            Annotation anno0 = this->getAnnotation(param0);
+            Annotation anno1 = this->getAnnotation(param1);
+            Annotation newAnno = Annotation(
+                ((anno0.max > anno1.max) ? anno0.max : anno1.max),
+                ((anno0.min > anno1.min) ? anno0.min : anno1.min),
+                ((anno0.precision > anno1.precision) ? anno0.precision : anno1.precision)
+            );
+            this->addAnnotation(instruction, newAnno);
+            this->cleanDependencies(instruction);
+        }
+    } else if (name == "sqrt") {
+        Value *param0 = instruction->getOperand(0);
+        if (!this->hasAnnotation(param0)) {
+            DependencyCounter *d = new DependencyCounter();
+            d->numOfDependencies = 1;
+            d->instruction = instruction;
+            this->addDependencyCounter(param0, d);
+        } else {
+            Annotation anno0 = this->getAnnotation(param0);
+            if (anno0.max < 0 || anno0.min < 0) {
+                errs() << "\t" << "There is a chance of taking the square root of a negative.\n";
+                return;
+            }
+            Annotation newAnno = Annotation(
+                sqrt(anno0.max),
+                sqrt(anno0.min),
+                anno0.precision
+            );
+        }
+    } else if (name == "pow") {
+        Value *param0 = instruction->getOperand(0);
+        Value *param1 = instruction->getOperand(1);
+        DependencyCounter *d = new DependencyCounter();
+        Annotation anno0, anno1;
+        if (!this->hasAnnotation(param0)) {
+            d->numOfDependencies++;
+            this->addDependencyCounter(param0, d);
+        }
+        if (!this->hasAnnotation(param1)) {
+            d->numOfDependencies++;
+            this->addDependencyCounter(param1, d);
+        }
+        if (d->numOfDependencies != 0) {
+            d->instruction = instruction;
+        } else {
+            delete d;
+            Annotation anno0 = this->getAnnotation(param0);
+            Annotation anno1 = this->getAnnotation(param1);
+            Annotation newAnno = Annotation(
+                pow(anno0.max, anno1.max),
+                pow(anno0.min, anno0.min),
+                anno0.precision * anno1.max
+            );
+            this->addAnnotation(instruction, newAnno);
+            this->cleanDependencies(instruction);
+        }
     } else {
         Value *function = instruction->getCalledValue();
         if (!function || instruction->getFunctionType()->getReturnType()->getTypeID() == Type::VoidTyID) {

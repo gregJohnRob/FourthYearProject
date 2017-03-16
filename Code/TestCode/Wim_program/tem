@@ -25,14 +25,14 @@ rhsav = __attribute__((annotate("1.5 0.5 5")))
 
 nrd = __attribute__((annotate("2 0 0")))
 
-km = __attribute__((annotate("2147483647 -2147483648 0")))
-kp = __attribute__((annotate("2147483647 -2147483648 0")))
+km = __attribute__((annotate("1000 0 0")))
+kp = __attribute__((annotate("1000 0 0")))
 
-jm = __attribute__((annotate("2147483647 -2147483648 0")))
-jp = __attribute__((annotate("2147483647 -2147483648 0")))
+jm = __attribute__((annotate("1000 0 0")))
+jp = __attribute__((annotate("1000 0 0")))
 
-im = __attribute__((annotate("2147483647 -2147483648 0")))
-ip = __attribute__((annotate("2147483647 -2147483648 0")))
+im = __attribute__((annotate("1000 0 0")))
+ip = __attribute__((annotate("1000 0 0")))
 
 ical = __attribute__((annotate("1 0 0")))
 
@@ -48,11 +48,19 @@ n = __attribute__((annotate("2147483647 -2147483648 0")))
 
 ro = __attribute__((annotate("1.1763 1.1763 4")))
 
+2340
+
+diu1 = __attribute__((annotate("2.5 -2.5 3")))
 
 
+f  = __attribute__((annotate("0 -150 4")))
+fx = __attribute__((annotate("0 -150 4")))
+g  = __attribute__((annotate("0 -150 4")))
+fy = __attribute__((annotate("0 -150 4")))
+h  = __attribute__((annotate("0 -250 4")))
+fz = __attribute__((annotate("0 -250 4")))
 
 Never told me:
     1. what area is
     2. what ip, jp, kp is
     3. what pco is
-    

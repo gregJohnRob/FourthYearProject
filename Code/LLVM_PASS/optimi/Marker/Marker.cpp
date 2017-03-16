@@ -41,9 +41,11 @@ int Marker::finishMethodAnalysis()
     if (this->dependencyMap.empty()) {
         output = 1;
     } else {
-        // for (auto i = this->dependencyMap.begin(), end = this->dependencyMap.end(); i != end; i++) {
-        //     this->addAnnotation(i->first, WORST_CASE_INT);
-        // }
+        errs() << "\tThe following instructions were not annotated (which caused other instructions to not be annotated)\n";
+        for (auto i = this->dependencyMap.begin(), end = this->dependencyMap.end(); i != end; i++) {
+            errs() << "\t";
+            i->first->dump();
+        }
         output = -1;
     }
     for (unsigned i = 0; i < this->dependencyVector.size(); i++) {
