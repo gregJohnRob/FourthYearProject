@@ -21,15 +21,15 @@ int __attribute__((annotate("0 0 0"))) get_group_id (
 #include "array_index_f2c1d.h"
 
 void adam_map_26(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("0 -150 4"))) f,
     int * __attribute__((annotate("0 -150 4"))) g,
     int * __attribute__((annotate("0 -250 4"))) h,
     int * __attribute__((annotate("0 -150 4"))) fold,
     int * __attribute__((annotate("0 -150 4"))) gold,
     int * __attribute__((annotate("0 -250 4"))) hold,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im)
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im)
 {
 
     #include "params_common_sn.h"
@@ -76,9 +76,9 @@ void bondv1_map_29(
     int * __attribute__((annotate("10 1 4"))) dzn,
     int * __attribute__((annotate("1 0 0"))) ical,
     int * __attribute__((annotate("2147483647 -2147483648 0"))) n ,
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("20 20 0"))) i,
-    int * __attribute__((annotate("1000 0 0"))) jm ,
+    int * __attribute__((annotate("150 0 0"))) jm ,
     int * __attribute__((annotate("1000 0 0"))) k,
     int *__attribute__((annotate("50 0 3"))) u,
     int *__attribute__((annotate("50 0 3"))) v,
@@ -130,7 +130,7 @@ void bondv1_map_29(
 
 void bondv1_reduce_56(
     int * __attribute__((annotate("50 0 3"))) u,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("1000 0 0"))) j,
     int * __attribute__((annotate("1000 0 0"))) k,
     int * __attribute__((annotate("50 0 3"))) global_aaa_array,
@@ -151,7 +151,7 @@ void bondv1_reduce_56(
     int group_id;
     int group_id_fortran;
     int global_id;
-    int r_iter;
+    int __attribute__((annotate("130 0 0"))) r_iter;
     int local_chunk_size;
     int start_position;
     int k2=0;
@@ -198,15 +198,15 @@ void bondv1_reduce_56(
     }
 
 void bondv1_map_64(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) im,
     int *__attribute__((annotate("50 0 3"))) u,
     int *__attribute__((annotate("0.2 0.2 1"))) dt,
     int *__attribute__((annotate("50 0 3"))) uout,
     int *__attribute__((annotate("20 20 0"))) dxs,
     int *__attribute__((annotate("50 0 3"))) v,
     int *__attribute__((annotate("50 0 3"))) w,
-    int * __attribute__((annotate("1000 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) jm,
     int * __attribute__((annotate("1000 0 0"))) k)
 {
 
@@ -234,12 +234,12 @@ void bondv1_map_64(
               w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , (*im)+1,j,*k)] = w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , (*im)+1,j,*k)]-(*dt)*(*uout)*(w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , (*im)+1,j,*k)]-w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , *im,j,*k)])/dxs[F1D2C(0 , *im)];
        }
 void bondv1_map_72(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) jm,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) jm,
     int * __attribute__((annotate("50 0 3"))) u,
     int * __attribute__((annotate("50 0 3"))) v,
     int * __attribute__((annotate("50 0 3"))) w,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("1000 0 0"))) k)
 {
 
@@ -272,11 +272,11 @@ void bondv1_map_72(
         }
         }
 void bondv1_map_85(
-    int * __attribute__((annotate("1000 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) jm,
     int * __attribute__((annotate("50 0 3"))) u,
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("50 0 3"))) v,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("1000 0 0"))) j,
     int * __attribute__((annotate("50 0 3"))) w) {
 
@@ -308,7 +308,7 @@ void bondv1_map_85(
                 w[F3D2C((((ip+1) - 0 )+1),(((jp+1) - (-1) )+1) , 0,(-1),(-1) , i,*j,*km)] = 0;
         }
 void feedbf_map_37(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("50 0 3"))) usum,
     int * __attribute__((annotate("50 0 3"))) u,
     int * __attribute__((annotate("1 0 0"))) bmask1,
@@ -321,8 +321,8 @@ void feedbf_map_37(
     int * __attribute__((annotate("-10 -10 0"))) alpha,
     int * __attribute__((annotate("0.2 0.2 1"))) dt,
     int * __attribute__((annotate("-1 -1 0"))) beta,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("0 -150 4"))) f,
     int * __attribute__((annotate("0 -150 4"))) fx,
     int * __attribute__((annotate("0 -150 4"))) g,
@@ -379,7 +379,7 @@ void feedbf_map_37(
                   h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)] = h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)]+fz[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)];
          }
 void les_map_71(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int *__attribute__((annotate("20 0 0"))) dx1,
     int *__attribute__((annotate("20 0 0"))) dy1,
     int *__attribute__((annotate("10 1 4"))) dzn,
@@ -400,7 +400,7 @@ void les_map_71(
                     delx1[F1D2C(1 , k)] = pow((int)((dx1[F1D2C((-1) , 0)]*dy1[F1D2C(0 , 0)]*dzn[F1D2C((-1) , k)])),0);
           }
 void les_map_76(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu1,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu2,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu3,
@@ -411,8 +411,8 @@ void les_map_76(
     int * __attribute__((annotate("2.5 -2.5 3"))) diu8,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu9,
     int *delx1,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("1000 0 0"))) sm) {
 
     #include "params_common_sn.h"
@@ -464,7 +464,7 @@ void les_map_76(
             sm[F3D2C((((ip+1) - (-1) )+1),(((jp+1) - (-1) )+1) , (-1),(-1),0 , i,j,k)] = pow((int)((csx1*delx1[F1D2C(1 , k)])),(int)(2))*sqrt(2*(pow((int)(dudxx1),(int)(2))+pow((int)(dvdyx1),(int)(2))+pow((int)(dwdzx1),(int)(2)))+pow((int)(dudyx1+dvdxx1),(int)(2))+pow((int)(dwdyx1+dvdzx1),(int)(2))+pow((int)(dudzx1+dwdxx1),(int)(2)));
       }
 void les_map_99(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("1000 0 0"))) sm,
     int *__attribute__((annotate("20 20 0"))) dy1,
     int *__attribute__((annotate("20 20 0"))) dx1,
@@ -475,8 +475,8 @@ void les_map_99(
     int * __attribute__((annotate("2.5 -2.5 3"))) diu3,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu7,
     int * __attribute__((annotate("0 -150 4"))) f,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu5,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu6,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu8,
@@ -580,7 +580,7 @@ void les_map_99(
             h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)] = (h[F3D2C(((ip - 0 )+1),((jp - 0 )+1) , 0,0,0 , i,j,k)]+vfw);
       }
 void press_map_58(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("50 0 3"))) u,
     int * __attribute__((annotate("20 20 0"))) dx1,
     int * __attribute__((annotate("50 0 3"))) v,
@@ -592,8 +592,8 @@ void press_map_58(
     int * __attribute__((annotate("0 -250 4"))) h,
     int * __attribute__((annotate("1.5 0.5 5"))) rhs,
     int * __attribute__((annotate("0.2 0.2 1"))) dt,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im) {
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -629,7 +629,7 @@ void press_reduce_71(
     int * __attribute__((annotate("10 1 4"))) dzn,
     int * __attribute__((annotate("1.5 0.5 5"))) rhs,
     int * __attribute__((annotate("1.5 0.5 5"))) global_rhsav_array,
-    int *global_area_array) {
+    int * __attribute__((annotate("5934000 197800 9"))) global_area_array) {
 
     #include "params_common_sn.h"
         // missing args:
@@ -650,17 +650,17 @@ void press_reduce_71(
     int group_id;
     int group_id_fortran;
     int global_id;
-    int r_iter;
+    int __attribute__((annotate("989 0 0"))) r_iter;
     int local_chunk_size;
     int start_position;
         // arrays prefixed with __PH0__ should be declared using the __PH1__ modifier in c kernel version
-    int local_rhsav_array[(NTH - 1 +1)];
-    int local_area_array[(NTH - 1 +1)];
-    int local_rhsav;
+    int __attribute__((annotate("1.5 0.5 5"))) local_rhsav_array[(NTH - 1 +1)];
+    int __attribute__((annotate("5934000 197800 9"))) local_area_array[(NTH - 1 +1)];
+    int __attribute__((annotate("1.5 0.5 5"))) local_rhsav;
     int im;
     int km;
     int jm;
-    int local_area;
+    int __attribute__((annotate("5934000 197800 9"))) local_area;
         local_id = get_local_id(0);
         group_id = get_group_id(0);
         global_id = get_global_id(0);
@@ -698,11 +698,11 @@ void press_reduce_71(
         global_area_array[F1D2C(1 , group_id_fortran)] = local_area;
     }
 void press_map_82(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int *__attribute__((annotate("1.5 0.5 5"))) rhs,
     int * __attribute__((annotate("1.5 0.5 5"))) rhsav,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im) {
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -732,7 +732,7 @@ void press_map_82(
                 rhs[F3D2C((((ip+1) - 0 )+1),(((jp+1) - 0 )+1) , 0,0,0 , i,j,k)] = rhs[F3D2C((((ip+1) - 0 )+1),(((jp+1) - 0 )+1) , 0,0,0 , i,j,k)]-(*rhsav);
         }
 void press_map_93(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("0.0025 0.000625 6"))) cn1,
     int * __attribute__((annotate("0.0025 0.000625 6"))) cn2l,
     int * __attribute__((annotate("1.5 0.5 5"))) p,
@@ -742,11 +742,11 @@ void press_map_93(
     int * __attribute__((annotate("0.0025 0.000625 6"))) cn4l,
     int * __attribute__((annotate("0.0025 0.000625 6"))) cn4s,
     int * __attribute__((annotate("1.5 0.5 5"))) rhs,
-    int * __attribute__((annotate("1000 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) jm,
     int * __attribute__((annotate("2147483647 -2147483648 0"))) k,
     int * __attribute__((annotate("2147483647 -2147483648 0"))) j,
     int * __attribute__((annotate("2 0 0"))) nrd,
-    int * __attribute__((annotate("1000 0 0"))) im) {
+    int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
         // local vars: i,reltmp,sor
@@ -854,11 +854,11 @@ void press_reduce_114(
         global_pco_array[F1D2C(1 , group_id_fortran)] = local_pco;
     }
 void press_map_124(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("1.5 0.5 5"))) p,
     int * __attribute__((annotate("1.5 0.5 5"))) pav,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im) {
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -888,7 +888,7 @@ void press_map_124(
                 p[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)] = p[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)]-(*pav);
         }
 void vel2_map_48(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int *__attribute__((annotate("50 0 3"))) u,
     int *__attribute__((annotate("20 20 0"))) dx1,
     int *__attribute__((annotate("50 0 3"))) v,
@@ -901,8 +901,8 @@ void vel2_map_48(
     int * __attribute__((annotate("2.5 -2.5 3"))) diu5,
     int *nou9,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu9,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im,
     int *nou2,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu2,
     int *dzs,
@@ -975,15 +975,15 @@ void vel2_map_48(
                 cov6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)] = nou6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)]*diu6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)];
         }
 void vel2_map_105(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("10 1 4"))) dzn,
     int * __attribute__((annotate("50 0 3"))) u,
     int * __attribute__((annotate("50 0 3"))) w,
     int * __attribute__((annotate("20 20 0"))) dx1,
     int *nou7,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu7,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("50 0 3"))) v,
     int * __attribute__((annotate("20 20 0"))) dy1,
     int *nou8,
@@ -1025,12 +1025,12 @@ void vel2_map_105(
                 cov8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)] = nou8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)]*diu8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,j,k)];
         }
 void vel2_map_125(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) im,
     int *nou1,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu1,
     int *cov1,
-    int * __attribute__((annotate("1000 0 0"))) jm) {
+    int * __attribute__((annotate("150 0 0"))) jm) {
 
     #include "params_common_sn.h"
         // local vars: j,k
@@ -1056,12 +1056,12 @@ void vel2_map_125(
                 cov1[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , (*im)+1,j,k)] = cov1[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , *im,j,k)];
         }
 void vel2_map_132(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) jm,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) jm,
     int *nou2,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu2,
     int *cov2,
-    int * __attribute__((annotate("1000 0 0"))) im) {
+    int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
         // local vars: i,k
@@ -1090,12 +1090,12 @@ void vel2_map_132(
                 cov2[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,(*jm)+1,k)] = cov2[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,1,k)];
         }
 void vel2_map_142(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) im,
     int *nou4,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu4,
     int *cov4,
-    int * __attribute__((annotate("1000 0 0"))) jm) {
+    int * __attribute__((annotate("150 0 0"))) jm) {
 
     #include "params_common_sn.h"
         // local vars: j,k
@@ -1121,12 +1121,12 @@ void vel2_map_142(
                 cov4[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = cov4[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
         }
 void vel2_map_149(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) jm,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) jm,
     int *nou5,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu5,
     int *cov5,
-    int * __attribute__((annotate("1000 0 0"))) im) {
+    int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
         // local vars: i,k
@@ -1155,12 +1155,12 @@ void vel2_map_149(
                 cov5[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , i,(*jm)+1,k)] = cov5[F3D2C((((ip+2) - (-1) )+1),(((jp+2) - 0 )+1) , (-1),0,0 , i,1,k)];
         }
 void vel2_map_159(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) im,
     int *nou7,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu7,
     int *cov7,
-    int * __attribute__((annotate("1000 0 0"))) jm) {
+    int * __attribute__((annotate("150 0 0"))) jm) {
 
     #include "params_common_sn.h"
         // local vars: j,k
@@ -1186,12 +1186,12 @@ void vel2_map_159(
                 cov7[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = cov7[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
         }
 void vel2_map_166(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) jm,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) jm,
     int *nou8,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu8,
     int *cov8,
-    int * __attribute__((annotate("1000 0 0"))) im) {
+    int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
         // local vars: i,k
@@ -1220,11 +1220,11 @@ void vel2_map_166(
                 cov8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,(*jm)+1,k)] = cov8[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,1,k)];
         }
 void vel2_map_177(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu2,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu3,
-    int * __attribute__((annotate("1000 0 0"))) jm) {
+    int * __attribute__((annotate("150 0 0"))) jm) {
 
     #include "params_common_sn.h"
         // local vars: j,k
@@ -1249,11 +1249,11 @@ void vel2_map_177(
                 diu3[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , (*im)+1,j,k)] = diu3[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , *im,j,k)];
         }
 void vel2_map_183(
-    int * __attribute__((annotate("1000 0 0"))) km,
-    int * __attribute__((annotate("1000 0 0"))) jm,
+    int * __attribute__((annotate("90 0 0"))) km,
+    int * __attribute__((annotate("150 0 0"))) jm,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu4,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu6,
-    int * __attribute__((annotate("1000 0 0"))) im) {
+    int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
         // local vars: i,k
@@ -1278,7 +1278,7 @@ void vel2_map_183(
                 diu6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,0,k)] = diu6[F3D2C((((ip+2) - 0 )+1),(((jp+2) - 0 )+1) , 0,0,0 , i,*jm,k)];
         }
 void velfg_map_62(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("20 20 0"))) dx1,
     int *cov1,
     int *cov2,
@@ -1366,15 +1366,15 @@ void velfg_map_62(
     }
     }
 void velnw_map_27(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("1.5 0.5 5"))) p,
     int * __attribute__((annotate("1.1763 1.1763 4"))) ro,
     int *dxs,
     int * __attribute__((annotate("50 0 3"))) u,
     int * __attribute__((annotate("0.2 0.2 1"))) dt,
     int * __attribute__((annotate("0 -150 4"))) f,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im,
     int *dys,
     int * __attribute__((annotate("50 0 3"))) v,
     int * __attribute__((annotate("0 -150 4"))) g,
@@ -1421,15 +1421,15 @@ void velnw_map_27(
     }
     }
 void adam_bondv1_feedbf_les_press_v_etc_superkernel(
-    int * __attribute__((annotate("1000 0 0"))) km,
+    int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("0 -150 4"))) f,
     int * __attribute__((annotate("0 -150 4"))) g,
     int * __attribute__((annotate("0 -250 4"))) h,
     int * __attribute__((annotate("0 -150 4"))) fold,
     int * __attribute__((annotate("0 -150 4"))) gold,
     int * __attribute__((annotate("0 -250 4"))) hold,
-    int * __attribute__((annotate("1000 0 0"))) jm,
-    int * __attribute__((annotate("1000 0 0"))) im,
+    int * __attribute__((annotate("150 0 0"))) jm,
+    int * __attribute__((annotate("150 0 0"))) im,
     int *z2,
     int *__attribute__((annotate("10 1 4"))) dzn,
     int *__attribute__((annotate("1 0 0")))ical,

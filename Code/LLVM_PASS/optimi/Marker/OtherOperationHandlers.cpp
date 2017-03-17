@@ -188,15 +188,20 @@ void Marker::handle_call(CallInst *instruction)
             this->addDependencyCounter(param0, d);
         } else {
             Annotation anno0 = this->getAnnotation(param0);
-            if (anno0.max < 0 || anno0.min < 0) {
-                errs() << "\t" << "There is a chance of taking the square root of a negative.\n";
+            if (anno0.max < 0) {
+                errs() << "\t" << param0 << " will cause an error as it will always be less than 0.\n";
                 return;
+            }
+            if (anno0.min < 0) {
+                errs() << "\t" << "There is a chance " << param0 << " will be negative when you take the square root of it\n";
             }
             Annotation newAnno = Annotation(
                 sqrt(anno0.max),
-                sqrt(anno0.min),
+                ((anno0.min >= 0) ? sqrt(anno0.min) : 0),
                 anno0.precision
             );
+            this->addAnnotation(instruction, newAnno);
+            this->cleanDependencies(instruction);
         }
     } else if (name == "pow") {
         Value *param0 = instruction->getOperand(0);

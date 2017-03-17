@@ -62,6 +62,9 @@ class Marker
     void handle_xor(Value *target, Annotation a0, Annotation a1);
 
     /// Vector Operation Handlers
+    void handle_insertelement(InsertElementInst *instruction);
+    void handle_shufflevector(ShuffleVectorInst *instruction);
+    void handle_extractelement(ExtractElementInst * instruction);
 
     /// Aggregate Operation Handlers
 

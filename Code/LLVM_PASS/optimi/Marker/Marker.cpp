@@ -32,6 +32,12 @@ void Marker::analyseInstruction(Value *v)
         this->handle_cmp(cmp);
     } else if (ReturnInst *ret = dyn_cast<ReturnInst>(v)) {
         this->handle_ret(ret);
+    } else if (InsertElementInst *insert = dyn_cast<InsertElementInst>(v)) {
+        this->handle_insertelement(insert);
+    } else if (ShuffleVectorInst *shuffle = dyn_cast<ShuffleVectorInst>(v)) {
+        this->handle_shufflevector(shuffle);
+    } else if (ExtractElementInst *extract = dyn_cast<ExtractElementInst>(v)) {
+        this->handle_extractelement(extract);
     }
 }
 
