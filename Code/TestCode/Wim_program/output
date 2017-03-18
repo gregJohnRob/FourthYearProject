@@ -6,9 +6,15 @@ get_local_id
 	Fully marked
 get_group_id
 	Fully marked
+F3D2C
+	The annotation given to this function, is different to the annotation which was calculated
+	Given annotation: (2.0703e+06, -22651, 0, 22), Calculated annotation: (2.0703e+06, -22651, 0, 22)
+	Fully marked
+F2D2C
+	Fully marked
+F1D2C
+	Fully marked
 adam_map_26
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 llvm.lifetime.start
 	Ignoring
@@ -18,24 +24,13 @@ bondv1_map_29
 	The number of bits required to handle im.addr1 is more than was specified (8)
 	The number of bits required to handle n.addr4 is more than was specified (8)
 	The number of bits required to handle k.addr8 is more than was specified (8)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 pow
 	Fully marked
 bondv1_reduce_56
 	The number of bits required to handle j.addr3 is more than was specified (8)
 	The number of bits required to handle k.addr4 is more than was specified (8)
-	  %3 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %4 = bitcast i32* %idx.addr.i104 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %5 = bitcast i32* %idx.addr.i102 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %indvars.iv.next.1 = add nsw i64 %indvars.iv.next123, 2
-	  %indvars.iv.next123 = phi i64 [ 2, %for.end ], [ %indvars.iv.next.1, %for.body39.for.body39_crit_edge.1 ]
-	Unable to fully mark
+	Fully marked
 fmax
 	Fully marked
 fmin
@@ -45,102 +40,56 @@ bondv1_map_64
 	The number of bits required to handle dt.addr is more than was specified (32)
 	The number of bits required to handle dt is more than was specified (32)
 	The number of bits required to handle k.addr10 is more than was specified (8)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x6f76538 is more than was specified (32)
-	The number of bits required to handle 0x6f76598 is more than was specified (32)
-	The number of bits required to handle 0x6f83a98 is more than was specified (32)
-	The number of bits required to handle 0x6f845e8 is more than was specified (32)
+	The number of bits required to handle 0x6ab6fe8 is more than was specified (32)
+	The number of bits required to handle 0x6ab7048 is more than was specified (32)
+	The number of bits required to handle 0x6ab8998 is more than was specified (32)
+	The number of bits required to handle 0x6ab89f8 is more than was specified (32)
+	The number of bits required to handle 0x6aba3c8 is more than was specified (32)
+	The number of bits required to handle 0x6aba428 is more than was specified (32)
 	Fully marked
 bondv1_map_72
 	The number of bits required to handle k.addr7 is more than was specified (8)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 bondv1_map_85
 	The number of bits required to handle j.addr6 is more than was specified (8)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 feedbf_map_37
 	The number of bits required to handle dt.addr12 is more than was specified (8)
 	The number of bits required to handle dt.addr is more than was specified (32)
 	The number of bits required to handle dt is more than was specified (32)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x6f99128 is more than was specified (32)
-	The number of bits required to handle 0x6f99188 is more than was specified (32)
+	The number of bits required to handle 0x6abbfe8 is more than was specified (32)
+	The number of bits required to handle 0x6abc048 is more than was specified (32)
+	The number of bits required to handle 0x6abc548 is more than was specified (32)
+	The number of bits required to handle 0x6abc5a8 is more than was specified (32)
+	The number of bits required to handle 0x6abcaa8 is more than was specified (32)
+	The number of bits required to handle 0x6abcb08 is more than was specified (32)
 	Fully marked
 les_map_71
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 les_map_76
 	The number of bits required to handle sm.addr13 is more than was specified (8)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	There is a chance 0x6fa4cf0 will be negative when you take the square root of it
+	There is a chance 0x6ac74f0 will be negative when you take the square root of it
 	Fully marked
 sqrt
 	Fully marked
 les_map_99
 	The number of bits required to handle sm.addr2 is more than was specified (8)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 press_map_58
 	The number of bits required to handle dt.addr12 is more than was specified (8)
 	The number of bits required to handle dt.addr is more than was specified (32)
 	The number of bits required to handle dt is more than was specified (32)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x6f936c8 is more than was specified (32)
-	The number of bits required to handle 0x6f93728 is more than was specified (32)
+	The number of bits required to handle 0x6ae1688 is more than was specified (32)
+	The number of bits required to handle 0x6ae16e8 is more than was specified (32)
 	Fully marked
 press_reduce_71
 	The number of bits required to handle global_area_array.addr6 is more than was specified (8)
-	The number of bits required to handle 0x6f956f8 is more than was specified (8)
-	The number of bits required to handle 0x6f95a98 is more than was specified (8)
-	The number of bits required to handle 0x6f95e38 is more than was specified (8)
-	  %5 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %6 = bitcast i32* %idx.addr.i132 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %7 = bitcast i32* %idx.addr.i130 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle 0x6ae5108 is more than was specified (8)
+	The number of bits required to handle 0x6ae54a8 is more than was specified (8)
+	The number of bits required to handle 0x6ae5848 is more than was specified (8)
 	The number of bits required to handle div is more than was specified (32)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %add72.1 = add nsw i32 %.pre141.1, %add72
-	  %bin.rdx150 = add <4 x i32> %bin.rdx, %rdx.shuf149
-	  %46 = extractelement <4 x i32> %bin.rdx150, i32 0
-	  %38 = add nsw <4 x i32> %wide.load148.1, %32
-	  %add68.1 = add nsw i32 %.pre.1, %add68
-	  %rdx.shuf149 = shufflevector <4 x i32> %bin.rdx, <4 x i32> undef, <4 x i32> <i32 1, i32 undef, i32 undef, i32 undef>
-	  %47 = extractelement <4 x i32> %bin.rdx154, i32 0
-	  %43 = add nsw <4 x i32> %wide.load.2, %37
-	  %rdx.shuf153 = shufflevector <4 x i32> %bin.rdx152, <4 x i32> undef, <4 x i32> <i32 1, i32 undef, i32 undef, i32 undef>
-	  %32 = add nsw <4 x i32> %wide.load148, %vec.phi
-	  %bin.rdx154 = add <4 x i32> %bin.rdx152, %rdx.shuf153
-	  %31 = add nsw <4 x i32> %wide.load, %vec.phi147
-	  %add68 = add nsw i32 %.pre, %47
-	  %44 = add nsw <4 x i32> %wide.load148.2, %38
-	<4 x i32> undef
-	  %rdx.shuf = shufflevector <4 x i32> %44, <4 x i32> undef, <4 x i32> <i32 2, i32 3, i32 undef, i32 undef>
-	  %index = phi i64 [ 0, %for.end ], [ %index.next.3, %vector.body.3 ]
-	  %index.next.3 = add nsw i64 %index, 16
-	  %vec.phi = phi <4 x i32> [ %26, %for.end ], [ %56, %vector.body.3 ]
-	  %bin.rdx = add <4 x i32> %44, %rdx.shuf
-	  %56 = add nsw <4 x i32> %wide.load148.3, %44
-	  %add72 = add nsw i32 %.pre141, %46
-	  %37 = add nsw <4 x i32> %wide.load.1, %31
-	  %rdx.shuf151 = shufflevector <4 x i32> %43, <4 x i32> undef, <4 x i32> <i32 2, i32 3, i32 undef, i32 undef>
-	  %55 = add nsw <4 x i32> %wide.load.3, %43
-	  %vec.phi147 = phi <4 x i32> [ %25, %for.end ], [ %55, %vector.body.3 ]
-	  %bin.rdx152 = add <4 x i32> %43, %rdx.shuf151
-	Unable to fully mark
+	Fully marked
 press_map_82
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 press_map_93
 	The number of bits required to handle cn1.addr2 is more than was specified (8)
@@ -166,399 +115,94 @@ press_map_93
 	The number of bits required to handle cn4s is more than was specified (32)
 	The number of bits required to handle k.addr12 is more than was specified (8)
 	The number of bits required to handle j.addr13 is more than was specified (8)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x6fe24c8 is more than was specified (32)
-	The number of bits required to handle tmp7.i190 is more than was specified (32)
-	The number of bits required to handle sub5.i191 is more than was specified (32)
+	The number of bits required to handle 0x6b7be28 is more than was specified (32)
 	The number of bits required to handle arrayidx is more than was specified (32)
-	The number of bits required to handle 0x6fe2798 is more than was specified (32)
-	The number of bits required to handle 0x6fe27f8 is more than was specified (32)
+	The number of bits required to handle 0x6b7c0a8 is more than was specified (32)
+	The number of bits required to handle 0x6b7c108 is more than was specified (32)
 	The number of bits required to handle arrayidx39 is more than was specified (32)
-	The number of bits required to handle 0x6fe2948 is more than was specified (32)
-	The number of bits required to handle 0x6fe2a20 is more than was specified (32)
-	The number of bits required to handle tmp7.i185 is more than was specified (32)
-	The number of bits required to handle add40 is more than was specified (32)
-	The number of bits required to handle sub5.i186 is more than was specified (32)
+	The number of bits required to handle 0x6b7c2f8 is more than was specified (32)
 	The number of bits required to handle mul44 is more than was specified (32)
-	The number of bits required to handle 0x6fe2dd8 is more than was specified (32)
+	The number of bits required to handle 0x6b7c8b8 is more than was specified (32)
 	The number of bits required to handle arrayidx47 is more than was specified (32)
-	The number of bits required to handle 0x6fe2ec8 is more than was specified (32)
-	The number of bits required to handle sub5.i182 is more than was specified (32)
+	The number of bits required to handle 0x6b7caa8 is more than was specified (32)
 	The number of bits required to handle mul52 is more than was specified (32)
 	The number of bits required to handle add53 is more than was specified (32)
-	The number of bits required to handle 0x6fe31f8 is more than was specified (32)
-	The number of bits required to handle 0x6fe3258 is more than was specified (32)
-	The number of bits required to handle 0x6fe32d0 is more than was specified (32)
-	The number of bits required to handle tmp7.i176 is more than was specified (32)
-	The number of bits required to handle sub5.i177 is more than was specified (32)
+	The number of bits required to handle 0x6b7d068 is more than was specified (32)
+	The number of bits required to handle arrayidx56 is more than was specified (32)
+	The number of bits required to handle 0x6b7d318 is more than was specified (32)
 	The number of bits required to handle mul61 is more than was specified (32)
 	The number of bits required to handle add62 is more than was specified (32)
-	The number of bits required to handle 0x6fe3688 is more than was specified (32)
-	The number of bits required to handle 0x6fe36e8 is more than was specified (32)
-	The number of bits required to handle tmp7.i171 is more than was specified (32)
-	The number of bits required to handle sub5.i172 is more than was specified (32)
+	The number of bits required to handle 0x6b7d958 is more than was specified (32)
+	The number of bits required to handle arrayidx65 is more than was specified (32)
+	The number of bits required to handle 0x6b7dc08 is more than was specified (32)
 	The number of bits required to handle mul70 is more than was specified (32)
 	The number of bits required to handle add71 is more than was specified (32)
-	The number of bits required to handle 0x6fe3a98 is more than was specified (32)
+	The number of bits required to handle 0x6b7e248 is more than was specified (32)
 	The number of bits required to handle arrayidx74 is more than was specified (32)
-	The number of bits required to handle 0x6fe3be8 is more than was specified (32)
-	The number of bits required to handle 0x6fe3c60 is more than was specified (32)
-	The number of bits required to handle tmp7.i166 is more than was specified (32)
-	The number of bits required to handle sub5.i167 is more than was specified (32)
+	The number of bits required to handle 0x6b7e4f8 is more than was specified (32)
 	The number of bits required to handle mul79 is more than was specified (32)
 	The number of bits required to handle add80 is more than was specified (32)
-	The number of bits required to handle 0x6fe4018 is more than was specified (32)
+	The number of bits required to handle 0x6b7eb38 is more than was specified (32)
 	The number of bits required to handle arrayidx83 is more than was specified (32)
-	The number of bits required to handle 0x6fe4108 is more than was specified (32)
-	The number of bits required to handle 0x6fe4180 is more than was specified (32)
-	The number of bits required to handle tmp7.i162 is more than was specified (32)
-	The number of bits required to handle sub5.i163 is more than was specified (32)
+	The number of bits required to handle 0x6b7ede8 is more than was specified (32)
 	The number of bits required to handle mul88 is more than was specified (32)
 	The number of bits required to handle add89 is more than was specified (32)
-	The number of bits required to handle mul1.i156 is more than was specified (32)
-	The number of bits required to handle tmp7.i158 is more than was specified (32)
-	The number of bits required to handle sub5.i159 is more than was specified (32)
 	The number of bits required to handle mul94 is more than was specified (32)
-	The number of bits required to handle sub5.i155 is more than was specified (32)
 	Fully marked
 press_reduce_114
-	  %2 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %3 = bitcast i32* %idx.addr.i142 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %4 = bitcast i32* %idx.addr.i140 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
+	The number of bits required to handle global_pco_array.addr6 is more than was specified (8)
+	The number of bits required to handle 0x6b83d48 is more than was specified (8)
+	The number of bits required to handle 0x6b840e8 is more than was specified (8)
 	The number of bits required to handle div is more than was specified (32)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %local_pav_array = alloca [128 x i32], align 16
-	  %wide.load.2 = load <4 x i32>, <4 x i32>* %31, align 4, !tbaa !9
-	  %.pre.2 = load i32, i32* %arrayidx61.phi.trans.insert.2, align 4, !tbaa !9
-	  %wide.load159.3 = load <4 x i32>, <4 x i32>* %43, align 4, !tbaa !9
-	  %20 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pco_array, i64 0, i64 %offset.idx
-	  %31 = bitcast i32* %30 to <4 x i32>*
-	  %arrayidx61.phi.trans.insert.2 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pav_array, i64 0, i64 127
-	  %rdx.shuf164 = shufflevector <4 x i32> %bin.rdx163, <4 x i32> undef, <4 x i32> <i32 1, i32 undef, i32 undef, i32 undef>
-	  %44 = add nsw <4 x i32> %wide.load.3, %34
-	  %32 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pco_array, i64 0, i64 %offset.idx.2
-	  %21 = bitcast i32* %20 to <4 x i32>*
-	  %37 = extractelement <4 x i32> %bin.rdx161, i32 0
-	i32* %global_pco_array
-	  %45 = add nsw <4 x i32> %wide.load159.3, %35
-	  %add66.1 = add nsw i32 %.pre152.1, %add66
-	  %arrayidx52 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pav_array, i64 0, i64 0
-	  %18 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pav_array, i64 0, i64 %offset.idx
-	  %bin.rdx161 = add <4 x i32> %bin.rdx, %rdx.shuf160
-	  %index.next.3 = add nsw i64 %index, 16
-	  %19 = bitcast i32* %18 to <4 x i32>*
-	  %wide.load = load <4 x i32>, <4 x i32>* %19, align 4, !tbaa !9
-	  %rdx.shuf160 = shufflevector <4 x i32> %bin.rdx, <4 x i32> undef, <4 x i32> <i32 1, i32 undef, i32 undef, i32 undef>
-	  %30 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pav_array, i64 0, i64 %offset.idx.2
-	  %arrayidx55 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pco_array, i64 0, i64 0
-	  %add66.2 = add nsw i32 %.pre152.2, %add66.1
-	  %34 = add nsw <4 x i32> %wide.load.2, %28
-	  %arrayidx61.phi.trans.insert = getelementptr inbounds [128 x i32], [128 x i32]* %local_pav_array, i64 0, i64 125
-	  %.pre = load i32, i32* %arrayidx61.phi.trans.insert, align 4, !tbaa !9
-	  %23 = add nsw <4 x i32> %wide.load159, %vec.phi
-	  %add62.1 = add nsw i32 %.pre.1, %add62
-	  %41 = bitcast i32* %40 to <4 x i32>*
-	  %35 = add nsw <4 x i32> %wide.load159.2, %29
-	<4 x i32> <i32 undef, i32 0, i32 0, i32 0>
-	  %wide.load.3 = load <4 x i32>, <4 x i32>* %41, align 4, !tbaa !9
-	  %.pre152.2 = load i32, i32* %arrayidx65.phi.trans.insert.2, align 4, !tbaa !9
-	  %33 = bitcast i32* %32 to <4 x i32>*
-	  %38 = extractelement <4 x i32> %bin.rdx165, i32 0
-	  %wide.load159 = load <4 x i32>, <4 x i32>* %21, align 4, !tbaa !9
-	  %arrayidx65.phi.trans.insert.2 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pco_array, i64 0, i64 127
-	  %42 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pco_array, i64 0, i64 %offset.idx.3
-	  %wide.load159.2 = load <4 x i32>, <4 x i32>* %33, align 4, !tbaa !9
-	  %bin.rdx165 = add <4 x i32> %bin.rdx163, %rdx.shuf164
-	  %43 = bitcast i32* %42 to <4 x i32>*
-	  %22 = add nsw <4 x i32> %wide.load, %vec.phi158
-	  %add66 = add nsw i32 %.pre152, %37
-	  %index = phi i64 [ 0, %for.end ], [ %index.next.3, %vector.body.3 ]
-	  %wide.load.1 = load <4 x i32>, <4 x i32>* %25, align 4, !tbaa !9
-	  %rdx.shuf162 = shufflevector <4 x i32> %34, <4 x i32> undef, <4 x i32> <i32 2, i32 3, i32 undef, i32 undef>
-	  %vec.phi = phi <4 x i32> [ %17, %for.end ], [ %45, %vector.body.3 ]
-	  %add62 = add nsw i32 %.pre, %38
-	  %26 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pco_array, i64 0, i64 %offset.idx.1
-	  %16 = insertelement <4 x i32> <i32 undef, i32 0, i32 0, i32 0>, i32 %add36, i32 0
-	  %24 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pav_array, i64 0, i64 %offset.idx.1
-	  %.pre152 = load i32, i32* %arrayidx65.phi.trans.insert, align 4, !tbaa !9
-	  %arrayidx65.phi.trans.insert = getelementptr inbounds [128 x i32], [128 x i32]* %local_pco_array, i64 0, i64 125
-	  %25 = bitcast i32* %24 to <4 x i32>*
-	  %17 = insertelement <4 x i32> <i32 undef, i32 0, i32 0, i32 0>, i32 %add48, i32 0
-	  %local_pco.0149 = phi i32 [ 0, %entry ], [ %add48, %for.body ]
-	  %40 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pav_array, i64 0, i64 %offset.idx.3
-	  %1 = bitcast [128 x i32]* %local_pco_array to i8*
-	<4 x i32> undef
-	  %.pre152.1 = load i32, i32* %arrayidx65.phi.trans.insert.1, align 8, !tbaa !9
-	  %28 = add nsw <4 x i32> %wide.load.1, %22
-	  %arrayidx65.phi.trans.insert.1 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pco_array, i64 0, i64 126
-	  %local_pav.0147 = phi i32 [ 0, %entry ], [ %add36, %for.body ]
-	  %29 = add nsw <4 x i32> %wide.load159.1, %23
-	  %add36 = add nsw i32 %mul35, %local_pav.0147
-	  %bin.rdx = add <4 x i32> %35, %rdx.shuf
-	  %0 = bitcast [128 x i32]* %local_pav_array to i8*
-	  %.pre.1 = load i32, i32* %arrayidx61.phi.trans.insert.1, align 8, !tbaa !9
-	  %arrayidx61.phi.trans.insert.1 = getelementptr inbounds [128 x i32], [128 x i32]* %local_pav_array, i64 0, i64 126
-	  %add48 = add nsw i32 %mul47, %local_pco.0149
-	  %vec.phi158 = phi <4 x i32> [ %16, %for.end ], [ %44, %vector.body.3 ]
-	  %27 = bitcast i32* %26 to <4 x i32>*
-	  %rdx.shuf = shufflevector <4 x i32> %35, <4 x i32> undef, <4 x i32> <i32 2, i32 3, i32 undef, i32 undef>
-	  %local_pco_array = alloca [128 x i32], align 16
-	  %wide.load159.1 = load <4 x i32>, <4 x i32>* %27, align 4, !tbaa !9
-	  %bin.rdx163 = add <4 x i32> %34, %rdx.shuf162
-	Unable to fully mark
+	Fully marked
 press_map_124
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 vel2_map_48
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %56 = load i32, i32* %arrayidx252, align 4, !tbaa !12
-	  %arrayidx252 = getelementptr inbounds i32, i32* %dzs, i64 1
-	i32* %dzs
-	  %79 = load i32, i32* %arrayidx252, align 4, !tbaa !12
-	Unable to fully mark
+	Fully marked
 vel2_map_105
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 vel2_map_125
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %8 = load i32, i32* %arrayidx22, align 4, !tbaa !9
-	  %arrayidx22 = getelementptr inbounds i32, i32* %cov1, i64 %idxprom21
-	  %arrayidx26 = getelementptr inbounds i32, i32* %cov1, i64 %idxprom25
-	  %arrayidx12 = getelementptr inbounds i32, i32* %nou1, i64 %idxprom11
-	  %3 = load i32, i32* %arrayidx, align 4, !tbaa !9
-	  %arrayidx = getelementptr inbounds i32, i32* %nou1, i64 %idxprom
-	i32* %cov1
-	i32* %nou1
-	Unable to fully mark
+	Fully marked
 vel2_map_132
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %arrayidx40 = getelementptr inbounds i32, i32* %cov2, i64 23563
-	  %18 = load i32, i32* %arrayidx40, align 4, !tbaa !9
-	  %12 = load i32, i32* %arrayidx26, align 4, !tbaa !9
-	  %arrayidx26 = getelementptr inbounds i32, i32* %nou2, i64 23563
-	  %arrayidx44 = getelementptr inbounds i32, i32* %cov2, i64 %idxprom43
-	  %arrayidx23 = getelementptr inbounds i32, i32* %cov2, i64 23410
-	  %arrayidx11 = getelementptr inbounds i32, i32* %nou2, i64 23410
-	  %arrayidx30 = getelementptr inbounds i32, i32* %nou2, i64 %idxprom29
-	  %11 = load i32, i32* %arrayidx20, align 4, !tbaa !9
-	  %4 = load i32, i32* %arrayidx, align 4, !tbaa !9
-	  %arrayidx20 = getelementptr inbounds i32, i32* %cov2, i64 %idxprom19
-	  %arrayidx = getelementptr inbounds i32, i32* %nou2, i64 %idxprom
-	i32* %nou2
-	i32* %cov2
-	Unable to fully mark
+	Fully marked
 vel2_map_142
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %arrayidx = getelementptr inbounds i32, i32* %nou4, i64 %idxprom
-	i32* %nou4
-	  %3 = load i32, i32* %arrayidx, align 4, !tbaa !9
-	  %arrayidx22 = getelementptr inbounds i32, i32* %cov4, i64 %idxprom21
-	i32* %cov4
-	  %arrayidx26 = getelementptr inbounds i32, i32* %cov4, i64 %idxprom25
-	  %8 = load i32, i32* %arrayidx22, align 4, !tbaa !9
-	  %arrayidx12 = getelementptr inbounds i32, i32* %nou4, i64 %idxprom11
-	Unable to fully mark
+	Fully marked
 vel2_map_149
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %arrayidx44 = getelementptr inbounds i32, i32* %cov5, i64 %idxprom43
-	  %arrayidx30 = getelementptr inbounds i32, i32* %nou5, i64 %idxprom29
-	  %arrayidx26 = getelementptr inbounds i32, i32* %nou5, i64 23718
-	  %12 = load i32, i32* %arrayidx26, align 4, !tbaa !9
-	  %18 = load i32, i32* %arrayidx40, align 4, !tbaa !9
-	  %arrayidx40 = getelementptr inbounds i32, i32* %cov5, i64 23718
-	  %arrayidx20 = getelementptr inbounds i32, i32* %cov5, i64 %idxprom19
-	i32* %nou5
-	  %11 = load i32, i32* %arrayidx20, align 4, !tbaa !9
-	  %arrayidx = getelementptr inbounds i32, i32* %nou5, i64 %idxprom
-	  %4 = load i32, i32* %arrayidx, align 4, !tbaa !9
-	  %arrayidx11 = getelementptr inbounds i32, i32* %nou5, i64 23564
-	  %arrayidx23 = getelementptr inbounds i32, i32* %cov5, i64 23564
-	i32* %cov5
-	Unable to fully mark
+	Fully marked
 vel2_map_159
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %arrayidx23 = getelementptr inbounds i32, i32* %cov7, i64 %idxprom22
-	  %8 = load i32, i32* %arrayidx23, align 4, !tbaa !9
-	  %arrayidx13 = getelementptr inbounds i32, i32* %nou7, i64 %idxprom12
-	  %arrayidx27 = getelementptr inbounds i32, i32* %cov7, i64 %idxprom26
-	  %3 = load i32, i32* %arrayidx, align 4, !tbaa !9
-	i32* %nou7
-	  %arrayidx = getelementptr inbounds i32, i32* %nou7, i64 %idxprom
-	i32* %cov7
-	Unable to fully mark
+	Fully marked
 vel2_map_166
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %18 = load i32, i32* %arrayidx41, align 4, !tbaa !9
-	  %arrayidx41 = getelementptr inbounds i32, i32* %cov8, i64 23563
-	  %arrayidx27 = getelementptr inbounds i32, i32* %nou8, i64 23563
-	  %4 = load i32, i32* %arrayidx, align 4, !tbaa !9
-	  %11 = load i32, i32* %arrayidx21, align 4, !tbaa !9
-	  %arrayidx12 = getelementptr inbounds i32, i32* %nou8, i64 23410
-	  %arrayidx24 = getelementptr inbounds i32, i32* %cov8, i64 23410
-	  %arrayidx45 = getelementptr inbounds i32, i32* %cov8, i64 %idxprom44
-	  %12 = load i32, i32* %arrayidx27, align 4, !tbaa !9
-	  %arrayidx31 = getelementptr inbounds i32, i32* %nou8, i64 %idxprom30
-	  %arrayidx21 = getelementptr inbounds i32, i32* %cov8, i64 %idxprom20
-	i32* %nou8
-	  %arrayidx = getelementptr inbounds i32, i32* %nou8, i64 %idxprom
-	i32* %cov8
-	Unable to fully mark
+	Fully marked
 vel2_map_177
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 vel2_map_183
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
 	Fully marked
 velfg_map_62
-	The number of bits required to handle jm.addr9 is more than was specified (8)
-	The number of bits required to handle im.addr10 is more than was specified (8)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle div95 is more than was specified (32)
-	The number of bits required to handle div108 is more than was specified (32)
-	The number of bits required to handle add109 is more than was specified (32)
-	The number of bits required to handle div194 is more than was specified (32)
-	The number of bits required to handle div213 is more than was specified (32)
-	The number of bits required to handle add214 is more than was specified (32)
-	The number of bits required to handle div300 is more than was specified (32)
-	The number of bits required to handle div313 is more than was specified (32)
-	The number of bits required to handle add314 is more than was specified (32)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %add328 = add nsw i32 %add314, %div327
-	  %56 = load i32, i32* %arrayidx274, align 4, !tbaa !14
-	  %arrayidx326 = getelementptr inbounds i32, i32* %dzs, i64 2
-	  %arrayidx72 = getelementptr inbounds i32, i32* %cov3, i64 46972
-	  %arrayidx37 = getelementptr inbounds i32, i32* %cov1, i64 23718
-	  %9 = load i32, i32* %arrayidx72, align 4, !tbaa !14
-	  %69 = load i32, i32* %arrayidx326, align 4, !tbaa !14
-	  %mul38 = mul nsw i32 %3, %2
-	  %arrayidx68 = getelementptr inbounds i32, i32* %cov3, i64 23563
-	  %add143 = add nsw i32 %27, %26
-	  %54 = load i32, i32* %arrayidx266, align 4, !tbaa !14
-	  %8 = load i32, i32* %arrayidx68, align 4, !tbaa !14
-	  %3 = load i32, i32* %arrayidx37, align 4, !tbaa !14
-	  %arrayidx266 = getelementptr inbounds i32, i32* %cov9, i64 23563
-	  %27 = load i32, i32* %arrayidx142, align 4, !tbaa !14
-	  %arrayidx45 = getelementptr inbounds i32, i32* %cov1, i64 23719
-	  %arrayidx159 = getelementptr inbounds i32, i32* %cov5, i64 23872
-	  %div74.neg = sdiv i32 %add73, -2
-	  %add181.neg = add i32 %add180.neg, %div179.neg
-	  %33 = load i32, i32* %arrayidx177, align 4, !tbaa !14
-	  %arrayidx257 = getelementptr inbounds i32, i32* %cov8, i64 23716
-	  %div179.neg = sdiv i32 %add178, -2
-	  %add178 = add nsw i32 %33, %32
-	  %add75.neg = sub i32 %div65.neg, %div56
-	  %mul152 = mul nsw i32 %29, %28
-	  %51 = load i32, i32* %arrayidx253, align 4, !tbaa !14
-	i32* %dfw1
-	  %mul46 = mul nsw i32 %5, %4
-	  %div65.neg = sdiv i32 %add64, -2
-	  %29 = load i32, i32* %arrayidx151, align 4, !tbaa !14
-	  %add73 = add nsw i32 %9, %8
-	  %add258 = add nsw i32 %52, %51
-	  %add287.neg = sub i32 %add286.neg, %div285
-	  %5 = load i32, i32* %arrayidx45, align 4, !tbaa !14
-	  %arrayidx151 = getelementptr inbounds i32, i32* %cov5, i64 23718
-	  %52 = load i32, i32* %arrayidx257, align 4, !tbaa !14
-	  %div259.neg = sdiv i32 %add258, -2
-	  %50 = load i32, i32* %arrayidx248, align 4, !tbaa !14
-	  %add47 = add nsw i32 %mul46, %mul38
-	  %add276 = add nsw i32 %mul275, %mul267
-	  %add161 = add nsw i32 %mul160, %mul152
-	  %arrayidx248 = getelementptr inbounds i32, i32* %cov7, i64 23564
-	i32* %dzs
-	  %arrayidx59 = getelementptr inbounds i32, i32* %cov2, i64 23563
-	  %add286.neg = add i32 %div259.neg, %div250.neg
-	  %mul160 = mul nsw i32 %31, %30
-	  %div144.neg = sdiv i32 %add143, -2
-	  %mul335 = mul nsw i32 %70, %add328
-	i32* %cov7
-	  %div56 = sdiv i32 %add47, %add55
-	  %arrayidx253 = getelementptr inbounds i32, i32* %cov8, i64 23563
-	  %31 = load i32, i32* %arrayidx159, align 4, !tbaa !14
-	i32* %cov8
-	  %add180.neg = sub i32 %div144.neg, %div170
-	  %div250.neg = sdiv i32 %add249, -2
-	  %add76.neg = add i32 %add75.neg, %div74.neg
-	  %arrayidx142 = getelementptr inbounds i32, i32* %cov4, i64 23564
-	  %arrayidx274 = getelementptr inbounds i32, i32* %cov9, i64 46972
-	  %arrayidx63 = getelementptr inbounds i32, i32* %cov2, i64 23716
-	i32* %cov6
-	  %arrayidx177 = getelementptr inbounds i32, i32* %cov6, i64 46972
-	i32* %cov9
-	  %26 = load i32, i32* %arrayidx138, align 4, !tbaa !14
-	  %add249 = add nsw i32 %50, %49
-	  %6 = load i32, i32* %arrayidx59, align 4, !tbaa !14
-	  %32 = load i32, i32* %arrayidx173, align 4, !tbaa !14
-	  %mul267 = mul nsw i32 %54, %53
-	  %div285 = sdiv i32 %add276, %add284
-	i32* %cov3
-	  %arrayidx173 = getelementptr inbounds i32, i32* %cov6, i64 23563
-	  %add64 = add nsw i32 %7, %6
-	  %mul275 = mul nsw i32 %56, %55
-	i32* %cov2
-	  %div327 = sdiv i32 %add323, %69
-	  %arrayidx138 = getelementptr inbounds i32, i32* %cov4, i64 23563
-	  %49 = load i32, i32* %arrayidx244, align 4, !tbaa !14
-	i32* %cov1
-	i32* %cov4
-	  %7 = load i32, i32* %arrayidx63, align 4, !tbaa !14
-	  %arrayidx244 = getelementptr inbounds i32, i32* %cov7, i64 23563
-	  %div170 = sdiv i32 %add161, %add169
-	i32* %cov5
-	Unable to fully mark
+	The number of bits required to handle jm.addr12 is more than was specified (8)
+	The number of bits required to handle im.addr13 is more than was specified (8)
+	The number of bits required to handle div105 is more than was specified (32)
+	The number of bits required to handle div118 is more than was specified (32)
+	The number of bits required to handle add119 is more than was specified (32)
+	The number of bits required to handle div204 is more than was specified (32)
+	The number of bits required to handle div223 is more than was specified (32)
+	The number of bits required to handle add224 is more than was specified (32)
+	The number of bits required to handle div310 is more than was specified (32)
+	The number of bits required to handle div323 is more than was specified (32)
+	The number of bits required to handle add324 is more than was specified (32)
+	Fully marked
 velnw_map_27
-	The number of bits required to handle dt.addr5 is more than was specified (8)
+	The number of bits required to handle dt.addr6 is more than was specified (8)
 	The number of bits required to handle dt.addr is more than was specified (32)
 	The number of bits required to handle dt is more than was specified (32)
-	  %0 = bitcast i32* %idx.addr.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x701c8a8 is more than was specified (32)
-	The number of bits required to handle 0x701c908 is more than was specified (32)
-	The number of bits required to handle 0x701d228 is more than was specified (32)
-	The number of bits required to handle 0x701dd98 is more than was specified (32)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %arrayidx36 = getelementptr inbounds i32, i32* %dxs, i64 1
-	  %6 = load i32, i32* %arrayidx36, align 4, !tbaa !14
-	  %div37 = sdiv i32 %div33, %6
-	  %mul110 = mul nsw i32 %sub109, %30
-	i32* %dxs
-	  %16 = load i32, i32* %arrayidx68, align 4, !tbaa !14
-	  %sub109 = sub nsw i32 %32, %div102
-	  %arrayidx68 = getelementptr inbounds i32, i32* %dys, i64 1
-	i32* %dys
-	  %mul77 = mul nsw i32 %sub76, %19
-	i32* %dzs
-	  %arrayidx101 = getelementptr inbounds i32, i32* %dzs, i64 2
-	  %sub44 = sub nsw i32 %12, %div37
-	  %mul45 = mul nsw i32 %sub44, %10
-	  %div102 = sdiv i32 %div98, %27
-	  %sub76 = sub nsw i32 %21, %div69
-	  %27 = load i32, i32* %arrayidx101, align 4, !tbaa !14
-	  %div69 = sdiv i32 %div65, %16
-	Unable to fully mark
+	Possible division by 0
+	The number of bits required to handle 0x6bb9c08 is more than was specified (32)
+	The number of bits required to handle 0x6bb9c68 is more than was specified (32)
+	Possible division by 0
+	The number of bits required to handle 0x6bbb738 is more than was specified (32)
+	The number of bits required to handle 0x6bbb798 is more than was specified (32)
+	The number of bits required to handle 0x6bbd4b8 is more than was specified (32)
+	The number of bits required to handle 0x6bbd518 is more than was specified (32)
+	Fully marked
 adam_bondv1_feedbf_les_press_v_etc_superkernel
 	The number of bits required to handle n.addr12 is more than was specified (8)
 	The number of bits required to handle i.addr13 is more than was specified (8)
@@ -588,104 +232,16 @@ adam_bondv1_feedbf_les_press_v_etc_superkernel
 	The number of bits required to handle cn4s.addr40 is more than was specified (8)
 	The number of bits required to handle cn4s.addr is more than was specified (32)
 	The number of bits required to handle cn4s is more than was specified (32)
-	  %38 = bitcast i32* %idx.addr.i.i to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x70321e8 is more than was specified (32)
-	The number of bits required to handle 0x7033448 is more than was specified (8)
-	The number of bits required to handle 0x7033448 is more than was specified (8)
-	  %112 = bitcast i32* %idx.addr.i.i128 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x7035228 is more than was specified (32)
-	  %139 = bitcast i32** %dx1.addr.i to i8*, !optimi !2
-	Original annotation: (20, 20, 0, 6), New annotation: (20, 0, 0, 6)
-	  %140 = bitcast i32** %dy1.addr.i to i8*, !optimi !2
-	Original annotation: (20, 20, 0, 6), New annotation: (20, 0, 0, 6)
-	  %146 = bitcast i32* %idx.addr.i.i132 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x7028aa8 is more than was specified (64)
-	The number of bits required to handle 0x7028b08 is more than was specified (64)
-	The number of bits required to handle 0x702ad78 is more than was specified (64)
-	The number of bits required to handle dt.addr.i is more than was specified (32)
-	The number of bits required to handle 0x70297e8 is more than was specified (8)
-	The number of bits required to handle 0x70297e8 is more than was specified (8)
-	  %233 = bitcast i32* %idx.addr.i.i287 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x7041b78 is more than was specified (32)
-	The number of bits required to handle 0x7041bd8 is more than was specified (32)
-	  %285 = bitcast i32* %idx.addr.i.i317 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x70443a8 is more than was specified (32)
-	The number of bits required to handle 0x7044408 is more than was specified (32)
-	The number of bits required to handle 0x70444c8 is more than was specified (32)
-	The number of bits required to handle 0x7044528 is more than was specified (32)
-	The number of bits required to handle 0x7044588 is more than was specified (32)
-	The number of bits required to handle 0x70445e8 is more than was specified (32)
-	The number of bits required to handle 0x7044648 is more than was specified (32)
-	  %325 = bitcast i32* %idx.addr.i.i309 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %390 = bitcast i32* %idx.addr.i.i270 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %433 = bitcast i32* %idx.addr.i.i247 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %458 = bitcast i32* %idx.addr.i.i214 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %495 = bitcast i32* %idx.addr.i.i192 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %520 = bitcast i32* %idx.addr.i.i176 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %557 = bitcast i32* %idx.addr.i.i165 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %582 = bitcast i32* %idx.addr.i.i152 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %623 = bitcast i32* %idx.addr.i.i143 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	  %651 = bitcast i32* %idx.addr.i.i135 to i8*, !optimi !1
-	Original annotation: (0, 0, 0, 2), New annotation: (20, 20, 0, 6)
-	The number of bits required to handle 0x7067328 is more than was specified (32)
-	The following instructions were not annotated (which caused other instructions to not be annotated)
-	  %arrayidx44.i = getelementptr inbounds i32, i32* %cov5, i64 %idxprom43.i
-	  %arrayidx30.i = getelementptr inbounds i32, i32* %nou5, i64 %idxprom29.i
-	  %532 = load i32, i32* %arrayidx26.i190, align 4, !tbaa !21
-	  %arrayidx26.i190 = getelementptr inbounds i32, i32* %nou5, i64 23718
-	i32* %nou1
-	i32* %nou5
-	i32* %nou2
-	  %arrayidx11.i226 = getelementptr inbounds i32, i32* %nou2, i64 23410
-	  %476 = load i32, i32* %arrayidx40.i243, align 4, !tbaa !21
-	  %arrayidx40.i243 = getelementptr inbounds i32, i32* %cov2, i64 23563
-	  %arrayidx20.i188 = getelementptr inbounds i32, i32* %cov5, i64 %idxprom19.i187
-	  %498 = load i32, i32* %arrayidx.i203, align 4, !tbaa !21
-	  %441 = load i32, i32* %arrayidx22.i266, align 4, !tbaa !21
-	  %arrayidx23.i234 = getelementptr inbounds i32, i32* %cov2, i64 23410
-	  %arrayidx26.i235 = getelementptr inbounds i32, i32* %nou2, i64 23563
-	  %462 = load i32, i32* %arrayidx.i225, align 4, !tbaa !21
-	  %524 = load i32, i32* %arrayidx.i184, align 4, !tbaa !21
-	  %531 = load i32, i32* %arrayidx20.i188, align 4, !tbaa !21
-	i32* %nou4
-	  %arrayidx22.i266 = getelementptr inbounds i32, i32* %cov1, i64 %idxprom21.i265
-	i32* %cov1
-	  %469 = load i32, i32* %arrayidx20.i233, align 4, !tbaa !21
-	  %arrayidx26.i269 = getelementptr inbounds i32, i32* %cov1, i64 %idxprom25.i268
-	  %arrayidx.i225 = getelementptr inbounds i32, i32* %nou2, i64 %idxprom.i224
-	  %arrayidx22.i211 = getelementptr inbounds i32, i32* %cov4, i64 %idxprom21.i210
-	i32* %cov5
-	  %470 = load i32, i32* %arrayidx26.i235, align 4, !tbaa !21
-	  %arrayidx11.i = getelementptr inbounds i32, i32* %nou5, i64 23564
-	  %arrayidx20.i233 = getelementptr inbounds i32, i32* %cov2, i64 %idxprom19.i232
-	  %arrayidx.i184 = getelementptr inbounds i32, i32* %nou5, i64 %idxprom.i183
-	  %arrayidx23.i189 = getelementptr inbounds i32, i32* %cov5, i64 23564
-	i32* %cov2
-	  %538 = load i32, i32* %arrayidx40.i, align 4, !tbaa !21
-	  %arrayidx12.i257 = getelementptr inbounds i32, i32* %nou1, i64 %idxprom11.i256
-	  %arrayidx.i203 = getelementptr inbounds i32, i32* %nou4, i64 %idxprom.i202
-	i32* %cov4
-	  %arrayidx26.i213 = getelementptr inbounds i32, i32* %cov4, i64 %idxprom25.i
-	  %arrayidx40.i = getelementptr inbounds i32, i32* %cov5, i64 23718
-	  %arrayidx44.i246 = getelementptr inbounds i32, i32* %cov2, i64 %idxprom43.i245
-	  %arrayidx30.i238 = getelementptr inbounds i32, i32* %nou2, i64 %idxprom29.i237
-	  %436 = load i32, i32* %arrayidx.i255, align 4, !tbaa !21
-	  %503 = load i32, i32* %arrayidx22.i211, align 4, !tbaa !21
-	  %arrayidx.i255 = getelementptr inbounds i32, i32* %nou1, i64 %idxprom.i254
-	  %arrayidx12.i205 = getelementptr inbounds i32, i32* %nou4, i64 %idxprom11.i
-	Unable to fully mark
+	The number of bits required to handle 0x6bd0088 is more than was specified (32)
+	The number of bits required to handle 0x6bd0e48 is more than was specified (32)
+	The number of bits required to handle 0x6bd2ae8 is more than was specified (32)
+	The number of bits required to handle 0x6bd3438 is more than was specified (32)
+	The number of bits required to handle 0x6bd3498 is more than was specified (32)
+	The number of bits required to handle 0x6bd3558 is more than was specified (32)
+	The number of bits required to handle 0x6bd35b8 is more than was specified (32)
+	The number of bits required to handle 0x6bd3618 is more than was specified (32)
+	The number of bits required to handle 0x6bd3678 is more than was specified (32)
+	The number of bits required to handle 0x6bd36d8 is more than was specified (32)
+	The number of bits required to handle 0x6bd84d8 is more than was specified (32)
+	Fully marked
 

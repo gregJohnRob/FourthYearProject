@@ -64,3 +64,5 @@ Never told me:
     1. what area is
     2. what ip, jp, kp is
     3. what pco is
+cov = __attribute__((annotate("125 -125 6")))
+pco = __attribute__((annotate("3952000 395200 4")))

@@ -18,7 +18,29 @@ int __attribute__((annotate("0 0 0"))) get_group_id (
 #define NUNITS 16
 
 
-#include "array_index_f2c1d.h"
+unsigned int __attribute__((annotate("2070300 -22651 0"))) F3D2C(
+        unsigned int __attribute__((annotate("150 0 0"))) i_rng,unsigned int __attribute__((annotate("150 0 0"))) j_rng, // ranges, i.e. (hb-lb)+1
+        int __attribute__((annotate("1 -1 0"))) i_lb, int __attribute__((annotate("1 -1 0"))) j_lb, int __attribute__((annotate("1 -1 0"))) k_lb, // lower bounds
+        int __attribute__((annotate("150 0 0"))) ix, int __attribute__((annotate("150 0 0"))) jx, int __attribute__((annotate("90 0 0"))) kx
+        ) {
+    return (i_rng*j_rng*(kx-k_lb)+i_rng*(jx-j_lb)+ix-i_lb);
+}
+
+unsigned int __attribute__((annotate("22801 -151 0"))) F2D2C(
+        unsigned int __attribute__((annotate("150 0 0"))) i_rng, // ranges, i.e. (hb-lb)+1
+        int __attribute__((annotate("1 -1 0"))) i_lb, int __attribute__((annotate("1 -1 0"))) j_lb, // lower bounds
+        int __attribute__((annotate("150 0 0"))) ix, int __attribute__((annotate("150 0 0"))) jx
+        ) {
+    return (i_rng*(jx-j_lb)+ix-i_lb);
+}
+
+
+unsigned int __attribute__((annotate("151 -1 0"))) F1D2C(
+        int __attribute__((annotate("1 -1 0"))) i_lb, // lower bounds
+        int __attribute__((annotate("150 0 0"))) ix
+        ) {
+    return ix-i_lb;
+}
 
 void adam_map_26(
     int * __attribute__((annotate("90 0 0"))) km,
@@ -784,7 +806,7 @@ void press_reduce_114(
     int * __attribute__((annotate("20 20 0"))) dy1,
     int * __attribute__((annotate("10 1 4"))) dzn,
     int * __attribute__((annotate("1.5 0.5 5"))) global_pav_array,
-    int * global_pco_array) {
+    int * __attribute__((annotate("3952000 395200 4"))) global_pco_array) {
 
     #include "params_common_sn.h"
         // missing args:
@@ -809,14 +831,14 @@ void press_reduce_114(
     int local_chunk_size;
     int start_position;
         // arrays prefixed with __PH0__ should be declared using the __PH1__ modifier in c kernel version
-    int local_pav_array[(NTH - 1 +1)];
-    int local_pco_array[(NTH - 1 +1)];
-    int local_pav;
+    int __attribute__((annotate("1.5 0.5 5"))) local_pav_array[(NTH - 1 +1)];
+    int __attribute__((annotate("3952000 395200 4"))) local_pco_array[(NTH - 1 +1)];
+    int __attribute__((annotate("1.5 0.5 5"))) local_pav;
     int clk_local_mem_fence;
     int jm;
     int im;
     int km;
-    int local_pco;
+    int __attribute__((annotate("3952000 395200 4"))) local_pco;
         local_id = get_local_id(0);
         group_id = get_group_id(0);
         global_id = get_global_id(0);
@@ -895,30 +917,30 @@ void vel2_map_48(
     int *__attribute__((annotate("20 20 0"))) dy1,
     int *__attribute__((annotate("50 0 3"))) w,
     int *__attribute__((annotate("10 1 4"))) dzn,
-    int *nou1,
+    int *__attribute__((annotate("50 0 3"))) nou1,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu1,
-    int *nou5,
+    int *__attribute__((annotate("50 0 3"))) nou5,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu5,
-    int *nou9,
+    int *__attribute__((annotate("50 0 3"))) nou9,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu9,
     int * __attribute__((annotate("150 0 0"))) jm,
     int * __attribute__((annotate("150 0 0"))) im,
-    int *nou2,
+    int *__attribute__((annotate("50 0 3"))) nou2,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu2,
-    int *dzs,
-    int *nou3,
+    int *__attribute__((annotate("10 1 4"))) dzs,
+    int *__attribute__((annotate("50 0 3"))) nou3,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu3,
-    int *nou4,
+    int *__attribute__((annotate("50 0 3"))) nou4,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu4,
-    int *nou6,
+    int *__attribute__((annotate("50 0 3"))) nou6,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu6,
-    int *cov1,
-    int *cov5,
-    int *cov9,
-    int *cov2,
-    int *cov3,
-    int *cov4,
-    int *cov6) {
+    int *__attribute__((annotate("125 -125 6"))) cov1,
+    int *__attribute__((annotate("125 -125 6"))) cov5,
+    int *__attribute__((annotate("125 -125 6"))) cov9,
+    int *__attribute__((annotate("125 -125 6"))) cov2,
+    int *__attribute__((annotate("125 -125 6"))) cov3,
+    int *__attribute__((annotate("125 -125 6"))) cov4,
+    int *__attribute__((annotate("125 -125 6"))) cov6) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -980,16 +1002,16 @@ void vel2_map_105(
     int * __attribute__((annotate("50 0 3"))) u,
     int * __attribute__((annotate("50 0 3"))) w,
     int * __attribute__((annotate("20 20 0"))) dx1,
-    int *nou7,
+    int *__attribute__((annotate("50 0 3"))) nou7,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu7,
     int * __attribute__((annotate("150 0 0"))) jm,
     int * __attribute__((annotate("150 0 0"))) im,
     int * __attribute__((annotate("50 0 3"))) v,
     int * __attribute__((annotate("20 20 0"))) dy1,
-    int *nou8,
+    int *__attribute__((annotate("50 0 3"))) nou8,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu8,
-    int *cov7,
-    int *cov8) {
+    int *__attribute__((annotate("125 -125 6"))) cov7,
+    int *__attribute__((annotate("125 -125 6"))) cov8) {
 
     #include "params_common_sn.h"
         // local vars: i,j,k
@@ -1027,9 +1049,9 @@ void vel2_map_105(
 void vel2_map_125(
     int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("150 0 0"))) im,
-    int *nou1,
+    int *__attribute__((annotate("50 0 3"))) nou1,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu1,
-    int *cov1,
+    int *__attribute__((annotate("125 -125 6"))) cov1,
     int * __attribute__((annotate("150 0 0"))) jm) {
 
     #include "params_common_sn.h"
@@ -1058,9 +1080,9 @@ void vel2_map_125(
 void vel2_map_132(
     int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("150 0 0"))) jm,
-    int *nou2,
+    int *__attribute__((annotate("50 0 3"))) nou2,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu2,
-    int *cov2,
+    int *__attribute__((annotate("125 -125 6"))) cov2,
     int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
@@ -1092,9 +1114,9 @@ void vel2_map_132(
 void vel2_map_142(
     int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("150 0 0"))) im,
-    int *nou4,
+    int *__attribute__((annotate("50 0 3"))) nou4,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu4,
-    int *cov4,
+    int *__attribute__((annotate("125 -125 6"))) cov4,
     int * __attribute__((annotate("150 0 0"))) jm) {
 
     #include "params_common_sn.h"
@@ -1123,9 +1145,9 @@ void vel2_map_142(
 void vel2_map_149(
     int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("150 0 0"))) jm,
-    int *nou5,
+    int *__attribute__((annotate("50 0 3"))) nou5,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu5,
-    int *cov5,
+    int *__attribute__((annotate("125 -125 6"))) cov5,
     int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
@@ -1157,9 +1179,9 @@ void vel2_map_149(
 void vel2_map_159(
     int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("150 0 0"))) im,
-    int *nou7,
+    int *__attribute__((annotate("50 0 3"))) nou7,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu7,
-    int *cov7,
+    int *__attribute__((annotate("125 -125 6"))) cov7,
     int * __attribute__((annotate("150 0 0"))) jm) {
 
     #include "params_common_sn.h"
@@ -1188,9 +1210,9 @@ void vel2_map_159(
 void vel2_map_166(
     int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("150 0 0"))) jm,
-    int *nou8,
+    int *__attribute__((annotate("50 0 3"))) nou8,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu8,
-    int *cov8,
+    int *__attribute__((annotate("125 -125 6"))) cov8,
     int * __attribute__((annotate("150 0 0"))) im) {
 
     #include "params_common_sn.h"
@@ -1280,9 +1302,9 @@ void vel2_map_183(
 void velfg_map_62(
     int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("20 20 0"))) dx1,
-    int *cov1,
-    int *cov2,
-    int *cov3,
+    int *__attribute__((annotate("125 -125 6"))) cov1,
+    int *__attribute__((annotate("125 -125 6"))) cov2,
+    int *__attribute__((annotate("125 -125 6"))) cov3,
     int *__attribute__((annotate("2.5 -2.5 3"))) diu1,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu2,
     int * __attribute__((annotate("20 20 0"))) dy1,
@@ -1292,20 +1314,20 @@ void velfg_map_62(
     int *dfu1,
     int * __attribute__((annotate("2147483647 -2147483648 0"))) jm,
     int * __attribute__((annotate("2147483647 -2147483648 0"))) im,
-    int *cov4,
-    int *cov5,
-    int *cov6,
+    int *__attribute__((annotate("125 -125 6"))) cov4,
+    int *__attribute__((annotate("125 -125 6"))) cov5,
+    int *__attribute__((annotate("125 -125 6"))) cov6,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu4,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu5,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu6,
     int *dfv1,
-    int *cov7,
-    int *cov8,
-    int *cov9,
+    int *__attribute__((annotate("125 -125 6"))) cov7,
+    int *__attribute__((annotate("125 -125 6"))) cov8,
+    int *__attribute__((annotate("125 -125 6"))) cov9,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu7,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu8,
     int * __attribute__((annotate("2.5 -2.5 3"))) diu9,
-    int *dzs,
+    int *__attribute__((annotate("10 1 4"))) dzs,
     int *dfw1,
     int * __attribute__((annotate("0 -150 4"))) f,
     int * __attribute__((annotate("0 -150 4"))) g,
@@ -1369,16 +1391,16 @@ void velnw_map_27(
     int * __attribute__((annotate("90 0 0"))) km,
     int * __attribute__((annotate("1.5 0.5 5"))) p,
     int * __attribute__((annotate("1.1763 1.1763 4"))) ro,
-    int *dxs,
+    int * __attribute__((annotate("20 0 0"))) dxs,
     int * __attribute__((annotate("50 0 3"))) u,
     int * __attribute__((annotate("0.2 0.2 1"))) dt,
     int * __attribute__((annotate("0 -150 4"))) f,
     int * __attribute__((annotate("150 0 0"))) jm,
     int * __attribute__((annotate("150 0 0"))) im,
-    int *dys,
+    int * __attribute__((annotate("20 0 0"))) dys,
     int * __attribute__((annotate("50 0 3"))) v,
     int * __attribute__((annotate("0 -150 4"))) g,
-    int *dzs,
+    int *__attribute__((annotate("10 1 4"))) dzs,
     int * __attribute__((annotate("50 0 3"))) w,
     int * __attribute__((annotate("0 -250 4"))) h) {
 
@@ -1485,25 +1507,25 @@ void adam_bondv1_feedbf_les_press_v_etc_superkernel(
     int *global_pav_array,
     int *global_pco_array,
     int *pav,
-    int *nou1,
-    int *nou5,
-    int *nou9,
-    int *nou2,
-    int *dzs,
-    int *nou3,
-    int *nou4,
-    int *nou6,
-    int *cov1,
-    int *cov5,
-    int *cov9,
-    int *cov2,
-    int *cov3,
-    int *cov4,
-    int *cov6,
-    int *nou7,
-    int *nou8,
-    int *cov7,
-    int *cov8,
+    int *__attribute__((annotate("50 0 3"))) nou1,
+    int *__attribute__((annotate("50 0 3"))) nou5,
+    int *__attribute__((annotate("50 0 3"))) nou9,
+    int *__attribute__((annotate("50 0 3"))) nou2,
+    int *__attribute__((annotate("10 1 4"))) dzs,
+    int *__attribute__((annotate("50 0 3"))) nou3,
+    int *__attribute__((annotate("50 0 3"))) nou4,
+    int *__attribute__((annotate("50 0 3"))) nou6,
+    int *__attribute__((annotate("125 -125 6"))) cov1,
+    int *__attribute__((annotate("125 -125 6"))) cov5,
+    int *__attribute__((annotate("125 -125 6"))) cov9,
+    int *__attribute__((annotate("125 -125 6"))) cov2,
+    int *__attribute__((annotate("125 -125 6"))) cov3,
+    int *__attribute__((annotate("125 -125 6"))) cov4,
+    int *__attribute__((annotate("125 -125 6"))) cov6,
+    int *__attribute__((annotate("50 0 3"))) nou7,
+    int *__attribute__((annotate("50 0 3"))) nou8,
+    int *__attribute__((annotate("125 -125 6"))) cov7,
+    int *__attribute__((annotate("125 -125 6"))) cov8,
     int *__attribute__((annotate("50 0 3"))) vn,
     int *dfu1,
     int *dfv1,
