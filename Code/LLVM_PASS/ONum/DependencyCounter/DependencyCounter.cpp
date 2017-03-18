@@ -1,7 +1,7 @@
 #include "DependencyCounter.h"
 
 using namespace llvm;
-using namespace optimi;
+using namespace optimus_numerum;
 
 DependencyCounter::DependencyCounter(Value *instruction, unsigned numOfDependencies)
 {

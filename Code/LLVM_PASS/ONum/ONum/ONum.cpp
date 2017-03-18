@@ -1,9 +1,9 @@
-#include "Optimi.h"
+#include "ONum.h"
 
 using namespace llvm;
-using namespace optimi;
+using namespace optimus_numerum;
 
-int Optimi::analyseFunction(Function &F)
+int ONum::analyseFunction(Function &F)
 {
     errs() << F.getName() << "\n";
     if (F.getName().find("llvm") != std::string::npos) {
@@ -20,7 +20,7 @@ int Optimi::analyseFunction(Function &F)
     return marker.finishMethodAnalysis();
 }
 
-bool Optimi::runOnModule(Module &M)
+bool ONum::runOnModule(Module &M)
 {
     GlobalVariable *global_annos = M.getNamedGlobal("llvm.global.annotations");
     if (global_annos) {
@@ -57,10 +57,10 @@ bool Optimi::runOnModule(Module &M)
 /*
  * This is how the pass gets registered and will run
  */
-char Optimi::ID = 0;
-RegisterPass<Optimi> X("passname", "Pass Name Analysis");
+char ONum::ID = 0;
+RegisterPass<ONum> X("passname", "Pass Name Analysis");
 void registerPass(const PassManagerBuilder &, legacy::PassManagerBase &PM)
 {
-    PM.add(new Optimi());
+    PM.add(new ONum());
 }
 RegisterStandardPasses RegisterMyPass(PassManagerBuilder::EP_EarlyAsPossible, registerPass);

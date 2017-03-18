@@ -1,28 +1,20 @@
 #include "Marker.h"
 
 using namespace llvm;
-using namespace optimi;
+using namespace optimus_numerum;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// Memory Access and Addressing Operation Handlers
+// Conversion Operation Handlers
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Marker::handle_store(StoreInst *instruction)
-{
-    Value *v1 = instruction->getOperand(0);
-    Value *v2 = instruction->getOperand(1);
-    this->markEquivalent(v1, v2, instruction);
-
-}
-
-void Marker::handle_load(LoadInst *instruction)
+void Marker::handle_cast(CastInst *instruction)
 {
     Value *v1 = instruction->getOperand(0);
     Value *v2 = instruction;
     this->markEquivalent(v1, v2, instruction);
 }
 
-void Marker::handle_getelementptr(GetElementPtrInst *instruction)
+void Marker::handle_trunc(TruncInst *instruction)
 {
     Value *v1 = instruction->getOperand(0);
     Value *v2 = instruction;

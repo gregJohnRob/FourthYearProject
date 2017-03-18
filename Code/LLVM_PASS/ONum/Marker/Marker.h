@@ -1,10 +1,10 @@
-//===-- optimi/Optimi.h - Optimi class definition -------*- C++ -*-===//
+//===-- ONum/ONum.h - ONum class definition -------*- C++ -*-===//
 //
 //
 //===----------------------------------------------------------------------===//
 ///
 /// \file
-/// This file contains the declaration of the Optimi class. This is a custom
+/// This file contains the declaration of the ONum class. This is a custom
 /// llvm pass which uses variable annotations to provide helpful metadata when
 /// compiling for FPGAs.
 ///
@@ -20,7 +20,7 @@
 
 using namespace llvm;
 
-namespace optimi
+namespace optimus_numerum
 {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

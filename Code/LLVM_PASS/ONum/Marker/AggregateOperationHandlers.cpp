@@ -1,7 +1,7 @@
 #include "Marker.h"
 
 using namespace llvm;
-using namespace optimi;
+using namespace optimus_numerum;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Aggregate Operation Handlers

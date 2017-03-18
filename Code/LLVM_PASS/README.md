@@ -11,4 +11,4 @@ Build:
 
 Run:
 
-    $ clang -S -emit-llvm -Xclang -load -Xclang ../LLVM_PASS/build/optimi/libOptimiPass.* something.c
+    $ clang -S -emit-llvm -Xclang -load -Xclang ../LLVM_PASS/build/ONum/libONumPass.* something.c

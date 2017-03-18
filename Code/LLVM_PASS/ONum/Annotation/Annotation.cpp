@@ -1,7 +1,7 @@
 #include "Annotation.h"
 
 using namespace llvm;
-using namespace optimi;
+using namespace optimus_numerum;
 
 Annotation::Annotation()
 {

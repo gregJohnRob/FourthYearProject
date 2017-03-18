@@ -1,17 +1,17 @@
-//===-- optimi/Optimi.h - Optimi class definition -------*- C++ -*-===//
+//===-- ONum/ONum.h - ONum class definition -------*- C++ -*-===//
 //
 //
 //===----------------------------------------------------------------------===//
 ///
 /// \file
-/// This file contains the declaration of the Optimi class. This is a custom
+/// This file contains the declaration of the ONum class. This is a custom
 /// llvm pass which uses variable annotations to provide helpful metadata when
 /// compiling for FPGAs.
 ///
 //===----------------------------------------------------------------------===//
 
-#ifndef OPTIMI_H
-#define OPTIMI_H
+#ifndef ONUM_H
+#define ONUM_H
 
 #include "../Annotation/Annotation.h"
 #include "../DependencyCounter/DependencyCounter.h"
@@ -21,7 +21,7 @@
 
 using namespace llvm;
 
-namespace optimi
+namespace optimus_numerum
 {
 
 // Basic structure was taken from: https://github.com/sampsyo/llvm-pass-skeleton
@@ -30,11 +30,11 @@ namespace optimi
 
 /// Extends ModulePass to add metadata to a program which can then be used to
 /// help generate IR for an FPGA.
-struct Optimi : public ModulePass {
+struct ONum : public ModulePass {
     static char ID;
     ValueMap<Value *, Annotation> globalAnnotationMap;
     //ValueMap<Value*, Annotation> globalAnnotations;
-    Optimi() : ModulePass(ID) {}
+    ONum() : ModulePass(ID) {}
 
     int analyseFunction(Function &F);
 

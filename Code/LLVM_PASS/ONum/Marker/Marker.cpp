@@ -1,7 +1,7 @@
 #include "Marker.h"
 
 using namespace llvm;
-using namespace optimi;
+using namespace optimus_numerum;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Public methods
@@ -127,7 +127,7 @@ void Marker::addAnnotation(Value *v, Annotation a)
     if (Instruction *instruction = dyn_cast<Instruction>(v)) {
         LLVMContext& C = instruction->getContext();
         MDNode* N = MDNode::get(C, MDString::get(C, a.str()));
-        instruction->setMetadata("optimi", N);
+        instruction->setMetadata("ONum", N);
     }
     this->annotationMap.insert(std::make_pair(v, a));
 }
