@@ -1,12 +1,12 @@
-//===-- ONum/Annotation.h - Annotation class definition -------*- C++ -*-===//
+//===-- ONum/DependencyCounter/DependencyCounter.h - DependencyCounter class definition -------*- C++ -*-===//
 //
 //
-//===----------------------------------------------------------------------===//
+//===----------------------------------------------------------------------------------===//
 ///
 /// \file
-/// This file contains the declaration of the ONum class. This is a custom
-/// llvm pass which uses variable annotations to provide helpful metadata when
-/// compiling for FPGAs.
+/// This file contains the declaration of the DependencyCounter struct.  This is used in
+/// order to monitor when an instruction is ready to be analysed by the Marker by keeping
+/// track of the number of unfulfilled dependencies of the instruction.
 ///
 //===----------------------------------------------------------------------===//
 

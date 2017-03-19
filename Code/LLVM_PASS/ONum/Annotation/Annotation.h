@@ -1,12 +1,11 @@
-//===-- ONum/Annotation.h - Annotation class definition -------*- C++ -*-===//
+//===-- ONum/Annotation/Annotation.h - Annotation class definition -------*- C++ -*-===//
 //
 //
 //===----------------------------------------------------------------------===//
 ///
 /// \file
-/// This file contains the declaration of the ONum class. This is a custom
-/// llvm pass which uses variable annotations to provide helpful metadata when
-/// compiling for FPGAs.
+/// This file contains the declaration of the Annotation struct.  This is used
+/// in order to store the range and precision of Values within the program.
 ///
 //===----------------------------------------------------------------------===//
 
@@ -19,11 +18,6 @@ using namespace llvm;
 
 namespace optimus_numerum
 {
-/**
- * Struct used to store the annotation information as it is stored
- * in the maps.
- * NOTE: A possible extension would be to create default annotations for Integers, Floats, Doubles, etc.
- */
 
 struct Annotation {
 

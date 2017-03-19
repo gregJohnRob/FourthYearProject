@@ -1,12 +1,12 @@
-//===-- ONum/ONum.h - ONum class definition -------*- C++ -*-===//
+//===-- ONum/Marker/Marker.h - Marker class definition -------*- C++ -*-===//
 //
 //
 //===----------------------------------------------------------------------===//
 ///
 /// \file
-/// This file contains the declaration of the ONum class. This is a custom
-/// llvm pass which uses variable annotations to provide helpful metadata when
-/// compiling for FPGAs.
+/// This file contains the declaration of the Marker class. This class is used to
+/// analyse instructions in a particular function, and assign metadata tag descriptions
+/// of the range and precision required for each Value.
 ///
 //===----------------------------------------------------------------------===//
 
@@ -83,6 +83,12 @@ class Marker
     void handle_select(SelectInst *instruction);
     void handle_call(CallInst *instruction);
 
+
+    /// Functions for handling function calls
+    void handle_pow(CallInst *instruction);
+    void handle_fmax(CallInst *instruction);
+    void handle_fmin(CallInst *instruction);
+    void handle_sqrt(CallInst *instruction);
 
 
 
